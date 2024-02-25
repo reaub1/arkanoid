@@ -46,5 +46,5 @@ make
 
 ## Contributeurs
 
-- [Oudini Zinedine](https://github.com/zinedineGIT)
+- [Oudini Zinedine](https://github.com/Zinouo)
 - [Bechlem Robin](https://github.com/reaub1)

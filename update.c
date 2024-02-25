@@ -14,18 +14,30 @@ void updateGame() {
         ball.vx *= -1;
     if ((ball.y < 1) || (ball.y > (win_surf->h - 25)))
         ball.vy *= -1;
+    
+    // Si la balle touche la raquette, on la renvoie
+    if ((ball.y > (win_surf->h - 50)) && (ball.x > x_vault) && (ball.x < x_vault + 100))
+        ball.vy *= -1;
 
-    if (ball.y > (win_surf->h - 25))
+
+    if (ball.y > (win_surf->h - 25)){
         srcBall.y = 64;
+        ball.vy = 0;
+        ball.vx = 0;
+    }
+        
     if (ball.y < 1)
         srcBall.y = 96;
 
     const Uint8* keys = SDL_GetKeyboardState(NULL);
     if (keys[SDL_SCANCODE_LEFT])
-        x_vault -= 10;
+        if(x_vault > 0){
+            x_vault -= 10;
+        }
     if (keys[SDL_SCANCODE_RIGHT])
-        x_vault += 10;
-
+        if(x_vault < win_surf->w - 100){
+            x_vault += 10;
+        }
     now = SDL_GetPerformanceCounter();
     delta_t = 1.0 / FPS - ((double)(now - prev) / SDL_GetPerformanceFrequency());
     prev = now;

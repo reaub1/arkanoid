@@ -1,4 +1,5 @@
 #include "init.h"
+#include "game_state.h"
 
 SDL_Window* pWindow = NULL;
 SDL_Surface* win_surf = NULL;
@@ -13,6 +14,9 @@ Ball ball;
 int x_vault = 0;
 
 void initGame() {
+
+    currentState = MENU;
+
     pWindow = SDL_CreateWindow("Arkanoid", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 600, 600, SDL_WINDOW_SHOWN);
     if (pWindow == NULL) {
         SDL_Log("Erreur lors de la création de la fenêtre : %s", SDL_GetError());

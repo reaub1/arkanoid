@@ -5,7 +5,7 @@ project(Arkanoid LANGUAGES C)
 find_package(SDL2 CONFIG REQUIRED)
 
 add_executable(${PROJECT_NAME})
-target_sources(${PROJECT_NAME} PRIVATE main.c init.c draw.c update.c)
+target_sources(${PROJECT_NAME} PRIVATE main.c init.c draw.c update.c menu.c game.c)
 
 if (TARGET SDL2::SDL2)
     target_link_libraries(${PROJECT_NAME} PRIVATE SDL2::SDL2 SDL2::SDL2main)

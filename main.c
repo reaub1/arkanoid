@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include "menu.h"
+#include "game_state.h"
 
 int main(int argc, char** argv) {
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO ) != 0 ) {
@@ -14,6 +16,15 @@ int main(int argc, char** argv) {
     
     bool quit = false;
     while (!quit) {  
+        switch (currentState) {
+            case MENU:
+                showMenu(pWindow);
+                break;
+            case GAME:
+                break;
+            case GAME_OVER:
+                break;
+    }
         quit = processInput();
         updateGame();
         drawGame();

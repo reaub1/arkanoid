@@ -2,6 +2,7 @@
 #include "init.h"
 #include <stdbool.h>
 #include "constants.h"
+#include "game_state.h"
 
 Uint64 prev, now;
 double delta_t;  
@@ -51,10 +52,13 @@ bool processInput() {
         if (event.type == SDL_QUIT) {
             return true;
         } else if (event.type == SDL_KEYDOWN) {
-            if (event.key.keysym.sym == SDLK_ESCAPE) {
+            if (event.key.keysym.sym == SDLK_RETURN && currentState == MENU) {
+                currentState = GAME;
+            } else if (event.key.keysym.sym == SDLK_ESCAPE) {
                 return true;
             }
         }
     }
     return false;
 }
+

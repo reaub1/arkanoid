@@ -15,6 +15,10 @@ void updateGame() {
         ball.vx *= -1;
     if ((ball.y < 1) || (ball.y > (win_surf->h - 25)))
         ball.vy *= -1;
+
+    //si la balle tocuhe le block
+    // Supposons que ballRect représente le rectangle de la balle    
+    checkBallBrickCollision();
     
     // Si la balle touche la raquette, on la renvoie
     if ((ball.y > (win_surf->h - 50)) && (ball.x > x_vault) && (ball.x < x_vault + 100))
@@ -60,5 +64,30 @@ bool processInput() {
         }
     }
     return false;
+}
+
+void checkBallBrickCollision() {
+    for (int i = 0; i < BRICK_ROWS; i++) {
+        for (int j = 0; j < BRICK_COLUMNS; j++) {
+            SDL_Rect brick;
+            brick.x = bricks[0][0].rect.x + j * INDIVIDUAL_BRICK_WIDTH;
+            brick.y = bricks[0][0].rect.y + i * INDIVIDUAL_BRICK_HEIGHT;
+            brick.w = INDIVIDUAL_BRICK_WIDTH;
+            brick.h = INDIVIDUAL_BRICK_HEIGHT;
+
+            if (ball.x < brick.x + brick.w &&
+                ball.x + 24 > brick.x &&
+                ball.y < brick.y + brick.h &&
+                ball.y + 24 > brick.y) {
+
+                ball.vy = -ball.vy; 
+
+				//gérer la disparition de la brique quand elle est touchée par la balle
+
+
+                return; 
+            }
+        }
+    }
 }
 

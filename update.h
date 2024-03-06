@@ -2,8 +2,14 @@
 #define UPDATE_H
 
 #include <stdbool.h>
+#include "SDL.h"
+#include "init.h"
+#include "game_state.h"
+#include "draw.h"
+
 
 void updateGame();
 bool processInput();
+void checkBallBrickCollision();
 
 #endif

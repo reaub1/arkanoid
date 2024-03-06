@@ -1,6 +1,22 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
+#include "stdbool.h"
+
 #define FPS 60
+
+
+#define BRICK_SPRITE_WIDTH 191
+#define BRICK_SPRITE_HEIGHT 63
+
+#define BRICK_WIDTH BRICK_SPRITE_WIDTH  
+#define BRICK_HEIGHT BRICK_SPRITE_HEIGHT 
+
+#define BRICK_ROWS 4
+#define BRICK_COLUMNS 6
+#define INDIVIDUAL_BRICK_WIDTH 30
+#define INDIVIDUAL_BRICK_HEIGHT 14
+#define BRICK_PADDING 0
+
 
 #endif

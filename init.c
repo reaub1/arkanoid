@@ -4,16 +4,28 @@
 SDL_Window* pWindow = NULL;
 SDL_Surface* win_surf = NULL;
 SDL_Surface* plancheSprites = NULL;
+SDL_Surface* plancheSpritesBricks = NULL;
 
 SDL_Rect srcBg = { 0, 128, 96, 128 };
 SDL_Rect srcBall = { 0, 96, 24, 24 };
 SDL_Rect scrVaiss = { 128, 0, 128, 32 };
+SDL_Rect srcBrick = {0, 0, BRICK_SPRITE_WIDTH, BRICK_SPRITE_HEIGHT};
+
+SDL_Renderer* renderer = NULL;
+Brick bricks[BRICK_ROWS][BRICK_COLUMNS] = {0};
+
+SDL_Rect block;
 
 Ball ball;
 
 int x_vault = 0;
 
 void initGame() {
+
+    block.x = 0;   // Initialisation de la position x
+    block.y = 0;    // Initialisation de la position y
+    block.w = 50;   // Définition de la largeur
+    block.h = 50;
 
     currentState = MENU;
 
@@ -23,6 +35,8 @@ void initGame() {
         SDL_Quit();
         exit(1);
     }
+
+    renderer = SDL_CreateRenderer(pWindow, -1, SDL_RENDERER_SOFTWARE);
 
     win_surf = SDL_GetWindowSurface(pWindow);
     if (win_surf == NULL) {
@@ -41,10 +55,34 @@ void initGame() {
     }
     SDL_SetColorKey(plancheSprites, SDL_TRUE, 0);
 
+    plancheSpritesBricks = SDL_LoadBMP("./Arkanoid_sprites.bmp");
+    if(plancheSpritesBricks == NULL) {
+        SDL_Log("Erreur lors du chargement de Arkanoid_sprites.bmp : %s", SDL_GetError());
+        SDL_DestroyWindow(pWindow);
+        SDL_Quit();
+        exit(1);
+    }
+    //SDL_SetColorKey(plancheSpritesBricks, SDL_TRUE, 0);
+
+    
+
     ball.x = win_surf->w / 2;
     ball.y = win_surf->h / 2;
     ball.vx = 1.0;
     ball.vy = 1.4;
 
     x_vault = win_surf->w / 2;
+
+    initBricks();
+}
+
+void initBricks() {
+    int startX = (win_surf->w - BRICK_WIDTH) / 2;
+    int startY = (win_surf->h - BRICK_HEIGHT) / 2 - 150;
+
+    bricks[0][0].rect.x = startX;
+    bricks[0][0].rect.y = startY;
+    bricks[0][0].rect.w = BRICK_WIDTH;
+    bricks[0][0].rect.h = BRICK_HEIGHT;
+    bricks[0][0].active = true;
 }

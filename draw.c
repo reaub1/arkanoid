@@ -36,7 +36,12 @@ void drawBricks(SDL_Surface* win_surf) {
     for (int i = 0; i < BRICK_ROWS; i++) {
         for (int j = 0; j < BRICK_COLUMNS; j++) {
             if (bricks[i][j].active) {
-                SDL_BlitSurface(plancheSpritesBricks, &srcBrick, win_surf, &bricks[i][j].rect);
+                if(i%2 == 0 && j%2 == 0) {
+                    srcBrick.y = 0;
+                } else {
+                    srcBrick.y = 16;
+                }
+                SDL_BlitSurface(plancheSpritesBricks, &bricks[i][j].color, win_surf, &bricks[i][j].rect);
             }
         }
     }

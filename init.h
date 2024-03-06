@@ -13,6 +13,12 @@ extern SDL_Rect srcBg;
 extern SDL_Rect srcBall; 
 extern SDL_Rect scrVaiss;
 extern SDL_Rect srcBrick;
+//color of the bricks
+extern SDL_Rect redbrick;
+extern SDL_Rect orangebrick;
+extern SDL_Rect whiteBrick;
+extern SDL_Rect bluebrick;
+
 
 extern SDL_Rect block;
 
@@ -27,7 +33,8 @@ extern Ball ball;
 
 typedef struct {
     SDL_Rect rect; 
-    bool active;   
+    bool active;
+    SDL_Rect color;   
 } Brick;
 
 extern Brick bricks[BRICK_ROWS][BRICK_COLUMNS];

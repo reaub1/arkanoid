@@ -10,6 +10,13 @@ SDL_Rect srcBg = { 0, 128, 96, 128 };
 SDL_Rect srcBall = { 0, 96, 24, 24 };
 SDL_Rect scrVaiss = { 128, 0, 128, 32 };
 SDL_Rect srcBrick = {0, 0, BRICK_SPRITE_WIDTH, BRICK_SPRITE_HEIGHT};
+//SDL_Rect whiteBrick = {0, 0, BRICK_SPRITE_WIDTH, BRICK_SPRITE_HEIGHT};
+//define here the placement of the bricks
+SDL_Rect redbrick = {0, 16, BRICK_SPRITE_WIDTH, BRICK_SPRITE_HEIGHT};
+SDL_Rect orangebrick = {31, 0, BRICK_SPRITE_WIDTH, BRICK_SPRITE_HEIGHT};
+SDL_Rect whiteBrick = {0, 0, BRICK_SPRITE_WIDTH, BRICK_SPRITE_HEIGHT};
+SDL_Rect bluebrick = {32, 16, BRICK_SPRITE_WIDTH, BRICK_SPRITE_HEIGHT};
+
 
 SDL_Renderer* renderer = NULL;
 Brick bricks[BRICK_ROWS][BRICK_COLUMNS] = {0};
@@ -77,8 +84,10 @@ void initGame() {
 }
 
 void initBricks() {
-    int startX = (win_surf->w - BRICK_WIDTH) / 2;
-    int startY = (win_surf->h - BRICK_HEIGHT) / 2 - 150;
+  
+    int startX = 20;
+    int startY = 20;
+
 
     for (int i = 0; i < BRICK_ROWS; i++) {
         for (int j = 0; j < BRICK_COLUMNS; j++) {
@@ -87,6 +96,7 @@ void initBricks() {
             bricks[i][j].rect.w = BRICK_WIDTH;
             bricks[i][j].rect.h = BRICK_HEIGHT;
             bricks[i][j].active = true;
+            bricks[i][j].color = bluebrick;
         }
     }
 }

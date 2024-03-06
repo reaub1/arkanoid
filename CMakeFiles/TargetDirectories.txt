@@ -1,0 +1,3 @@
+/mnt/c/Users/Zinedine/Documents/ECOLE CNAM/S2/Arkanoid/CMakeFiles/Arkanoid.dir
+/mnt/c/Users/Zinedine/Documents/ECOLE CNAM/S2/Arkanoid/CMakeFiles/edit_cache.dir
+/mnt/c/Users/Zinedine/Documents/ECOLE CNAM/S2/Arkanoid/CMakeFiles/rebuild_cache.dir

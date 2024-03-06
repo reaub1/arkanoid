@@ -14,7 +14,7 @@ SDL_Rect srcBrick = {0, 0, BRICK_SPRITE_WIDTH, BRICK_SPRITE_HEIGHT};
 //define here the placement of the bricks
 SDL_Rect redbrick = {0, 16, BRICK_SPRITE_WIDTH, BRICK_SPRITE_HEIGHT};
 SDL_Rect orangebrick = {31, 0, BRICK_SPRITE_WIDTH, BRICK_SPRITE_HEIGHT};
-SDL_Rect whiteBrick = {0, 0, BRICK_SPRITE_WIDTH, BRICK_SPRITE_HEIGHT};
+SDL_Rect whitebrick = {0, 0, BRICK_SPRITE_WIDTH, BRICK_SPRITE_HEIGHT};
 SDL_Rect bluebrick = {32, 16, BRICK_SPRITE_WIDTH, BRICK_SPRITE_HEIGHT};
 
 
@@ -84,19 +84,72 @@ void initGame() {
 }
 
 void initBricks() {
-  
-    int startX = 20;
-    int startY = 20;
+    int startX = 150;
+    int startY = 150;
 
+    char level[MAX_ROWS][MAX_COLS + 1];
+    readTextFile("./level/lvl1.txt", level);
 
-    for (int i = 0; i < BRICK_ROWS; i++) {
-        for (int j = 0; j < BRICK_COLUMNS; j++) {
+    for (int i = 0; i < MAX_ROWS; i++) {
+        for (int j = 0; j < MAX_COLS; j++) {
+            SDL_Rect color;
+            switch (level[i][j]) {
+                case 'r':
+                    color = redbrick;
+                    break;
+                case 'o':
+                    color = orangebrick;
+                    break;
+                case 'w':
+                    color = whitebrick;
+                    break;
+                case 'b':
+                    color = bluebrick;
+                    break;
+                default:
+                    continue;
+            }
+
             bricks[i][j].rect.x = startX + j * BRICK_WIDTH;
             bricks[i][j].rect.y = startY + i * BRICK_HEIGHT;
             bricks[i][j].rect.w = BRICK_WIDTH;
             bricks[i][j].rect.h = BRICK_HEIGHT;
             bricks[i][j].active = true;
-            bricks[i][j].color = bluebrick;
+            bricks[i][j].color = color;
         }
     }
+}
+
+void readTextFile(const char* filename, char array[MAX_ROWS][MAX_COLS + 1]) {
+    FILE* file = fopen(filename, "r");
+    if (file == NULL) {
+        printf("Erreur: Impossible d'ouvrir le fichier %s\n", filename);
+        exit(EXIT_FAILURE);
+    }
+
+    int row = 0;
+    char line[MAX_COLS + 2]; // +2 pour le caractère de fin de ligne '\n' et le caractère nul '\0'
+
+    // Lecture de chaque ligne du fichier
+    while (fgets(line, sizeof(line), file) != NULL) {
+        if (row >= MAX_ROWS) {
+            printf("Avertissement: Nombre de lignes dépasse la limite, seules les %d premières lignes seront lues.\n", MAX_ROWS);
+            break;
+        }
+
+        // Copie de la ligne dans le tableau 2D
+        int col = 0;
+        for (int i = 0; line[i] != '\0'; i++) {
+            if (col >= MAX_COLS) {
+                printf("Avertissement: Nombre de colonnes dépasse la limite, seules les %d premières colonnes seront lues pour la ligne %d.\n", MAX_COLS, row + 1);
+                break;
+            }
+            array[row][col] = line[i];
+            col++;
+        }
+        array[row][col] = '\0';
+        row++;
+    }
+
+    fclose(file);
 }

@@ -109,6 +109,7 @@ void checkBallBrickCollision() {
                         ball.vx = -ball.vx;
                     }
                 bricks[i][j].active = false;
+                printf("brick %d %d\n", i, j);
                 }
                 return; 
             }

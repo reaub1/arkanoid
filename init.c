@@ -80,9 +80,13 @@ void initBricks() {
     int startX = (win_surf->w - BRICK_WIDTH) / 2;
     int startY = (win_surf->h - BRICK_HEIGHT) / 2 - 150;
 
-    bricks[0][0].rect.x = startX;
-    bricks[0][0].rect.y = startY;
-    bricks[0][0].rect.w = BRICK_WIDTH;
-    bricks[0][0].rect.h = BRICK_HEIGHT;
-    bricks[0][0].active = true;
+    for (int i = 0; i < BRICK_ROWS; i++) {
+        for (int j = 0; j < BRICK_COLUMNS; j++) {
+            bricks[i][j].rect.x = startX + j * BRICK_WIDTH;
+            bricks[i][j].rect.y = startY + i * BRICK_HEIGHT;
+            bricks[i][j].rect.w = BRICK_WIDTH;
+            bricks[i][j].rect.h = BRICK_HEIGHT;
+            bricks[i][j].active = true;
+        }
+    }
 }

@@ -70,6 +70,9 @@ void checkBallBrickCollision() {
     for (int i = 0; i < BRICK_ROWS; i++) {
         for (int j = 0; j < BRICK_COLUMNS; j++) {
             SDL_Rect brick;
+            if(!bricks[i][j].active){
+                continue;
+            }
             brick.x = bricks[0][0].rect.x + j * INDIVIDUAL_BRICK_WIDTH;
             brick.y = bricks[0][0].rect.y + i * INDIVIDUAL_BRICK_HEIGHT;
             brick.w = INDIVIDUAL_BRICK_WIDTH;

@@ -84,15 +84,18 @@ void initGame() {
 }
 
 void initBricks() {
-    int startX = 150;
-    int startY = 150;
+    int startX = 0;
+    int startY = 0;
+
+    bool active = true;
 
     char level[MAX_ROWS][MAX_COLS + 1];
-    readTextFile("./level/lvl1.txt", level);
+    readTextFile("./level/lvl2.txt", level);
 
     for (int i = 0; i < MAX_ROWS; i++) {
         for (int j = 0; j < MAX_COLS; j++) {
             SDL_Rect color;
+            active = true;
             switch (level[i][j]) {
                 case 'r':
                     color = redbrick;
@@ -107,15 +110,17 @@ void initBricks() {
                     color = bluebrick;
                     break;
                 default:
-                    continue;
+                    color = whitebrick;
+                    active = false;
             }
-
-            bricks[i][j].rect.x = startX + j * BRICK_WIDTH;
-            bricks[i][j].rect.y = startY + i * BRICK_HEIGHT;
-            bricks[i][j].rect.w = BRICK_WIDTH;
-            bricks[i][j].rect.h = BRICK_HEIGHT;
-            bricks[i][j].active = true;
-            bricks[i][j].color = color;
+            if(active){
+                bricks[i][j].rect.x = startX + j * BRICK_WIDTH;
+                bricks[i][j].rect.y = startY + i * BRICK_HEIGHT;
+                bricks[i][j].rect.w = BRICK_WIDTH;
+                bricks[i][j].rect.h = BRICK_HEIGHT;
+                bricks[i][j].active = active;
+                bricks[i][j].color = color;
+            }
         }
     }
 }

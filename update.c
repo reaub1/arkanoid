@@ -80,11 +80,36 @@ void checkBallBrickCollision() {
                 ball.y < brick.y + brick.h &&
                 ball.y + 24 > brick.y) {
 
-                ball.vy = -ball.vy; 
+                int ballCenterX = ball.x + 12;
+                int ballCenterY = ball.y + 12; 
 
-				//gérer la disparition de la brique quand elle est touchée par la balle
+                int brickCenterX = brick.x + brick.w / 2;
+                int brickCenterY = brick.y + brick.h / 2;
 
+                int distX = abs(ballCenterX - brickCenterX);
+                int distY = abs(ballCenterY - brickCenterY);
 
+                int combinedHalfWidths = 12 + brick.w / 2;
+                int combinedHalfHeights = 12 + brick.h / 2;
+
+                int overlapX = combinedHalfWidths - distX;
+                int overlapY = combinedHalfHeights - distY;
+
+                if (overlapX > 0 && overlapY > 0) {
+                    if (overlapX > overlapY) {
+                        if (ballCenterY < brickCenterY) {
+                            ball.y -= overlapY;
+                            ball.vy = -ball.vy;
+                        } else {
+                            ball.y += overlapY;
+                            ball.vy = -ball.vy;
+                        }
+                    } else {
+                        ball.x += overlapX;
+                        ball.vx = -ball.vx;
+                    }
+                bricks[i][j].active = false;
+                }
                 return; 
             }
         }

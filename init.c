@@ -16,6 +16,17 @@ SDL_Rect redbrick = {0, 16, BRICK_SPRITE_WIDTH, BRICK_SPRITE_HEIGHT};
 SDL_Rect orangebrick = {31, 0, BRICK_SPRITE_WIDTH, BRICK_SPRITE_HEIGHT};
 SDL_Rect whitebrick = {0, 0, BRICK_SPRITE_WIDTH, BRICK_SPRITE_HEIGHT};
 SDL_Rect bluebrick = {32, 16, BRICK_SPRITE_WIDTH, BRICK_SPRITE_HEIGHT};
+SDL_Rect bluelightbrick ={64,0, BRICK_SPRITE_WIDTH, BRICK_SPRITE_HEIGHT};
+SDL_Rect greenbrick ={98,0,BRICK_SPRITE_WIDTH, BRICK_SPRITE_HEIGHT};
+SDL_Rect navybrick ={128,0,BRICK_SPRITE_WIDTH, BRICK_SPRITE_HEIGHT};
+SDL_Rect darkgreenbrick ={159,0,BRICK_SPRITE_WIDTH, BRICK_SPRITE_HEIGHT};
+SDL_Rect pinkbrick ={64,16,BRICK_SPRITE_WIDTH, BRICK_SPRITE_HEIGHT};
+SDL_Rect yellowbrick ={98,16,BRICK_SPRITE_WIDTH, BRICK_SPRITE_HEIGHT};
+SDL_Rect darkredbrick ={128,16,BRICK_SPRITE_WIDTH, BRICK_SPRITE_HEIGHT};
+SDL_Rect magentabrick ={159,16,BRICK_SPRITE_WIDTH, BRICK_SPRITE_HEIGHT};
+
+
+
 
 
 SDL_Renderer* renderer = NULL;
@@ -90,7 +101,7 @@ void initBricks() {
     bool active = true;
 
     char level[MAX_ROWS][MAX_COLS + 1];
-    readTextFile("./level/lvl2.txt", level);
+    readTextFile("./level/lvl3.txt", level);
 
     for (int i = 0; i < MAX_ROWS; i++) {
         for (int j = 0; j < MAX_COLS; j++) {
@@ -108,6 +119,30 @@ void initBricks() {
                     break;
                 case 'b':
                     color = bluebrick;
+                    break;
+                case 'm':
+                    color = magentabrick;
+                    break;
+                case 'l':
+                    color = bluelightbrick;
+                    break;
+                case 'g':
+                    color = greenbrick;
+                    break;
+                case 'n':
+                    color = navybrick;
+                    break;
+                case 'd':
+                    color = darkgreenbrick;
+                    break;
+                case 'p':
+                    color = pinkbrick;
+                    break;
+                case 'y':
+                    color = yellowbrick;
+                    break;
+                case 'f':
+                    color = darkredbrick;
                     break;
                 default:
                     color = whitebrick;

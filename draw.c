@@ -1,4 +1,5 @@
 #include "draw.h"
+#include "block.h"
 
 
 void drawGame() {
@@ -36,6 +37,28 @@ void drawBricks(SDL_Surface* win_surf) {
     for (int i = 0; i < BRICK_ROWS; i++) {
         for (int j = 0; j < BRICK_COLUMNS; j++) {
             if (bricks[i][j].active) {
+
+            if (bricks[i][j].color.x == goldbrick1.x && bricks[i][j].color.y == goldbrick1.y) {
+                bricks[i][j].color = goldbrick2;
+                SDL_BlitSurface(plancheSpritesBricks, &bricks[i][j].color, win_surf, &bricks[i][j].rect);
+            } else if (bricks[i][j].color.x == goldbrick2.x && bricks[i][j].color.y == goldbrick2.y) {
+                bricks[i][j].color = goldbrick3;
+                SDL_BlitSurface(plancheSpritesBricks, &bricks[i][j].color, win_surf, &bricks[i][j].rect);
+            } else if (bricks[i][j].color.x == goldbrick3.x && bricks[i][j].color.y == goldbrick3.y) {
+                bricks[i][j].color = goldbrick4;
+                SDL_BlitSurface(plancheSpritesBricks, &bricks[i][j].color, win_surf, &bricks[i][j].rect);
+            } else if (bricks[i][j].color.x == goldbrick4.x && bricks[i][j].color.y == goldbrick4.y) {
+                bricks[i][j].color = goldbrick5;
+                SDL_BlitSurface(plancheSpritesBricks, &bricks[i][j].color, win_surf, &bricks[i][j].rect);
+            } else if (bricks[i][j].color.x == goldbrick5.x && bricks[i][j].color.y == goldbrick5.y) {
+                bricks[i][j].color = goldbrick6;
+                SDL_BlitSurface(plancheSpritesBricks, &bricks[i][j].color, win_surf, &bricks[i][j].rect);
+            } else if (bricks[i][j].color.x == goldbrick6.x && bricks[i][j].color.y == goldbrick6.y) {
+                bricks[i][j].color = goldbrick1;
+                SDL_BlitSurface(plancheSpritesBricks, &bricks[i][j].color, win_surf, &bricks[i][j].rect);
+            }
+
+            SDL_BlitSurface(plancheSpritesBricks, &bricks[i][j].color, win_surf, &bricks[i][j].rect);
                 SDL_BlitSurface(plancheSpritesBricks, &bricks[i][j].color, win_surf, &bricks[i][j].rect);
             }
         }

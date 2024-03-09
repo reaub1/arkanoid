@@ -17,4 +17,18 @@ extern SDL_Rect yellowbrick;
 extern SDL_Rect darkredbrick;
 extern SDL_Rect magentabrick;
 
+extern SDL_Rect silverbrick1;
+extern SDL_Rect silverbrick2;
+extern SDL_Rect silverbrick3;
+extern SDL_Rect silverbrick4;
+extern SDL_Rect silverbrick5;
+extern SDL_Rect silverbrick6;
+
+extern SDL_Rect goldbrick1;
+extern SDL_Rect goldbrick2;
+extern SDL_Rect goldbrick3;
+extern SDL_Rect goldbrick4;
+extern SDL_Rect goldbrick5;
+extern SDL_Rect goldbrick6;
+
 #endif

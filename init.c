@@ -130,7 +130,7 @@ void initBricks() {
                     color = silverbrick1;
                     break;
                 case 'z':
-                    color = goldbrick1;
+                    color = goldbrick2;
                     break;
                 default:
                     color = whitebrick;

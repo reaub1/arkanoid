@@ -3,7 +3,6 @@
 
 
 void drawGame() {
-    
 
     SDL_Rect dest = { 0, 0, 0, 0 };
     for (int j = 0; j < win_surf->h; j += 128)
@@ -37,6 +36,7 @@ void drawBricks(SDL_Surface* win_surf) {
     for (int i = 0; i < BRICK_ROWS; i++) {
         for (int j = 0; j < BRICK_COLUMNS; j++) {
             if (bricks[i][j].active) {
+                
 
             if (bricks[i][j].color.x == goldbrick1.x && bricks[i][j].color.y == goldbrick1.y) {
                 bricks[i][j].color = goldbrick2;
@@ -58,6 +58,26 @@ void drawBricks(SDL_Surface* win_surf) {
                 SDL_BlitSurface(plancheSpritesBricks, &bricks[i][j].color, win_surf, &bricks[i][j].rect);
             }
 
+            if (bricks[i][j].color.x == silverbrick1.x && bricks[i][j].color.y == silverbrick1.y) {
+                bricks[i][j].color = silverbrick2;
+                SDL_BlitSurface(plancheSpritesBricks, &bricks[i][j].color, win_surf, &bricks[i][j].rect);
+            } else if (bricks[i][j].color.x == silverbrick2.x && bricks[i][j].color.y == silverbrick2.y) {
+                bricks[i][j].color = silverbrick3;
+                SDL_BlitSurface(plancheSpritesBricks, &bricks[i][j].color, win_surf, &bricks[i][j].rect);
+            } else if (bricks[i][j].color.x == silverbrick3.x && bricks[i][j].color.y == silverbrick3.y) {
+                bricks[i][j].color = silverbrick4;
+                SDL_BlitSurface(plancheSpritesBricks, &bricks[i][j].color, win_surf, &bricks[i][j].rect);
+            } else if (bricks[i][j].color.x == silverbrick4.x && bricks[i][j].color.y == silverbrick4.y) {
+                bricks[i][j].color = silverbrick5;
+                SDL_BlitSurface(plancheSpritesBricks, &bricks[i][j].color, win_surf, &bricks[i][j].rect);
+            } else if (bricks[i][j].color.x == silverbrick5.x && bricks[i][j].color.y == silverbrick5.y) {
+                bricks[i][j].color = silverbrick6;
+                SDL_BlitSurface(plancheSpritesBricks, &bricks[i][j].color, win_surf, &bricks[i][j].rect);
+            } else if (bricks[i][j].color.x == silverbrick6.x && bricks[i][j].color.y == silverbrick6.y) {
+                bricks[i][j].color = silverbrick1;
+                SDL_BlitSurface(plancheSpritesBricks, &bricks[i][j].color, win_surf, &bricks[i][j].rect);
+            }
+            
             SDL_BlitSurface(plancheSpritesBricks, &bricks[i][j].color, win_surf, &bricks[i][j].rect);
                 SDL_BlitSurface(plancheSpritesBricks, &bricks[i][j].color, win_surf, &bricks[i][j].rect);
             }

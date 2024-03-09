@@ -1,5 +1,6 @@
 #include "init.h"
 #include "game_state.h"
+#include "block.h"
 
 SDL_Window* pWindow = NULL;
 SDL_Surface* win_surf = NULL;
@@ -9,25 +10,6 @@ SDL_Surface* plancheSpritesBricks = NULL;
 SDL_Rect srcBg = { 0, 128, 96, 128 };
 SDL_Rect srcBall = { 0, 96, 24, 24 };
 SDL_Rect scrVaiss = { 128, 0, 128, 32 };
-SDL_Rect srcBrick = {0, 0, BRICK_SPRITE_WIDTH, BRICK_SPRITE_HEIGHT};
-//SDL_Rect whiteBrick = {0, 0, BRICK_SPRITE_WIDTH, BRICK_SPRITE_HEIGHT};
-//define here the placement of the bricks
-SDL_Rect redbrick = {0, 16, BRICK_SPRITE_WIDTH, BRICK_SPRITE_HEIGHT};
-SDL_Rect orangebrick = {31, 0, BRICK_SPRITE_WIDTH, BRICK_SPRITE_HEIGHT};
-SDL_Rect whitebrick = {0, 0, BRICK_SPRITE_WIDTH, BRICK_SPRITE_HEIGHT};
-SDL_Rect bluebrick = {32, 16, BRICK_SPRITE_WIDTH, BRICK_SPRITE_HEIGHT};
-SDL_Rect bluelightbrick ={64,0, BRICK_SPRITE_WIDTH, BRICK_SPRITE_HEIGHT};
-SDL_Rect greenbrick ={98,0,BRICK_SPRITE_WIDTH, BRICK_SPRITE_HEIGHT};
-SDL_Rect navybrick ={128,0,BRICK_SPRITE_WIDTH, BRICK_SPRITE_HEIGHT};
-SDL_Rect darkgreenbrick ={159,0,BRICK_SPRITE_WIDTH, BRICK_SPRITE_HEIGHT};
-SDL_Rect pinkbrick ={64,16,BRICK_SPRITE_WIDTH, BRICK_SPRITE_HEIGHT};
-SDL_Rect yellowbrick ={98,16,BRICK_SPRITE_WIDTH, BRICK_SPRITE_HEIGHT};
-SDL_Rect darkredbrick ={128,16,BRICK_SPRITE_WIDTH, BRICK_SPRITE_HEIGHT};
-SDL_Rect magentabrick ={159,16,BRICK_SPRITE_WIDTH, BRICK_SPRITE_HEIGHT};
-
-
-
-
 
 SDL_Renderer* renderer = NULL;
 Brick bricks[BRICK_ROWS][BRICK_COLUMNS] = {0};

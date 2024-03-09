@@ -5,10 +5,8 @@
 
 #define FPS 60
 
-
 #define BRICK_SPRITE_WIDTH 30
 #define BRICK_SPRITE_HEIGHT 15
-
 
 #define BRICK_WIDTH BRICK_SPRITE_WIDTH  
 #define BRICK_HEIGHT BRICK_SPRITE_HEIGHT 
@@ -21,6 +19,5 @@
 
 #define MAX_ROWS 20
 #define MAX_COLS 40
-
 
 #endif

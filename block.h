@@ -31,4 +31,11 @@ extern SDL_Rect goldbrick4;
 extern SDL_Rect goldbrick5;
 extern SDL_Rect goldbrick6;
 
+extern SDL_Rect ball1;
+extern SDL_Rect ball2;
+extern SDL_Rect ball3;
+extern SDL_Rect ball4;
+extern SDL_Rect ball5;
+extern SDL_Rect ball6;
+
 #endif

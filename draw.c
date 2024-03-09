@@ -77,6 +77,28 @@ void drawBricks(SDL_Surface* win_surf) {
                 bricks[i][j].color = silverbrick1;
                 SDL_BlitSurface(plancheSpritesBricks, &bricks[i][j].color, win_surf, &bricks[i][j].rect);
             }
+
+            if (bricks[i][j].color.x == ball1.x && bricks[i][j].color.y == ball1.y) {
+                bricks[i][j].color = ball2;
+                SDL_BlitSurface(plancheSpritesBricks, &bricks[i][j].color, win_surf, &bricks[i][j].rect);
+            } else if (bricks[i][j].color.x == ball2.x && bricks[i][j].color.y == ball2.y) {
+                bricks[i][j].color = ball3;
+                SDL_BlitSurface(plancheSpritesBricks, &bricks[i][j].color, win_surf, &bricks[i][j].rect);
+            } else if (bricks[i][j].color.x == ball3.x && bricks[i][j].color.y == ball3.y) {
+                bricks[i][j].color = ball4;
+                SDL_BlitSurface(plancheSpritesBricks, &bricks[i][j].color, win_surf, &bricks[i][j].rect);
+            } else if (bricks[i][j].color.x == ball4.x && bricks[i][j].color.y == ball4.y) {
+                bricks[i][j].color = ball5;
+                SDL_BlitSurface(plancheSpritesBricks, &bricks[i][j].color, win_surf, &bricks[i][j].rect);
+            } else if (bricks[i][j].color.x == ball5.x && bricks[i][j].color.y == ball5.y) {
+                bricks[i][j].color = ball6;
+                SDL_BlitSurface(plancheSpritesBricks, &bricks[i][j].color, win_surf, &bricks[i][j].rect);
+            } else if (bricks[i][j].color.x == ball6.x && bricks[i][j].color.y == ball6.y) {
+                bricks[i][j].color = ball1;
+                SDL_BlitSurface(plancheSpritesBricks, &bricks[i][j].color, win_surf, &bricks[i][j].rect);
+            }
+
+
             
             SDL_BlitSurface(plancheSpritesBricks, &bricks[i][j].color, win_surf, &bricks[i][j].rect);
                 SDL_BlitSurface(plancheSpritesBricks, &bricks[i][j].color, win_surf, &bricks[i][j].rect);

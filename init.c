@@ -132,6 +132,9 @@ void initBricks() {
                 case 'z':
                     color = goldbrick2;
                     break;
+                case 'q':
+                    color = ball1;
+                    break;
                 default:
                     color = whitebrick;
                     active = false;

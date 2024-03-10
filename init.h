@@ -8,25 +8,11 @@ extern SDL_Window* pWindow;
 extern SDL_Surface* win_surf;
 extern SDL_Surface* plancheSprites;
 extern SDL_Surface* plancheSpritesBricks;
+extern SDL_Surface* plancheSpritesAscii;
 
-extern SDL_Rect srcBg; 
 extern SDL_Rect srcBall; 
 extern SDL_Rect scrVaiss;
 extern SDL_Rect srcBrick;
-//color of the bricks
-extern SDL_Rect redbrick;
-extern SDL_Rect orangebrick;
-extern SDL_Rect whiteBrick;
-extern SDL_Rect bluebrick;
-extern SDL_Rect bluelightbrick;
-extern SDL_Rect greenbrick;
-extern SDL_Rect navybrick;
-extern SDL_Rect darkgreenbrick;
-extern SDL_Rect pinkbrick;
-extern SDL_Rect yellowbrick;
-extern SDL_Rect darkredbrick;
-extern SDL_Rect magentabrick;
-
 
 extern SDL_Rect block;
 

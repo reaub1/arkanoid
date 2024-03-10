@@ -38,7 +38,19 @@ extern SDL_Rect ball4;
 extern SDL_Rect ball5;
 extern SDL_Rect ball6;
 
+extern SDL_Rect background1;
 extern SDL_Rect background2;
+extern SDL_Rect background3;
+extern SDL_Rect background4;
+extern SDL_Rect background5;
+extern SDL_Rect background6;
+
+extern SDL_Rect darkbackground1;
+extern SDL_Rect darkbackground2;
+extern SDL_Rect darkbackground3;
+extern SDL_Rect darkbackground4;
+extern SDL_Rect darkbackground5;
+extern SDL_Rect darkbackground6;
 
 
 #endif

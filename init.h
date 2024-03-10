@@ -9,7 +9,6 @@ extern SDL_Surface* win_surf;
 extern SDL_Surface* plancheSprites;
 extern SDL_Surface* plancheSpritesBricks;
 
-extern SDL_Rect srcBg; 
 extern SDL_Rect srcBall; 
 extern SDL_Rect scrVaiss;
 extern SDL_Rect srcBrick;

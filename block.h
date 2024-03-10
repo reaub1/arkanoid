@@ -52,5 +52,33 @@ extern SDL_Rect darkbackground4;
 extern SDL_Rect darkbackground5;
 extern SDL_Rect darkbackground6;
 
+extern SDL_Rect a;
+extern SDL_Rect b;
+extern SDL_Rect c;
+extern SDL_Rect d;
+extern SDL_Rect e;
+extern SDL_Rect f;
+extern SDL_Rect g;
+extern SDL_Rect h;
+extern SDL_Rect i;
+extern SDL_Rect j;
+extern SDL_Rect k;
+extern SDL_Rect l;
+extern SDL_Rect m;
+extern SDL_Rect n;
+extern SDL_Rect o;
+extern SDL_Rect p;
+extern SDL_Rect q;
+extern SDL_Rect r;
+extern SDL_Rect s;
+extern SDL_Rect t;
+extern SDL_Rect u;
+extern SDL_Rect v;
+extern SDL_Rect w;
+extern SDL_Rect x;
+extern SDL_Rect y;
+extern SDL_Rect z;
+
+
 
 #endif

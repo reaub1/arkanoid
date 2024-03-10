@@ -1,47 +1,162 @@
 #include "menu.h"
 #include "SDL.h"
 #include "game_state.h"
-
-#define COLOR_BACKGROUND SDL_MapRGB(surface->format, 0, 0, 0)
-#define COLOR_MENU SDL_MapRGB(surface->format, 255, 255, 255)
+#include "constants.h"
+#include "block.h"
 
 void showMenu(SDL_Window* window) {
-    SDL_Renderer* renderer = SDL_GetRenderer(window);
-    if (!renderer) {
-        renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    SDL_Surface* surface = SDL_GetWindowSurface(window);
+    if (!surface) {
+        SDL_Log("Erreur lors de l'obtention de la surface de la fenêtre : %s", SDL_GetError());
+        SDL_DestroyWindow(window);
+        SDL_Quit();
+        exit(1);
     }
 
-    SDL_Color whiteColor = {255, 255, 255};
+    SDL_Color blackColor = {30, 30, 30};
     SDL_Color borderColor = {173, 216, 230};
     SDL_Color backgroundColor = {0, 0, 139};
 
-    int windowWidth, windowHeight;
-    SDL_GetWindowSize(window, &windowWidth, &windowHeight);
-
-    SDL_Rect menuBackground = {windowWidth / 4, windowHeight / 4, windowWidth / 2, windowHeight / 2};
-
-    SDL_SetRenderDrawColor(renderer, backgroundColor.r, backgroundColor.g, backgroundColor.b, 255);
-    SDL_RenderClear(renderer);
+    Uint32 background_color = SDL_MapRGB(surface->format, backgroundColor.r, backgroundColor.g, backgroundColor.b);
+    SDL_FillRect(surface, NULL, background_color); 
 
     const int numButtons = 3;
     int buttonHeight = 50;
     int padding = 10;
-    int buttonWidth = menuBackground.w - 2 * padding;
+    int buttonWidth = 200;
+    int windowHeight, windowWidth;
+    SDL_GetWindowSize(window, &windowWidth, &windowHeight);
 
+    int buttonY[numButtons];
     for (int i = 0; i < numButtons; i++) {
-        int buttonX = menuBackground.x + padding;
-        int buttonY = menuBackground.y + padding + i * (buttonHeight + padding);
-
-        SDL_Rect borderRect = {buttonX - 3, buttonY - 3, buttonWidth + 6, buttonHeight + 6};
-        SDL_SetRenderDrawColor(renderer, borderColor.r, borderColor.g, borderColor.b, 255);
-        SDL_RenderFillRect(renderer, &borderRect);
-
-        SDL_Rect buttonRect = {buttonX, buttonY, buttonWidth, buttonHeight};
-        SDL_SetRenderDrawColor(renderer, whiteColor.r, whiteColor.g, whiteColor.b, 255);
-        SDL_RenderFillRect(renderer, &buttonRect);
+        buttonY[i] = (windowHeight - (numButtons * (buttonHeight + padding))) / 2 + i * (buttonHeight + padding);
     }
 
-    SDL_RenderPresent(renderer);
+    for (int i = 0; i < numButtons; i++) {
+        int buttonX = (windowWidth - buttonWidth) / 2;
+
+        SDL_Rect borderRect = {buttonX - 3, buttonY[i] - 3, buttonWidth + 6, buttonHeight + 6};
+        SDL_FillRect(surface, &borderRect, SDL_MapRGB(surface->format, borderColor.r, borderColor.g, borderColor.b));
+
+        SDL_Rect buttonRect = {buttonX, buttonY[i], buttonWidth, buttonHeight};
+        SDL_FillRect(surface, &buttonRect, SDL_MapRGB(surface->format, blackColor.r, blackColor.g, blackColor.b));
+    }
+
+    const char* words[numButtons] = {"easy", "medium", "hard"};
+    int wordLengths[numButtons] = {4, 6, 4};
+    int wordX[numButtons];
+    for (int i = 0; i < numButtons; i++) {
+        wordX[i] = (windowWidth - wordLengths[i] * LETTER_SPRITE_WIDTH) / 2;
+    }
+
+    for (int ii = 0; ii < numButtons; ii++) {
+    for (int jj = 0; jj < wordLengths[ii]; jj++) {
+
+        char currentLetter = words[ii][jj];
+
+        SDL_Rect src;
+
+        switch (currentLetter) { 
+            case 'a':
+                src = a;
+                break;
+            case 'b':
+                src = b;
+                break;
+            case 'c':
+                src = c;
+                break;
+            case 'd':
+                src = d;
+                break;
+            case 'e':
+                src = e;
+                break;
+            case 'f':
+                src = f;
+                break;
+            case 'g':
+                src = g;
+                break;
+            case 'h':
+                src = h;
+                break;
+            case 'i':
+                src = i;
+                break;
+            case 'j':
+                src = j;
+                break;
+            case 'k':   
+                src = k;
+                break;
+            case 'l':
+                src = l;
+                break;
+            case 'm':
+                src = m;
+                break;
+            case 'n':
+                src = n;
+                break;
+            case 'o':
+                src = o;
+                break;
+            case 'p':
+                src = p;
+                break;
+            case 'q':
+                src = q;
+                break;
+            case 'r':
+                src = r;
+                break;
+            case 's':
+                src = s;
+                break;
+            case 't':
+                src = t;
+                break;
+            case 'u':
+                src = u;
+                break;
+            case 'v':
+                src = v;
+                break;
+            case 'w':
+                src = w;
+                break;
+            case 'x':
+                src = x;
+                break;
+            case 'y':
+                src = y;
+                break;
+            case 'z':
+                src = z;
+                break;
+            default:
+                // Handle unsupported letters
+                src = a;
+                break;
+            }
+        // Position du coin supérieur gauche de la lettre
+        int letterX = wordX[ii] + jj * LETTER_SPRITE_WIDTH;
+        int letterY = buttonY[ii];
+
+        // Source rect pour la lettre
+        SDL_Rect letterSrcRect = { 0, 0, LETTER_SPRITE_WIDTH, LETTER_SPRITE_HEIGHT };
+
+        // Destination rect pour la lettre
+        SDL_Rect letterDestRect = { letterX, letterY, LETTER_SPRITE_WIDTH, LETTER_SPRITE_HEIGHT };
+
+        // Dessinez la lettre correspondante sur la surface
+        SDL_BlitSurface(plancheSpritesAscii, &src, surface, &letterDestRect);
+    }
+}
+
+
+    SDL_UpdateWindowSurface(window);
 
     SDL_Event event;
     while (SDL_WaitEvent(&event)) {
@@ -55,4 +170,3 @@ void showMenu(SDL_Window* window) {
         }
     }
 }
-

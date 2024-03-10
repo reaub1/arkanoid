@@ -8,6 +8,7 @@ extern SDL_Window* pWindow;
 extern SDL_Surface* win_surf;
 extern SDL_Surface* plancheSprites;
 extern SDL_Surface* plancheSpritesBricks;
+extern SDL_Surface* plancheSpritesAscii;
 
 extern SDL_Rect srcBall; 
 extern SDL_Rect scrVaiss;

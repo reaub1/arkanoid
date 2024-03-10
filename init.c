@@ -6,6 +6,7 @@ SDL_Window* pWindow = NULL;
 SDL_Surface* win_surf = NULL;
 SDL_Surface* plancheSprites = NULL;
 SDL_Surface* plancheSpritesBricks = NULL;
+SDL_Surface* plancheSpritesAscii = NULL;
 
 SDL_Rect srcBall = { 0, 96, 24, 24 };
 SDL_Rect scrVaiss = { 128, 0, 128, 32 };
@@ -21,9 +22,9 @@ int x_vault = 0;
 
 void initGame() {
 
-    block.x = 0;   // Initialisation de la position x
-    block.y = 0;    // Initialisation de la position y
-    block.w = 50;   // Définition de la largeur
+    block.x = 0;
+    block.y = 0;
+    block.w = 50; 
     block.h = 50;
 
     currentState = MENU;
@@ -63,8 +64,15 @@ void initGame() {
     }
     SDL_SetColorKey(plancheSpritesBricks, SDL_TRUE, 0);
 
+    plancheSpritesAscii = SDL_LoadBMP("./Arkanoid_ascii.bmp");
+    if(plancheSpritesBricks == NULL) {
+        SDL_Log("Erreur lors du chargement de Arkanoid_ascii.bmp : %s", SDL_GetError());
+        SDL_DestroyWindow(pWindow);
+        SDL_Quit();
+        exit(1);
+    }
+    SDL_SetColorKey(plancheSpritesAscii, SDL_TRUE, 0);
     
-
     ball.x = win_surf->w / 2;
     ball.y = win_surf->h / 2;
     ball.vx = 1.0;

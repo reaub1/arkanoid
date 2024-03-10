@@ -7,6 +7,7 @@ SDL_Surface* win_surf = NULL;
 SDL_Surface* plancheSprites = NULL;
 SDL_Surface* plancheSpritesBricks = NULL;
 
+//SDL_Rect srcBg = { 0, 128, 96, 128 };
 SDL_Rect srcBg = { 0, 128, 96, 128 };
 SDL_Rect srcBall = { 0, 96, 24, 24 };
 SDL_Rect scrVaiss = { 128, 0, 128, 32 };

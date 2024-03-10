@@ -38,4 +38,7 @@ extern SDL_Rect ball4;
 extern SDL_Rect ball5;
 extern SDL_Rect ball6;
 
+extern SDL_Rect background2;
+
+
 #endif

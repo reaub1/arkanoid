@@ -5,11 +5,11 @@
 void drawGame() {
 
     SDL_Rect dest = { 0, 0, 0, 0 };
-    for (int j = 0; j < win_surf->h; j += 128)
-        for (int i = 0; i < win_surf->w; i += 96) {
+    for (int j = 0; j < win_surf->h; j += 64)
+        for (int i = 0; i < win_surf->w; i += 64) {
             dest.x = i;
             dest.y = j;
-            SDL_BlitSurface(plancheSprites, &srcBg, win_surf, &dest);
+            SDL_BlitSurface(plancheSpritesBricks, &background2, win_surf, &dest);
         }
 
     SDL_Rect dstBall = { (int)ball.x, (int)ball.y, 24, 24 };

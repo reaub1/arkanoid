@@ -4,6 +4,7 @@
 #include <SDL.h>
 #include "init.h"
 #include "constants.h"
+#include "game_state.h"
 
 void drawGame();
 void initBricks();

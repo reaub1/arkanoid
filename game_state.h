@@ -9,4 +9,9 @@ typedef enum {
 
 extern GameState currentState;
 
+extern int score;
+extern int lives;
+extern int level;
+extern int turn;
+
 #endif

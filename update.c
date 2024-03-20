@@ -111,8 +111,13 @@ void checkBallBrickCollision() {
                         ball.x += overlapX;
                         ball.vx = -ball.vx;
                     }
-                bricks[i][j].active = false;
-                printf("brick %d %d\n", i, j);
+
+                if(bricks[i][j].isDestructible){
+                    printf("brick destructible\n");
+                    bricks[i][j].active = false;
+                    score += 10;
+                }    
+                printf("score : %d \n", score);
                 }
                 return; 
             }

@@ -79,6 +79,4 @@ extern SDL_Rect x;
 extern SDL_Rect y;
 extern SDL_Rect z;
 
-
-
 #endif

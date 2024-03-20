@@ -28,7 +28,8 @@ extern Ball ball;
 typedef struct {
     SDL_Rect rect; 
     bool active;
-    SDL_Rect color;   
+    SDL_Rect color;  
+    bool isDestructible; 
 } Brick;
 
 extern Brick bricks[BRICK_ROWS][BRICK_COLUMNS];

@@ -88,6 +88,7 @@ void initBricks() {
     int startY = 0;
 
     bool active = true;
+    bool isDestructible = true;
 
     char level[MAX_ROWS][MAX_COLS + 1];
     readTextFile("./level/lvl3.txt", level);
@@ -96,6 +97,8 @@ void initBricks() {
         for (int j = 0; j < MAX_COLS; j++) {
             SDL_Rect color;
             active = true;
+            isDestructible = true;
+
             switch (level[i][j]) {
                 case 'r':
                     color = redbrick;
@@ -137,7 +140,8 @@ void initBricks() {
                     color = silverbrick1;
                     break;
                 case 'z':
-                    color = goldbrick2;
+                    color = goldbrick1;
+                    isDestructible = false;
                     break;
                 case 'q':
                     color = ball1;
@@ -153,6 +157,12 @@ void initBricks() {
                 bricks[i][j].rect.h = BRICK_HEIGHT;
                 bricks[i][j].active = active;
                 bricks[i][j].color = color;
+            }
+            if(isDestructible){
+                bricks[i][j].isDestructible = true;
+            }
+            else{
+                bricks[i][j].isDestructible = false;
             }
         }
     }

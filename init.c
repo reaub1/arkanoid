@@ -46,6 +46,7 @@ void initGame() {
         exit(1);
     }
 
+
     plancheSprites = SDL_LoadBMP("./sprites.bmp");
     if (plancheSprites == NULL) {
         SDL_Log("Erreur lors du chargement de sprites.bmp : %s", SDL_GetError());

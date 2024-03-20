@@ -79,4 +79,15 @@ extern SDL_Rect x;
 extern SDL_Rect y;
 extern SDL_Rect z;
 
+extern SDL_Rect un;
+extern SDL_Rect deux;
+extern SDL_Rect trois;
+extern SDL_Rect quatre;
+extern SDL_Rect cinq;
+extern SDL_Rect six;
+extern SDL_Rect sept;
+extern SDL_Rect huit;
+extern SDL_Rect neuf;
+extern SDL_Rect dix;
+
 #endif

@@ -90,6 +90,8 @@ void initBricks() {
 
     bool active = true;
     bool isDestructible = true;
+    bool update = false;
+    int points = 0;
 
     char level[MAX_ROWS][MAX_COLS + 1];
     readTextFile("./level/lvl3.txt", level);
@@ -99,16 +101,20 @@ void initBricks() {
             SDL_Rect color;
             active = true;
             isDestructible = true;
+            points = 0;
 
             switch (level[i][j]) {
                 case 'r':
                     color = redbrick;
+                    points = 90;
                     break;
                 case 'o':
                     color = orangebrick;
+                    points = 60;
                     break;
                 case 'w':
                     color = whitebrick;
+                    points = 50;
                     break;
                 case 'b':
                     color = bluebrick;
@@ -118,21 +124,26 @@ void initBricks() {
                     break;
                 case 'l':
                     color = bluelightbrick;
+                    points = 70;
                     break;
                 case 'g':
                     color = greenbrick;
+                    points = 80;
                     break;
                 case 'n':
                     color = navybrick;
+                    points = 100;
                     break;
                 case 'd':
                     color = darkgreenbrick;
                     break;
                 case 'p':
                     color = pinkbrick;
+                    points = 110;
                     break;
                 case 'y':
                     color = yellowbrick;
+                    points = 120;
                     break;
                 case 'f':
                     color = darkredbrick;
@@ -143,6 +154,7 @@ void initBricks() {
                 case 'z':
                     color = goldbrick1;
                     isDestructible = false;
+                    update = true;
                     break;
                 case 'q':
                     color = ball1;
@@ -158,6 +170,7 @@ void initBricks() {
                 bricks[i][j].rect.h = BRICK_HEIGHT;
                 bricks[i][j].active = active;
                 bricks[i][j].color = color;
+                bricks[i][j].update = false;
             }
             if(isDestructible){
                 bricks[i][j].isDestructible = true;
@@ -165,6 +178,7 @@ void initBricks() {
             else{
                 bricks[i][j].isDestructible = false;
             }
+            bricks[i][j].points = points;
         }
     }
 }

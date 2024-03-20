@@ -112,9 +112,8 @@ void checkBallBrickCollision() {
                     }
 
                 if(bricks[i][j].isDestructible){
-                    printf("brick destructible\n");
                     bricks[i][j].active = false;
-                    score += 10;
+                    score += bricks[i][j].points;
                 }    
                 printf("score : %d \n", score);
                 }

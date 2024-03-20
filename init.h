@@ -30,6 +30,8 @@ typedef struct {
     bool active;
     SDL_Rect color;  
     bool isDestructible; 
+    bool update;
+    int points;
 } Brick;
 
 extern Brick bricks[BRICK_ROWS][BRICK_COLUMNS];

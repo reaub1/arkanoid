@@ -28,6 +28,9 @@ int main(int argc, char** argv) {
         quit = processInput();
         updateGame();
         drawGame();
+        turn++;
+        if (turn == 1000)
+            turn = 0;
     }
 
     SDL_Quit();

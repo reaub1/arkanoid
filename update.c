@@ -5,9 +5,10 @@
 #include "game_state.h"
 
 Uint64 prev, now;
-double delta_t;  
+double delta_t = 0.0;  
 
 void updateGame() {
+
     ball.x += ball.vx;
     ball.y += ball.vy;
 
@@ -16,16 +17,15 @@ void updateGame() {
     if ((ball.y < 1) || (ball.y > (win_surf->h - 25)))
         ball.vy *= -1;
 
-    //si la balle tocuhe le block
+    //si la balle touche le block
     // Supposons que ballRect représente le rectangle de la balle    
     checkBallBrickCollision();
     
     // Si la balle touche la raquette, on la renvoie
-    if ((ball.y > (win_surf->h - 50)) && (ball.x > x_vault) && (ball.x < x_vault + 100))
+    if ((ball.y > (win_surf->h - 50 - MENU_HEIGHT)) && (ball.x > x_vault) && (ball.x < x_vault + 100))
         ball.vy *= -1;
 
-
-    if (ball.y > (win_surf->h - 25)){
+    if (ball.y > (win_surf->h - 25 - MENU_HEIGHT)){
         srcBall.y = 64;
         ball.vy = 0;
         ball.vx = 0;
@@ -74,7 +74,7 @@ void checkBallBrickCollision() {
                 continue;
             }
             brick.x = bricks[0][0].rect.x + j * INDIVIDUAL_BRICK_WIDTH;
-            brick.y = bricks[0][0].rect.y + i * INDIVIDUAL_BRICK_HEIGHT;
+            brick.y = bricks[0][0].rect.y + i * INDIVIDUAL_BRICK_HEIGHT - MENU_HEIGHT;
             brick.w = INDIVIDUAL_BRICK_WIDTH;
             brick.h = INDIVIDUAL_BRICK_HEIGHT;
 
@@ -111,8 +111,11 @@ void checkBallBrickCollision() {
                         ball.x += overlapX;
                         ball.vx = -ball.vx;
                     }
-                bricks[i][j].active = false;
-                printf("brick %d %d\n", i, j);
+
+                if(bricks[i][j].isDestructible){
+                    bricks[i][j].active = false;
+                    score += bricks[i][j].points;
+                }    
                 }
                 return; 
             }

@@ -29,4 +29,6 @@
 #define MAX_ROWS 20
 #define MAX_COLS 40
 
+#define MENU_HEIGHT 90
+
 #endif

@@ -46,6 +46,7 @@ void initGame() {
         exit(1);
     }
 
+
     plancheSprites = SDL_LoadBMP("./sprites.bmp");
     if (plancheSprites == NULL) {
         SDL_Log("Erreur lors du chargement de sprites.bmp : %s", SDL_GetError());
@@ -71,7 +72,7 @@ void initGame() {
         SDL_Quit();
         exit(1);
     }
-    SDL_SetColorKey(plancheSpritesAscii, SDL_TRUE, 0);
+    //SDL_SetColorKey(plancheSpritesAscii, SDL_TRUE, 0);
     
     ball.x = win_surf->w / 2;
     ball.y = win_surf->h / 2;
@@ -88,6 +89,9 @@ void initBricks() {
     int startY = 0;
 
     bool active = true;
+    bool isDestructible = true;
+    bool update = false;
+    int points = 0;
 
     char level[MAX_ROWS][MAX_COLS + 1];
     readTextFile("./level/lvl3.txt", level);
@@ -96,15 +100,21 @@ void initBricks() {
         for (int j = 0; j < MAX_COLS; j++) {
             SDL_Rect color;
             active = true;
+            isDestructible = true;
+            points = 0;
+
             switch (level[i][j]) {
                 case 'r':
                     color = redbrick;
+                    points = 90;
                     break;
                 case 'o':
                     color = orangebrick;
+                    points = 60;
                     break;
                 case 'w':
                     color = whitebrick;
+                    points = 50;
                     break;
                 case 'b':
                     color = bluebrick;
@@ -114,21 +124,26 @@ void initBricks() {
                     break;
                 case 'l':
                     color = bluelightbrick;
+                    points = 70;
                     break;
                 case 'g':
                     color = greenbrick;
+                    points = 80;
                     break;
                 case 'n':
                     color = navybrick;
+                    points = 100;
                     break;
                 case 'd':
                     color = darkgreenbrick;
                     break;
                 case 'p':
                     color = pinkbrick;
+                    points = 110;
                     break;
                 case 'y':
                     color = yellowbrick;
+                    points = 120;
                     break;
                 case 'f':
                     color = darkredbrick;
@@ -137,7 +152,9 @@ void initBricks() {
                     color = silverbrick1;
                     break;
                 case 'z':
-                    color = goldbrick2;
+                    color = goldbrick1;
+                    isDestructible = false;
+                    update = true;
                     break;
                 case 'q':
                     color = ball1;
@@ -148,12 +165,20 @@ void initBricks() {
             }
             if(active){
                 bricks[i][j].rect.x = startX + j * BRICK_WIDTH;
-                bricks[i][j].rect.y = startY + i * BRICK_HEIGHT;
+                bricks[i][j].rect.y = startY + i * BRICK_HEIGHT + MENU_HEIGHT;
                 bricks[i][j].rect.w = BRICK_WIDTH;
                 bricks[i][j].rect.h = BRICK_HEIGHT;
                 bricks[i][j].active = active;
                 bricks[i][j].color = color;
+                bricks[i][j].update = false;
             }
+            if(isDestructible){
+                bricks[i][j].isDestructible = true;
+            }
+            else{
+                bricks[i][j].isDestructible = false;
+            }
+            bricks[i][j].points = points;
         }
     }
 }
@@ -166,16 +191,14 @@ void readTextFile(const char* filename, char array[MAX_ROWS][MAX_COLS + 1]) {
     }
 
     int row = 0;
-    char line[MAX_COLS + 2]; // +2 pour le caractère de fin de ligne '\n' et le caractère nul '\0'
+    char line[MAX_COLS + 2];
 
-    // Lecture de chaque ligne du fichier
     while (fgets(line, sizeof(line), file) != NULL) {
         if (row >= MAX_ROWS) {
             printf("Avertissement: Nombre de lignes dépasse la limite, seules les %d premières lignes seront lues.\n", MAX_ROWS);
             break;
         }
 
-        // Copie de la ligne dans le tableau 2D
         int col = 0;
         for (int i = 0; line[i] != '\0'; i++) {
             if (col >= MAX_COLS) {

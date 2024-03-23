@@ -25,7 +25,7 @@ void updateGame() {
     if ((ball.y > (win_surf->h - 50 - MENU_HEIGHT)) && (ball.x > x_vault) && (ball.x < x_vault + 100))
         ball.vy *= -1;
 
-    if (ball.y > (win_surf->h - 25)){
+    if (ball.y > (win_surf->h - 25 - MENU_HEIGHT)){
         srcBall.y = 64;
         ball.vy = 0;
         ball.vx = 0;

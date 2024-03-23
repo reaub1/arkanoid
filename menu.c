@@ -136,21 +136,14 @@ void showMenu(SDL_Window* window) {
                 src = z;
                 break;
             default:
-                // Handle unsupported letters
                 src = a;
                 break;
             }
-        // Position du coin supérieur gauche de la lettre
         int letterX = wordX[ii] + jj * LETTER_SPRITE_WIDTH;
         int letterY = buttonY[ii];
 
-        // Source rect pour la lettre
-        //SDL_Rect letterSrcRect = { 0, 0, LETTER_SPRITE_WIDTH, LETTER_SPRITE_HEIGHT };
-
-        // Destination rect pour la lettre
         SDL_Rect letterDestRect = { letterX, letterY, LETTER_SPRITE_WIDTH, LETTER_SPRITE_HEIGHT };
 
-        // Dessinez la lettre correspondante sur la surface
         SDL_BlitSurface(plancheSpritesAscii, &src, surface, &letterDestRect);
     }
 }

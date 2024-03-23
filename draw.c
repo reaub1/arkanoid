@@ -6,20 +6,15 @@ void drawMenuBar(SDL_Surface* menu_surf) {
     SDL_Rect menuRect = {0, 0, menu_surf->w, MENU_HEIGHT};
     SDL_FillRect(menu_surf, &menuRect, SDL_MapRGB(menu_surf->format, 0, 0, 0));
 
-    
-    // Affichage du score dans la barre de menu
     char scoreText[20];
     snprintf(scoreText, sizeof(scoreText), "Score: %d", score);
 
-    // Position du score dans la barre de menu
-    int scoreX = 20; // Ajustez selon votre mise en page
-    int scoreY = 20; // Ajustez selon votre mise en page
-
-    // Pour chaque chiffre dans le score
+    int scoreX = 20;
+    int scoreY = 20; 
+    
     for (int i = 0; scoreText[i] != '\0'; i++) {
-        // Obtenez le chiffre actuel
         char currentDigit = scoreText[i];
-        
+
         SDL_Rect srcRect;
         switch (currentDigit) {
             case '0':
@@ -53,7 +48,6 @@ void drawMenuBar(SDL_Surface* menu_surf) {
                 srcRect = neuf;
                 break;
             default:
-                // Ignore les caractères non pris en charge
                 continue;
         }
         
@@ -71,7 +65,6 @@ void drawGame() {
 
     SDL_Surface* menu_surf = SDL_CreateRGBSurface(0, win_surf->w, MENU_HEIGHT, 32, 0, 0, 0, 0);
     if (menu_surf == NULL) {
-        // Gestion de l'erreur
         SDL_Log("Erreur lors de la création de la surface temporaire pour la barre de menu : %s", SDL_GetError());
         return;
     }
@@ -92,15 +85,10 @@ void drawGame() {
     SDL_Rect dstVaiss = { x_vault, win_surf->h - 32, 128, 32 };
     SDL_BlitSurface(plancheSprites, &scrVaiss, win_surf, &dstVaiss);
 
-    // on dessine le block
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderFillRect(renderer, &block);
 
-    //NEW PART
-
     drawBricks(win_surf);
-
-    /******/
 
     SDL_UpdateWindowSurface(pWindow);
 }

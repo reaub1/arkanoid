@@ -17,7 +17,7 @@ void updateGame() {
     if ((ball.y < 1) || (ball.y > (win_surf->h - 25)))
         ball.vy *= -1;
 
-    //si la balle tocuhe le block
+    //si la balle touche le block
     // Supposons que ballRect représente le rectangle de la balle    
     checkBallBrickCollision();
     

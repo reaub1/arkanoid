@@ -191,16 +191,14 @@ void readTextFile(const char* filename, char array[MAX_ROWS][MAX_COLS + 1]) {
     }
 
     int row = 0;
-    char line[MAX_COLS + 2]; // +2 pour le caractère de fin de ligne '\n' et le caractère nul '\0'
+    char line[MAX_COLS + 2];
 
-    // Lecture de chaque ligne du fichier
     while (fgets(line, sizeof(line), file) != NULL) {
         if (row >= MAX_ROWS) {
             printf("Avertissement: Nombre de lignes dépasse la limite, seules les %d premières lignes seront lues.\n", MAX_ROWS);
             break;
         }
 
-        // Copie de la ligne dans le tableau 2D
         int col = 0;
         for (int i = 0; line[i] != '\0'; i++) {
             if (col >= MAX_COLS) {

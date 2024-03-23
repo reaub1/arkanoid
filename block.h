@@ -78,6 +78,8 @@ SDL_Rect w;
 SDL_Rect x;
 SDL_Rect y;
 SDL_Rect z;
+
+SDL_Rect zero;
 SDL_Rect un;
 SDL_Rect deux;
 SDL_Rect trois;
@@ -87,6 +89,5 @@ SDL_Rect six;
 SDL_Rect sept;
 SDL_Rect huit;
 SDL_Rect neuf;
-SDL_Rect dix;
 
 #endif

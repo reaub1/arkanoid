@@ -9,7 +9,6 @@ double delta_t = 0.0;
 
 void updateGame() {
 
-    printf("delta t = %f\n", delta_t);
     ball.x += ball.vx;
     ball.y += ball.vy;
 
@@ -46,7 +45,6 @@ void updateGame() {
         }
     now = SDL_GetPerformanceCounter();
     delta_t = 1.0 / FPS - ((double)(now - prev) / SDL_GetPerformanceFrequency());
-    printf("%f\n",((double)(now - prev) / SDL_GetPerformanceFrequency()));
     prev = now;
     if (delta_t > 0)
         SDL_Delay((Uint32)(delta_t * 1000));
@@ -118,7 +116,6 @@ void checkBallBrickCollision() {
                     bricks[i][j].active = false;
                     score += bricks[i][j].points;
                 }    
-                printf("score : %d \n", score);
                 }
                 return; 
             }

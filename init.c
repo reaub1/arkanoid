@@ -72,7 +72,7 @@ void initGame() {
         SDL_Quit();
         exit(1);
     }
-    SDL_SetColorKey(plancheSpritesAscii, SDL_TRUE, 0);
+    //SDL_SetColorKey(plancheSpritesAscii, SDL_TRUE, 0);
     
     ball.x = win_surf->w / 2;
     ball.y = win_surf->h / 2;

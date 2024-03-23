@@ -1,10 +1,70 @@
 #include "draw.h"
 #include "block.h"
-
+#include "game_state.h"
 
 void drawMenuBar(SDL_Surface* menu_surf) {
     SDL_Rect menuRect = {0, 0, menu_surf->w, MENU_HEIGHT};
     SDL_FillRect(menu_surf, &menuRect, SDL_MapRGB(menu_surf->format, 0, 0, 0));
+
+    
+    // Affichage du score dans la barre de menu
+    char scoreText[20];
+    snprintf(scoreText, sizeof(scoreText), "Score: %d", score);
+
+    // Position du score dans la barre de menu
+    int scoreX = 20; // Ajustez selon votre mise en page
+    int scoreY = 20; // Ajustez selon votre mise en page
+
+    // Pour chaque chiffre dans le score
+    for (int i = 0; scoreText[i] != '\0'; i++) {
+        // Obtenez le chiffre actuel
+        char currentDigit = scoreText[i];
+        
+        SDL_Rect srcRect;
+        switch (currentDigit) {
+            case '0':
+                srcRect = zero;
+                break;
+            case '1':
+                srcRect = un;
+                break;
+            case '2':
+                srcRect = deux;
+                break;
+            case '3':
+                srcRect = trois;
+                break;
+            case '4':
+                srcRect = quatre;
+                break;
+            case '5':
+                srcRect = cinq;
+                break;
+            case '6':
+                srcRect = six;
+                break;
+            case '7':
+                srcRect = sept;
+                break;
+            case '8':
+                srcRect = huit;
+                break;
+            case '9':
+                srcRect = neuf;
+                break;
+            default:
+                // Ignore les caractères non pris en charge
+                continue;
+        }
+        
+        SDL_Rect dstRect = {scoreX, scoreY, 100, 100};
+
+        SDL_BlitSurface(plancheSpritesAscii, &srcRect, win_surf, &dstRect);
+
+        SDL_UpdateWindowSurface(pWindow);
+
+        scoreX += srcRect.w;        
+    }
 }
 
 void drawGame() {

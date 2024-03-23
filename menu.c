@@ -15,7 +15,7 @@ void showMenu(SDL_Window* window) {
 
     SDL_Color blackColor = {30, 30, 30};
     SDL_Color borderColor = {173, 216, 230};
-    SDL_Color backgroundColor = {0, 0, 139};
+    SDL_Color backgroundColor = {0, 0, 0};
 
     Uint32 background_color = SDL_MapRGB(surface->format, backgroundColor.r, backgroundColor.g, backgroundColor.b);
     SDL_FillRect(surface, NULL, background_color); 
@@ -145,7 +145,7 @@ void showMenu(SDL_Window* window) {
         int letterY = buttonY[ii];
 
         // Source rect pour la lettre
-        SDL_Rect letterSrcRect = { 0, 0, LETTER_SPRITE_WIDTH, LETTER_SPRITE_HEIGHT };
+        //SDL_Rect letterSrcRect = { 0, 0, LETTER_SPRITE_WIDTH, LETTER_SPRITE_HEIGHT };
 
         // Destination rect pour la lettre
         SDL_Rect letterDestRect = { letterX, letterY, LETTER_SPRITE_WIDTH, LETTER_SPRITE_HEIGHT };

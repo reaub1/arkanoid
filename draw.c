@@ -2,17 +2,31 @@
 #include "block.h"
 
 
+void drawMenuBar(SDL_Surface* menu_surf) {
+    SDL_Rect menuRect = {0, 0, menu_surf->w, MENU_HEIGHT};
+    SDL_FillRect(menu_surf, &menuRect, SDL_MapRGB(menu_surf->format, 0, 0, 0));
+}
+
 void drawGame() {
 
-    SDL_Rect dest = { 0, 0, 0, 0 };
-    for (int j = 0; j < win_surf->h; j += 64)
+    SDL_Surface* menu_surf = SDL_CreateRGBSurface(0, win_surf->w, MENU_HEIGHT, 32, 0, 0, 0, 0);
+    if (menu_surf == NULL) {
+        // Gestion de l'erreur
+        SDL_Log("Erreur lors de la création de la surface temporaire pour la barre de menu : %s", SDL_GetError());
+        return;
+    }
+
+    drawMenuBar(menu_surf);
+
+    SDL_Rect dest = { 0, MENU_HEIGHT, 0, 0 };
+    for (int j = 0; j < win_surf->h - MENU_HEIGHT; j += 64)
         for (int i = 0; i < win_surf->w; i += 64) {
             dest.x = i;
-            dest.y = j;
+            dest.y = j + MENU_HEIGHT;
             SDL_BlitSurface(plancheSpritesBricks, &darkbackground6, win_surf, &dest);
         }
 
-    SDL_Rect dstBall = { (int)ball.x, (int)ball.y, 24, 24 };
+    SDL_Rect dstBall = { (int)ball.x, (int)ball.y + MENU_HEIGHT, 24, 24 };
     SDL_BlitSurface(plancheSprites, &srcBall, win_surf, &dstBall);
 
     SDL_Rect dstVaiss = { x_vault, win_surf->h - 32, 128, 32 };
@@ -30,7 +44,6 @@ void drawGame() {
 
     SDL_UpdateWindowSurface(pWindow);
 }
-
 
 void drawBricks(SDL_Surface* win_surf) {
     for (int i = 0; i < BRICK_ROWS; i++) {
@@ -99,7 +112,6 @@ void drawBricks(SDL_Surface* win_surf) {
                 }
             }
             SDL_BlitSurface(plancheSpritesBricks, &bricks[i][j].color, win_surf, &bricks[i][j].rect);
-                SDL_BlitSurface(plancheSpritesBricks, &bricks[i][j].color, win_surf, &bricks[i][j].rect);
             }
         }
     }

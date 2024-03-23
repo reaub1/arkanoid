@@ -165,7 +165,7 @@ void initBricks() {
             }
             if(active){
                 bricks[i][j].rect.x = startX + j * BRICK_WIDTH;
-                bricks[i][j].rect.y = startY + i * BRICK_HEIGHT;
+                bricks[i][j].rect.y = startY + i * BRICK_HEIGHT + MENU_HEIGHT;
                 bricks[i][j].rect.w = BRICK_WIDTH;
                 bricks[i][j].rect.h = BRICK_HEIGHT;
                 bricks[i][j].active = active;

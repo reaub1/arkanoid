@@ -8,6 +8,8 @@
 
 void drawGame();
 void initBricks();
+void drawMenuBar(SDL_Surface* win_surf);
 void drawBricks(SDL_Surface* win_surf);
+
 
 #endif

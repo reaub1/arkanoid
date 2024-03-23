@@ -5,9 +5,11 @@
 #include "game_state.h"
 
 Uint64 prev, now;
-double delta_t;  
+double delta_t = 0.0;  
 
 void updateGame() {
+
+    printf("delta t = %f\n", delta_t);
     ball.x += ball.vx;
     ball.y += ball.vy;
 
@@ -21,7 +23,7 @@ void updateGame() {
     checkBallBrickCollision();
     
     // Si la balle touche la raquette, on la renvoie
-    if ((ball.y > (win_surf->h - 50)) && (ball.x > x_vault) && (ball.x < x_vault + 100))
+    if ((ball.y > (win_surf->h - 50 - MENU_HEIGHT)) && (ball.x > x_vault) && (ball.x < x_vault + 100))
         ball.vy *= -1;
 
     if (ball.y > (win_surf->h - 25)){
@@ -44,6 +46,7 @@ void updateGame() {
         }
     now = SDL_GetPerformanceCounter();
     delta_t = 1.0 / FPS - ((double)(now - prev) / SDL_GetPerformanceFrequency());
+    printf("%f\n",((double)(now - prev) / SDL_GetPerformanceFrequency()));
     prev = now;
     if (delta_t > 0)
         SDL_Delay((Uint32)(delta_t * 1000));
@@ -73,7 +76,7 @@ void checkBallBrickCollision() {
                 continue;
             }
             brick.x = bricks[0][0].rect.x + j * INDIVIDUAL_BRICK_WIDTH;
-            brick.y = bricks[0][0].rect.y + i * INDIVIDUAL_BRICK_HEIGHT;
+            brick.y = bricks[0][0].rect.y + i * INDIVIDUAL_BRICK_HEIGHT - MENU_HEIGHT;
             brick.w = INDIVIDUAL_BRICK_WIDTH;
             brick.h = INDIVIDUAL_BRICK_HEIGHT;
 

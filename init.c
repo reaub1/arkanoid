@@ -76,8 +76,8 @@ void initGame() {
     
     ball.x = win_surf->w / 2;
     ball.y = win_surf->h / 2;
-    ball.vx = 1.0;
-    ball.vy = 1.4;
+    ball.vx = 0.1;
+    ball.vy = 0.14;
 
     x_vault = win_surf->w / 2;
 

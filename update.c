@@ -6,11 +6,19 @@
 
 Uint64 prev, now;
 double delta_t = 0.0;  
+bool firstTurn = true;
 
 void updateGame() {
 
-    ball.x += ball.vx;
-    ball.y += ball.vy;
+    //printf("%f\n", delta_t);
+
+    if(firstTurn){
+        prev = SDL_GetPerformanceCounter();
+        firstTurn = false;
+    }
+
+    ball.x += ball.vx *delta_t;
+    ball.y += ball.vy *delta_t;
 
     if ((ball.x < 1) || (ball.x > (win_surf->w - 25)))
         ball.vx *= -1;
@@ -37,14 +45,14 @@ void updateGame() {
     const Uint8* keys = SDL_GetKeyboardState(NULL);
     if (keys[SDL_SCANCODE_LEFT])
         if(x_vault > 0){
-            x_vault -= 10;
+            x_vault -= 5;
         }
     if (keys[SDL_SCANCODE_RIGHT])
         if(x_vault < win_surf->w - 100){
-            x_vault += 10;
+            x_vault += 5;
         }
     now = SDL_GetPerformanceCounter();
-    delta_t = 1.0 / FPS - ((double)(now - prev) / SDL_GetPerformanceFrequency());
+    delta_t = 1.0 / FPS - ((double)(now - prev) / SDL_GetPerformanceFrequency()*1000);
     prev = now;
     if (delta_t > 0)
         SDL_Delay((Uint32)(delta_t * 1000));

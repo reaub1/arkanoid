@@ -92,6 +92,9 @@ void initBricks() {
     bool isDestructible = true;
     bool update = false;
     int points = 0;
+    BrickType type = NORMAL_BRICK;
+    int powerUp = 0;
+    int life = 1;
 
     char level[MAX_ROWS][MAX_COLS + 1];
     readTextFile("./level/lvl3.txt", level);
@@ -150,11 +153,14 @@ void initBricks() {
                     break;
                 case 's':
                     color = silverbrick1;
+                    life = 3;
+                    type = SPECIAL_BRICK;
                     break;
                 case 'z':
                     color = goldbrick1;
                     isDestructible = false;
                     update = true;
+                    type = SPECIAL_BRICK;
                     break;
                 case 'q':
                     color = ball1;
@@ -171,6 +177,9 @@ void initBricks() {
                 bricks[i][j].active = active;
                 bricks[i][j].color = color;
                 bricks[i][j].update = false;
+                bricks[i][j].life = life;
+                bricks[i][j].powerUp = powerUp;
+                bricks[i][j].type = type;
             }
             if(isDestructible){
                 bricks[i][j].isDestructible = true;

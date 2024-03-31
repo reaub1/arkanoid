@@ -25,6 +25,12 @@ typedef struct {
 
 extern Ball ball;
 
+typedef enum {
+    NORMAL_BRICK,
+    TOUGH_BRICK,
+    SPECIAL_BRICK
+} BrickType;
+
 typedef struct {
     SDL_Rect rect; 
     bool active;
@@ -32,7 +38,12 @@ typedef struct {
     bool isDestructible; 
     bool update;
     int points;
+    int life;
+    int powerUp;
+    BrickType type;
 } Brick;
+
+
 
 extern Brick bricks[BRICK_ROWS][BRICK_COLUMNS];
 

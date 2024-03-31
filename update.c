@@ -45,11 +45,11 @@ void updateGame() {
     const Uint8* keys = SDL_GetKeyboardState(NULL);
     if (keys[SDL_SCANCODE_LEFT])
         if(x_vault > 0){
-            x_vault -= 5;
+            x_vault -= 0.1;
         }
     if (keys[SDL_SCANCODE_RIGHT])
         if(x_vault < win_surf->w - 100){
-            x_vault += 5;
+            x_vault += 1;
         }
     now = SDL_GetPerformanceCounter();
     delta_t = 1.0 / FPS - ((double)(now - prev) / SDL_GetPerformanceFrequency()*1000);
@@ -123,6 +123,8 @@ void checkBallBrickCollision() {
                 if(bricks[i][j].isDestructible){
                     bricks[i][j].active = false;
                     score += bricks[i][j].points;
+                    //updateMenu
+                    drawMenuBar();
                 }    
                 }
                 return; 

@@ -2,7 +2,14 @@
 #include "block.h"
 #include "game_state.h"
 
-void drawMenuBar(SDL_Surface* menu_surf) {
+void drawMenuBar() {
+
+    SDL_Surface* menu_surf = SDL_CreateRGBSurface(0, win_surf->w, MENU_HEIGHT, 32, 0, 0, 0, 0);
+    if (menu_surf == NULL) {
+        SDL_Log("Erreur lors de la création de la surface temporaire pour la barre de menu : %s", SDL_GetError());
+        return;
+    }
+
     SDL_Rect menuRect = {0, 0, menu_surf->w, MENU_HEIGHT};
     SDL_FillRect(menu_surf, &menuRect, SDL_MapRGB(menu_surf->format, 0, 0, 0));
 
@@ -69,7 +76,7 @@ void drawGame() {
         return;
     }
 
-    drawMenuBar(menu_surf);
+    //drawMenuBar(menu_surf);
 
     SDL_Rect dest = { 0, MENU_HEIGHT, 0, 0 };
     for (int j = 0; j < win_surf->h - MENU_HEIGHT; j += 64)

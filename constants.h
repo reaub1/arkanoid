@@ -3,7 +3,7 @@
 
 #include "stdbool.h"
 
-#define FPS 120
+#define FPS 60
 
 #define BRICK_SPRITE_WIDTH 30
 #define BRICK_SPRITE_HEIGHT 15

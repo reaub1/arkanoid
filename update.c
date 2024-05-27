@@ -9,54 +9,56 @@ double delta_t = 0.0;
 bool firstTurn = true;
 
 void updateGame() {
-
-    //printf("%f\n", delta_t);
-
-    if(firstTurn){
+    if (firstTurn) {
         prev = SDL_GetPerformanceCounter();
         firstTurn = false;
     }
 
-    ball.x += ball.vx *delta_t;
-    ball.y += ball.vy *delta_t;
+    ball.x += ball.vx * delta_t;
+    ball.y += ball.vy * delta_t;
 
-    if ((ball.x < 1) || (ball.x > (win_surf->w - 25)))
+    if (ball.x < 1 || ball.x > (win_surf->w - BALL_SPRITE_WIDTH)) {
         ball.vx *= -1;
-    if ((ball.y < 1) || (ball.y > (win_surf->h - 25)))
-        ball.vy *= -1;
-
-    //si la balle touche le block
-    // Supposons que ballRect représente le rectangle de la balle    
-    checkBallBrickCollision();
-    
-    // Si la balle touche la raquette, on la renvoie
-    if ((ball.y > (win_surf->h - 50 - MENU_HEIGHT)) && (ball.x > x_vault) && (ball.x < x_vault + 100))
-        ball.vy *= -1;
-
-    if (ball.y > (win_surf->h - 25 - MENU_HEIGHT)){
-        srcBall.y = 64;
-        ball.vy = 0;
-        ball.vx = 0;
     }
-        
-    if (ball.y < 1)
-        srcBall.y = 96;
+    if (ball.y < 1) {
+        ball.vy *= -1;
+    }
+
+    if (ball.y > (win_surf->h - BALL_SPRITE_HEIGHT - MENU_HEIGHT)) {
+        lives--;
+        if (lives > 0) {
+            currentState = WAITING_TO_RESTART;
+        } else {
+            currentState = GAME_OVER;
+        }
+    }
+
+    if ((ball.y > (win_surf->h - 50 - MENU_HEIGHT)) && (ball.x > x_vault) && (ball.x < x_vault + 100)) {
+        ball.vy *= -1;
+    }
 
     const Uint8* keys = SDL_GetKeyboardState(NULL);
-    if (keys[SDL_SCANCODE_LEFT])
-        if(x_vault > 0){
-            x_vault -= 0.1;
+    if (keys[SDL_SCANCODE_LEFT]) {
+        if (x_vault > 0) {
+            x_vault -= 1;
         }
-    if (keys[SDL_SCANCODE_RIGHT])
-        if(x_vault < win_surf->w - 100){
+    }
+    if (keys[SDL_SCANCODE_RIGHT]) {
+        if (x_vault < win_surf->w - 100) {
             x_vault += 1;
         }
+    }
+
     now = SDL_GetPerformanceCounter();
-    delta_t = 1.0 / FPS - ((double)(now - prev) / SDL_GetPerformanceFrequency()*1000);
+    delta_t = 1.0 / FPS - ((double)(now - prev) / SDL_GetPerformanceFrequency() * 1000);
     prev = now;
-    if (delta_t > 0)
+    if (delta_t > 0) {
         SDL_Delay((Uint32)(delta_t * 1000));
+    }
+
+    checkBallBrickCollision();
 }
+
 
 bool processInput() {
     SDL_Event event;
@@ -64,8 +66,29 @@ bool processInput() {
         if (event.type == SDL_QUIT) {
             return true;
         } else if (event.type == SDL_KEYDOWN) {
-            if (event.key.keysym.sym == SDLK_RETURN && currentState == MENU) {
-                currentState = GAME;
+            if (currentState == MENU) {
+                if (event.key.keysym.sym == SDLK_RETURN) {
+                    currentState = GAME;
+                }
+            } else if (currentState == WAITING_TO_RESTART) {
+                if (event.key.keysym.sym == SDLK_SPACE) {
+                    // Reset ball position and state
+                    ball.x = win_surf->w / 2;
+                    ball.y = win_surf->h / 2;
+                    ball.vx = 0.1;
+                    ball.vy = 0.14;
+                    currentState = GAME;
+                }
+            } else if (currentState == GAME_OVER) {
+                if (event.key.keysym.sym == SDLK_SPACE) {
+                    // Reset game state
+                    score = 0;
+                    lives = 3;
+                    level = 1;
+                    turn = 0;
+                    currentState = MENU;
+                    initGame();
+                }
             } else if (event.key.keysym.sym == SDLK_ESCAPE) {
                 return true;
             }

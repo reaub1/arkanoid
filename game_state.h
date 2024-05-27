@@ -4,6 +4,7 @@
 typedef enum {
     MENU,
     GAME,
+    WAITING_TO_RESTART,
     GAME_OVER
 } GameState;
 

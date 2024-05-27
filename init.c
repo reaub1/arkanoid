@@ -1,6 +1,9 @@
 #include "init.h"
 #include "game_state.h"
 #include "block.h"
+#include <SDL.h>
+#include <SDL_ttf.h>
+
 
 SDL_Window* pWindow = NULL;
 SDL_Surface* win_surf = NULL;
@@ -66,14 +69,13 @@ void initGame() {
     SDL_SetColorKey(plancheSpritesBricks, SDL_TRUE, 0);
 
     plancheSpritesAscii = SDL_LoadBMP("./Arkanoid_ascii.bmp");
-    if(plancheSpritesBricks == NULL) {
+    if(plancheSpritesAscii == NULL) {
         SDL_Log("Erreur lors du chargement de Arkanoid_ascii.bmp : %s", SDL_GetError());
         SDL_DestroyWindow(pWindow);
         SDL_Quit();
         exit(1);
     }
-    //SDL_SetColorKey(plancheSpritesAscii, SDL_TRUE, 0);
-    
+
     ball.x = win_surf->w / 2;
     ball.y = win_surf->h / 2;
     ball.vx = 0.1;

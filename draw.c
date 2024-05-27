@@ -1,12 +1,13 @@
 #include "draw.h"
 #include "block.h"
 #include "game_state.h"
+#include <SDL.h>
+#include <SDL_ttf.h>
 
 void drawMenuBar() {
-
     SDL_Surface* menu_surf = SDL_CreateRGBSurface(0, win_surf->w, MENU_HEIGHT, 32, 0, 0, 0, 0);
     if (menu_surf == NULL) {
-        SDL_Log("Erreur lors de la création de la surface temporaire pour la barre de menu : %s", SDL_GetError());
+        SDL_Log("Error creating menu bar surface: %s", SDL_GetError());
         return;
     }
 
@@ -16,59 +17,63 @@ void drawMenuBar() {
     char scoreText[20];
     snprintf(scoreText, sizeof(scoreText), "Score: %d", score);
 
+    char livesText[20];
+    snprintf(livesText, sizeof(livesText), "Lives: %d", lives);
+
     int scoreX = 20;
-    int scoreY = 20; 
-    
+    int scoreY = 20;
+    int livesX = win_surf->w - 100;
+    int livesY = 20;
+
+    // Draw score
     for (int i = 0; scoreText[i] != '\0'; i++) {
         char currentDigit = scoreText[i];
-
         SDL_Rect srcRect;
         switch (currentDigit) {
-            case '0':
-                srcRect = zero;
-                break;
-            case '1':
-                srcRect = un;
-                break;
-            case '2':
-                srcRect = deux;
-                break;
-            case '3':
-                srcRect = trois;
-                break;
-            case '4':
-                srcRect = quatre;
-                break;
-            case '5':
-                srcRect = cinq;
-                break;
-            case '6':
-                srcRect = six;
-                break;
-            case '7':
-                srcRect = sept;
-                break;
-            case '8':
-                srcRect = huit;
-                break;
-            case '9':
-                srcRect = neuf;
-                break;
-            default:
-                continue;
+            case '0': srcRect = zero; break;
+            case '1': srcRect = un; break;
+            case '2': srcRect = deux; break;
+            case '3': srcRect = trois; break;
+            case '4': srcRect = quatre; break;
+            case '5': srcRect = cinq; break;
+            case '6': srcRect = six; break;
+            case '7': srcRect = sept; break;
+            case '8': srcRect = huit; break;
+            case '9': srcRect = neuf; break;
+            default: continue;
         }
-        
         SDL_Rect dstRect = {scoreX, scoreY, 100, 100};
-
         SDL_BlitSurface(plancheSpritesAscii, &srcRect, win_surf, &dstRect);
-
-        SDL_UpdateWindowSurface(pWindow);
-
-        scoreX += srcRect.w;        
+        scoreX += srcRect.w;
     }
+
+    // Draw lives
+    for (int i = 0; livesText[i] != '\0'; i++) {
+        char currentDigit = livesText[i];
+        SDL_Rect srcRect;
+        switch (currentDigit) {
+            case '0': srcRect = zero; break;
+            case '1': srcRect = un; break;
+            case '2': srcRect = deux; break;
+            case '3': srcRect = trois; break;
+            case '4': srcRect = quatre; break;
+            case '5': srcRect = cinq; break;
+            case '6': srcRect = six; break;
+            case '7': srcRect = sept; break;
+            case '8': srcRect = huit; break;
+            case '9': srcRect = neuf; break;
+            default: continue;
+        }
+        SDL_Rect dstRect = {livesX, livesY, 100, 100};
+        SDL_BlitSurface(plancheSpritesAscii, &srcRect, win_surf, &dstRect);
+        livesX += srcRect.w;
+    }
+
+    SDL_UpdateWindowSurface(pWindow);
 }
 
-void drawGame() {
+
+void drawGame(TTF_Font* font) {
 
     SDL_Surface* menu_surf = SDL_CreateRGBSurface(0, win_surf->w, MENU_HEIGHT, 32, 0, 0, 0, 0);
     if (menu_surf == NULL) {
@@ -96,6 +101,12 @@ void drawGame() {
     SDL_RenderFillRect(renderer, &block);
 
     drawBricks(win_surf);
+
+     if (currentState == WAITING_TO_RESTART) {
+        drawWaitingMessage(win_surf, font);
+    } else if (currentState == GAME_OVER) {
+        drawGameOverMessage(win_surf, font);
+    }
 
     SDL_UpdateWindowSurface(pWindow);
 }
@@ -155,4 +166,43 @@ void drawBricks(SDL_Surface* win_surf) {
             }
         }
     }
+}
+
+void renderText(SDL_Surface* surface, const char* message, int x, int y, TTF_Font* font) {
+    SDL_Color color = {255, 255, 255}; 
+    SDL_Surface* textSurface = TTF_RenderText_Solid(font, message, color);
+    if (textSurface == NULL) {
+        SDL_Log("TTF_RenderText_Solid Error: %s", TTF_GetError());
+        return;
+    }
+
+    SDL_Rect textRect = {x, y, textSurface->w, textSurface->h};
+    SDL_BlitSurface(textSurface, NULL, surface, &textRect);
+    SDL_FreeSurface(textSurface);
+}
+
+int getTextWidth(TTF_Font* font, const char* message) {
+    int textWidth;
+    TTF_SizeText(font, message, &textWidth, NULL);
+    return textWidth;
+}
+
+int getTextHeight(TTF_Font* font, const char* message) {
+    int textHeight;
+    TTF_SizeText(font, message, NULL, &textHeight);
+    return textHeight;
+}
+
+void drawWaitingMessage(SDL_Surface* surface, TTF_Font* font) {
+    const char* message = "Press space to continue playing";
+    int x = (surface->w - getTextWidth(font, message)) / 2;
+    int y = (surface->h - getTextHeight(font, message)) / 2;
+    renderText(surface, message, x, y, font);
+}
+
+void drawGameOverMessage(SDL_Surface* surface, TTF_Font* font) {
+    const char* message = "Game Over! Press SPACE !";
+    int x = (surface->w - getTextWidth(font, message)) / 2;
+    int y = (surface->h - getTextHeight(font, message)) / 2;
+    renderText(surface, message, x, y, font);
 }

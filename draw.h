@@ -17,6 +17,7 @@ int getTextHeight(TTF_Font* font, const char* message);
 void drawWaitingMessage(SDL_Surface* surface, TTF_Font* font);
 void drawGame(TTF_Font* font); 
 void drawGameOverMessage(SDL_Surface* surface, TTF_Font* font);
+void drawScoreAndLives(SDL_Surface* surface, TTF_Font* font, int score, int lives); 
 
 
 #endif

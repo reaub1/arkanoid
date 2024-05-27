@@ -26,6 +26,7 @@ void drawMenuBar() {
     int livesY = 20;
 
     // Draw score
+    /*
     for (int i = 0; scoreText[i] != '\0'; i++) {
         char currentDigit = scoreText[i];
         SDL_Rect srcRect;
@@ -46,8 +47,10 @@ void drawMenuBar() {
         SDL_BlitSurface(plancheSpritesAscii, &srcRect, win_surf, &dstRect);
         scoreX += srcRect.w;
     }
+    */
 
     // Draw lives
+    /*
     for (int i = 0; livesText[i] != '\0'; i++) {
         char currentDigit = livesText[i];
         SDL_Rect srcRect;
@@ -68,7 +71,10 @@ void drawMenuBar() {
         SDL_BlitSurface(plancheSpritesAscii, &srcRect, win_surf, &dstRect);
         livesX += srcRect.w;
     }
+    */
 
+    SDL_BlitSurface(menu_surf, NULL, win_surf, &menuRect);
+    SDL_FreeSurface(menu_surf);
     SDL_UpdateWindowSurface(pWindow);
 }
 
@@ -102,7 +108,11 @@ void drawGame(TTF_Font* font) {
 
     drawBricks(win_surf);
 
-     if (currentState == WAITING_TO_RESTART) {
+    if (currentState == GAME || currentState == WAITING_TO_RESTART) {
+        drawScoreAndLives(win_surf, font, score, lives);
+    }
+
+    if (currentState == WAITING_TO_RESTART) {
         drawWaitingMessage(win_surf, font);
     } else if (currentState == GAME_OVER) {
         drawGameOverMessage(win_surf, font);
@@ -205,4 +215,14 @@ void drawGameOverMessage(SDL_Surface* surface, TTF_Font* font) {
     int x = (surface->w - getTextWidth(font, message)) / 2;
     int y = (surface->h - getTextHeight(font, message)) / 2;
     renderText(surface, message, x, y, font);
+}
+
+void drawScoreAndLives(SDL_Surface* surface, TTF_Font* font, int score, int lives) {
+    char scoreText[20];
+    snprintf(scoreText, sizeof(scoreText), "Score: %d", score);
+    renderText(surface, scoreText, 20, 10, font);
+
+    char livesText[20];
+    snprintf(livesText, sizeof(livesText), "Lives: %d", lives);
+    renderText(surface, livesText, surface->w - 120, 10, font);
 }

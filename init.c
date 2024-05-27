@@ -69,16 +69,17 @@ void initGame() {
     SDL_SetColorKey(plancheSpritesBricks, SDL_TRUE, 0);
 
     plancheSpritesAscii = SDL_LoadBMP("./Arkanoid_ascii.bmp");
-    if(plancheSpritesAscii == NULL) {
+    if(plancheSpritesBricks == NULL) {
         SDL_Log("Erreur lors du chargement de Arkanoid_ascii.bmp : %s", SDL_GetError());
         SDL_DestroyWindow(pWindow);
         SDL_Quit();
         exit(1);
     }
-
+    //SDL_SetColorKey(plancheSpritesAscii, SDL_TRUE, 0);
+    
     ball.x = win_surf->w / 2;
     ball.y = win_surf->h / 2;
-    ball.vx = 0.1;
+    ball.vx = 0.14;
     ball.vy = 0.14;
 
     x_vault = win_surf->w / 2;
@@ -225,3 +226,5 @@ void readTextFile(const char* filename, char array[MAX_ROWS][MAX_COLS + 1]) {
 
     fclose(file);
 }
+
+

@@ -17,12 +17,15 @@ int main(int argc, char** argv) {
 
     if (TTF_Init() == -1) {
         SDL_Log("TTF_Init Error: %s", TTF_GetError());
+        SDL_Quit();
         return 1;
     }
 
     TTF_Font* font = TTF_OpenFont("../arkanoid/Outwrite.ttf", 24);
     if (!font) {
         SDL_Log("TTF_OpenFont Error: %s", TTF_GetError());
+        TTF_Quit();
+        SDL_Quit();
         return 1;
     }
 
@@ -36,14 +39,15 @@ int main(int argc, char** argv) {
                 break;
             case GAME:
                 updateGame();
-                drawGame(font);
+                drawGame(font); 
                 break;
             case WAITING_TO_RESTART:
                 drawGame(font);
-                drawWaitingMessage(win_surf, font);
-                SDL_UpdateWindowSurface(pWindow);  
+                SDL_UpdateWindowSurface(pWindow); 
                 break;
             case GAME_OVER:
+                drawGame(font); 
+                SDL_UpdateWindowSurface(pWindow); 
                 break;
         }
         quit = processInput();
@@ -52,6 +56,6 @@ int main(int argc, char** argv) {
 
     TTF_CloseFont(font);
     TTF_Quit();
-    SDL_Quit();
+    
     return 0;
 }

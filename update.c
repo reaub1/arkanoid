@@ -72,7 +72,6 @@ bool processInput() {
                 }
             } else if (currentState == WAITING_TO_RESTART) {
                 if (event.key.keysym.sym == SDLK_SPACE) {
-                    // Reset ball position and state
                     ball.x = win_surf->w / 2;
                     ball.y = win_surf->h / 2;
                     ball.vx = 0.1;
@@ -81,13 +80,8 @@ bool processInput() {
                 }
             } else if (currentState == GAME_OVER) {
                 if (event.key.keysym.sym == SDLK_SPACE) {
-                    // Reset game state
-                    score = 0;
-                    lives = 3;
-                    level = 1;
-                    turn = 0;
+                    resetGame();
                     currentState = MENU;
-                    initGame();
                 }
             } else if (event.key.keysym.sym == SDLK_ESCAPE) {
                 return true;

@@ -19,8 +19,7 @@ void updateGame() {
     prev = now;
     now = SDL_GetPerformanceCounter();
     delta_t = (double)(now - prev) / SDL_GetPerformanceFrequency();
-    
-    //printf("delta time value : %f\n", delta_t);
+
     //printf("fps : %f\n", 1/delta_t);
 
     ball.x += ball.vx * delta_t;
@@ -54,7 +53,7 @@ void updateGame() {
             x_vault -= 1000 * delta_t;
         }
     if (keys[SDL_SCANCODE_RIGHT])
-        if(x_vault < win_surf->w - 100){
+        if(x_vault < win_surf->w - 140){
             x_vault += 1000 * delta_t;
         }
 

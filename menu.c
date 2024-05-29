@@ -42,8 +42,8 @@ void showMenu(SDL_Window* window) {
         SDL_FillRect(surface, &buttonRect, SDL_MapRGB(surface->format, blackColor.r, blackColor.g, blackColor.b));
     }
 
-    const char* words[numButtons] = {"easy", "medium", "hard"};
-    int wordLengths[numButtons] = {4, 6, 4};
+    const char* words[3] = {"easy", "medium", "hard"};
+    int wordLengths[3] = {4, 6, 4};
     int wordX[numButtons];
     for (int i = 0; i < numButtons; i++) {
         wordX[i] = (windowWidth - wordLengths[i] * LETTER_SPRITE_WIDTH) / 2;

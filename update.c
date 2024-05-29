@@ -21,7 +21,7 @@ void updateGame() {
     delta_t = (double)(now - prev) / SDL_GetPerformanceFrequency();
     
     //printf("delta time value : %f\n", delta_t);
-    printf("fps : %f\n", 1/delta_t);
+    //printf("fps : %f\n", 1/delta_t);
 
     ball.x += ball.vx * delta_t;
     ball.y += ball.vy * delta_t;

@@ -10,12 +10,18 @@ bool firstTurn = true;
 
 void updateGame() {
 
-    //printf("%f\n", delta_t);
-
     if(firstTurn){
-        prev = SDL_GetPerformanceCounter();
+        prev = SDL_GetPerformanceCounter();;
         firstTurn = false;
+        now = prev;
     }
+
+    prev = now;
+    now = SDL_GetPerformanceCounter();
+    delta_t = (double)(now - prev) / SDL_GetPerformanceFrequency();
+    
+    //printf("delta time value : %f\n", delta_t);
+    printf("fps : %f\n", 1/delta_t);
 
     ball.x += ball.vx * delta_t;
     ball.y += ball.vy * delta_t;
@@ -51,11 +57,8 @@ void updateGame() {
         if(x_vault < win_surf->w - 100){
             x_vault += 1000 * delta_t;
         }
-    now = SDL_GetPerformanceCounter();
 
-    delta_t = (double)(now - prev) / SDL_GetPerformanceFrequency();
-    prev = now;
-    printf("delta time value : %f\n", delta_t);
+    SDL_Delay((Uint32)1000/60);
 }
 
 bool processInput() {

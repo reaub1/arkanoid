@@ -106,53 +106,9 @@ void drawBricks(SDL_Surface* win_surf) {
             if (!bricks[i][j].active) {
                 continue;
             }
-
-            if (turn % 20 == 0) {
-                SDL_Rect* currentColor = &bricks[i][j].color;
-                SDL_Surface* brickSurface = plancheSpritesBricks;
-
-                if (SDL_RectEquals(currentColor, &goldbrick1)) {
-                    *currentColor = goldbrick2;
-                } else if (SDL_RectEquals(currentColor, &goldbrick2)) {
-                    *currentColor = goldbrick3;
-                } else if (SDL_RectEquals(currentColor, &goldbrick3)) {
-                    *currentColor = goldbrick4;
-                } else if (SDL_RectEquals(currentColor, &goldbrick4)) {
-                    *currentColor = goldbrick5;
-                } else if (SDL_RectEquals(currentColor, &goldbrick5)) {
-                    *currentColor = goldbrick6;
-                } else if (SDL_RectEquals(currentColor, &goldbrick6)) {
-                    *currentColor = goldbrick1;
-                } else if (SDL_RectEquals(currentColor, &silverbrick1)) {
-                    *currentColor = silverbrick2;
-                } else if (SDL_RectEquals(currentColor, &silverbrick2)) {
-                    *currentColor = silverbrick3;
-                } else if (SDL_RectEquals(currentColor, &silverbrick3)) {
-                    *currentColor = silverbrick4;
-                } else if (SDL_RectEquals(currentColor, &silverbrick4)) {
-                    *currentColor = silverbrick5;
-                } else if (SDL_RectEquals(currentColor, &silverbrick5)) {
-                    *currentColor = silverbrick6;
-                } else if (SDL_RectEquals(currentColor, &silverbrick6)) {
-                    *currentColor = silverbrick1;
-                } else if (SDL_RectEquals(currentColor, &ball1)) {
-                    *currentColor = ball2;
-                } else if (SDL_RectEquals(currentColor, &ball2)) {
-                    *currentColor = ball3;
-                } else if (SDL_RectEquals(currentColor, &ball3)) {
-                    *currentColor = ball4;
-                } else if (SDL_RectEquals(currentColor, &ball4)) {
-                    *currentColor = ball5;
-                } else if (SDL_RectEquals(currentColor, &ball5)) {
-                    *currentColor = ball6;
-                } else if (SDL_RectEquals(currentColor, &ball6)) {
-                    *currentColor = ball1;
-                }
-
-                SDL_BlitSurface(brickSurface, currentColor, win_surf, &bricks[i][j].rect);
-            } else {
-                SDL_BlitSurface(plancheSpritesBricks, &bricks[i][j].color, win_surf, &bricks[i][j].rect);
-            }
+            SDL_Rect* currentColor = &bricks[i][j].color;
+            SDL_Surface* brickSurface = plancheSpritesBricks;
+            SDL_BlitSurface(brickSurface, currentColor, win_surf, &bricks[i][j].rect);            
         }
     }
 }

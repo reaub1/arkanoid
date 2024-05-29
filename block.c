@@ -149,7 +149,6 @@ SDL_Rect player6 = {416, 96, BRICK_SPRITE_WIDTH, BRICK_SPRITE_HEIGHT};
 SDL_Rect player7 = {448, 96, BRICK_SPRITE_WIDTH, BRICK_SPRITE_HEIGHT};
 SDL_Rect player8 = {480, 96, BRICK_SPRITE_WIDTH, BRICK_SPRITE_HEIGHT};
 
-
 SDL_Rect nasser1 = {0, 256, BOX_WIDTH, BOX_HEIGHT};
 SDL_Rect nasser2 = {32, 256, BOX_WIDTH, BOX_HEIGHT};
 SDL_Rect nasser3 = {64, 256, BOX_WIDTH, BOX_HEIGHT};
@@ -203,13 +202,6 @@ SDL_Rect explosion4 = {96, 384, BOX_WIDTH, BOX_HEIGHT};
 SDL_Rect explosion5 = {128, 384, BOX_WIDTH, BOX_HEIGHT};
 SDL_Rect explosion6 = {160, 384, BOX_WIDTH, BOX_HEIGHT};
 
-SDL_Rect explosion1 = {0, 384, BOX_WIDTH, BOX_HEIGHT};
-SDL_Rect explosion2 = {32, 384, BOX_WIDTH, BOX_HEIGHT};
-SDL_Rect explosion3 = {64, 384, BOX_WIDTH, BOX_HEIGHT};
-SDL_Rect explosion4 = {96, 384, BOX_WIDTH, BOX_HEIGHT};
-SDL_Rect explosion5 = {128, 384, BOX_WIDTH, BOX_HEIGHT};
-SDL_Rect explosion6 = {160, 384, BOX_WIDTH, BOX_HEIGHT};
-
 SDL_Rect paddle1 = {128, 384, 64, PADDLE_SPRITE_HEIGHT};
 SDL_Rect paddle2 = {144, 384, 74, PADDLE_SPRITE_HEIGHT};
 SDL_Rect paddle3 = {160, 384, 82, PADDLE_SPRITE_HEIGHT};
@@ -219,5 +211,5 @@ SDL_Rect paddle6 = {208, 384, 108, PADDLE_SPRITE_HEIGHT};
 SDL_Rect paddle7 = {224, 384, 118, PADDLE_SPRITE_HEIGHT};
 SDL_Rect paddle8 = {240, 384, 128, PADDLE_SPRITE_HEIGHT};
 
-SDL_Rect laser1 = {0, 79, 14, 21};
-SDL_Rect laser2 = {17, 79, 14, 21};
+SDL_Rect laserShoot1 = {0, 79, 14, 21};
+SDL_Rect laserShoot2 = {17, 79, 14, 21};

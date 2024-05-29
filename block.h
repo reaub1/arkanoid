@@ -283,7 +283,7 @@ extern SDL_Rect paddle6;
 extern SDL_Rect paddle7;
 extern SDL_Rect paddle8;
 
-extern SDL_Rect laser1;
-extern SDL_Rect laser2;
+extern SDL_Rect laserShoot1;
+extern SDL_Rect laserShoot2;
 
 #endif

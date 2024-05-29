@@ -153,7 +153,58 @@ extern SDL_Rect player6;
 extern SDL_Rect player7;
 extern SDL_Rect player8;
 
+extern SDL_Rect nasser1;
+extern SDL_Rect nasser2;
+extern SDL_Rect nasser3;
+extern SDL_Rect nasser4;
+extern SDL_Rect nasser5;
+extern SDL_Rect nasser6;
+extern SDL_Rect nasser7;
+extern SDL_Rect nasser8;
 
+extern SDL_Rect farah1;
+extern SDL_Rect farah2;
+extern SDL_Rect farah3;
+extern SDL_Rect farah4;
+extern SDL_Rect farah5;
+extern SDL_Rect farah6;
+extern SDL_Rect farah7;
+extern SDL_Rect farah8;
+extern SDL_Rect farah9;
+extern SDL_Rect farah10;
+extern SDL_Rect farah11;
+
+extern SDL_Rect leyna1;
+extern SDL_Rect leyna2;
+extern SDL_Rect leyna3;
+extern SDL_Rect leyna4;
+extern SDL_Rect leyna5;
+extern SDL_Rect leyna6;
+extern SDL_Rect leyna7;
+extern SDL_Rect leyna8;
+extern SDL_Rect leyna9;
+extern SDL_Rect leyna10;
+extern SDL_Rect leyna11;
+extern SDL_Rect leyna12;
+extern SDL_Rect leyna13;
+extern SDL_Rect leyna14;
+extern SDL_Rect leyna15;
+extern SDL_Rect leyna16;
+extern SDL_Rect leyna17;
+extern SDL_Rect leyna18;
+extern SDL_Rect leyna19;
+extern SDL_Rect leyna20;
+extern SDL_Rect leyna21;
+extern SDL_Rect leyna22;
+extern SDL_Rect leyna23;
+extern SDL_Rect leyna24;
+
+extern SDL_Rect explosion1;
+extern SDL_Rect explosion2;
+extern SDL_Rect explosion3;
+extern SDL_Rect explosion4;
+extern SDL_Rect explosion5;
+extern SDL_Rect explosion6;
 
 
 #endif

@@ -210,11 +210,14 @@ SDL_Rect explosion4 = {96, 384, BOX_WIDTH, BOX_HEIGHT};
 SDL_Rect explosion5 = {128, 384, BOX_WIDTH, BOX_HEIGHT};
 SDL_Rect explosion6 = {160, 384, BOX_WIDTH, BOX_HEIGHT};
 
-extern SDL_Rect paddle1 = {128, 384, 64, PADDLE_SPRITE_HEIGHT};
-extern SDL_Rect paddle2 = {144, 384, 74, PADDLE_SPRITE_HEIGHT};
-extern SDL_Rect paddle3 = {160, 384, 82, PADDLE_SPRITE_HEIGHT};
-extern SDL_Rect paddle4 = {176, 384, 90, PADDLE_SPRITE_HEIGHT};
-extern SDL_Rect paddle5 = {192, 384, 98, PADDLE_SPRITE_HEIGHT};
-extern SDL_Rect paddle6 = {208, 384, 108, PADDLE_SPRITE_HEIGHT};
-extern SDL_Rect paddle7 = {224, 384, 118, PADDLE_SPRITE_HEIGHT};
-extern SDL_Rect paddle8 = {240, 384, 128, PADDLE_SPRITE_HEIGHT};
+SDL_Rect paddle1 = {128, 384, 64, PADDLE_SPRITE_HEIGHT};
+SDL_Rect paddle2 = {144, 384, 74, PADDLE_SPRITE_HEIGHT};
+SDL_Rect paddle3 = {160, 384, 82, PADDLE_SPRITE_HEIGHT};
+SDL_Rect paddle4 = {176, 384, 90, PADDLE_SPRITE_HEIGHT};
+SDL_Rect paddle5 = {192, 384, 98, PADDLE_SPRITE_HEIGHT};
+SDL_Rect paddle6 = {208, 384, 108, PADDLE_SPRITE_HEIGHT};
+SDL_Rect paddle7 = {224, 384, 118, PADDLE_SPRITE_HEIGHT};
+SDL_Rect paddle8 = {240, 384, 128, PADDLE_SPRITE_HEIGHT};
+
+SDL_Rect laser1 = {0, 79, 14, 21};
+SDL_Rect laser2 = {17, 79, 14, 21};

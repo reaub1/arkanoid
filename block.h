@@ -206,5 +206,14 @@ extern SDL_Rect explosion4;
 extern SDL_Rect explosion5;
 extern SDL_Rect explosion6;
 
+extern SDL_Rect paddle1;
+extern SDL_Rect paddle2;
+extern SDL_Rect paddle3;
+extern SDL_Rect paddle4;
+extern SDL_Rect paddle5;
+extern SDL_Rect paddle6;
+extern SDL_Rect paddle7;
+extern SDL_Rect paddle8;
+
 
 #endif

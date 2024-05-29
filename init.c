@@ -85,114 +85,120 @@ void initGame() {
 }
 
 void initBricks() {
-    int startX = 0;
-    int startY = 0;
-
-    bool active = true;
-    bool isDestructible = true;
-    bool update = false;
-    int points = 0;
-    BrickType type = NORMAL_BRICK;
-    int powerUp = 0;
-    int life = 1;
+    // Clear the bricks array
+    memset(bricks, 0, sizeof(bricks));
 
     char level[MAX_ROWS][MAX_COLS + 1];
-    readTextFile("./level/lvl3.txt", level);
+    readTextFile("./level/lvl3.txt", level, '#');
 
     for (int i = 0; i < MAX_ROWS; i++) {
         for (int j = 0; j < MAX_COLS; j++) {
-            SDL_Rect color;
-            active = true;
-            isDestructible = true;
-            points = 0;
+            SDL_Rect color = {0};
+            bool active = true;
+            bool isDestructible = true;
+            bool update = false;
+            int points = 0;
+            int powerUp = 0;
+            int life = 1;
+            int type = 0; // Assuming NORMAL_BRICK is 0
 
-            switch (level[i][j]) {
-                case 'r':
-                    color = redbrick;
-                    points = 90;
-                    break;
-                case 'o':
-                    color = orangebrick;
-                    points = 60;
-                    break;
-                case 'w':
-                    color = whitebrick;
-                    points = 50;
-                    break;
-                case 'b':
-                    color = bluebrick;
-                    break;
-                case 'm':
-                    color = magentabrick;
-                    break;
-                case 'l':
-                    color = bluelightbrick;
-                    points = 70;
-                    break;
-                case 'g':
-                    color = greenbrick;
-                    points = 80;
-                    break;
-                case 'n':
-                    color = navybrick;
-                    points = 100;
-                    break;
-                case 'd':
-                    color = darkgreenbrick;
-                    break;
-                case 'p':
-                    color = pinkbrick;
-                    points = 110;
-                    break;
-                case 'y':
-                    color = yellowbrick;
-                    points = 120;
-                    break;
-                case 'f':
-                    color = darkredbrick;
-                    break;
-                case 's':
-                    color = silverbrick1;
-                    life = 3;
-                    type = SPECIAL_BRICK;
-                    break;
-                case 'z':
-                    color = goldbrick1;
-                    isDestructible = false;
-                    update = true;
-                    type = SPECIAL_BRICK;
-                    break;
-                case 'q':
-                    color = ball1;
-                    break;
-                default:
-                    color = whitebrick;
-                    active = false;
+            if (level[i][j] == '\0' || level[i][j] == '#') {
+                active = false;
+            } else {
+                switch (level[i][j]) {
+                    case 'r':
+                        color = redbrick;
+                        points = 90;
+                        break;
+                    case 'o':
+                        color = orangebrick;
+                        points = 60;
+                        break;
+                    case 'w':
+                        color = whitebrick;
+                        points = 50;
+                        break;
+                    case 'b':
+                        color = bluebrick;
+                        break;
+                    case 'm':
+                        color = magentabrick;
+                        break;
+                    case 'l':
+                        color = bluelightbrick;
+                        points = 70;
+                        break;
+                    case 'g':
+                        color = greenbrick;
+                        points = 80;
+                        break;
+                    case 'n':
+                        color = navybrick;
+                        points = 100;
+                        break;
+                    case 'd':
+                        color = darkgreenbrick;
+                        break;
+                    case 'p':
+                        color = pinkbrick;
+                        points = 110;
+                        break;
+                    case 'y':
+                        color = yellowbrick;
+                        points = 120;
+                        break;
+                    case 'f':
+                        color = darkredbrick;
+                        break;
+                    case 's':
+                        color = silverbrick1;
+                        life = 3;
+                        type = 1; // Assuming SPECIAL_BRICK is 1
+                        break;
+                    case 'z':
+                        color = goldbrick1;
+                        isDestructible = false;
+                        update = true;
+                        type = 1; // Assuming SPECIAL_BRICK is 1
+                        break;
+                    case 'q':
+                        color = ball1;
+                        break;
+                    default:
+                        active = false;
+                        break;
+                }
             }
-            if(active){
-                bricks[i][j].rect.x = startX + j * BRICK_WIDTH;
-                bricks[i][j].rect.y = startY + i * BRICK_HEIGHT + MENU_HEIGHT;
-                bricks[i][j].rect.w = BRICK_WIDTH;
-                bricks[i][j].rect.h = BRICK_HEIGHT;
-                bricks[i][j].active = active;
-                bricks[i][j].color = color;
-                bricks[i][j].update = false;
-                bricks[i][j].life = life;
-                bricks[i][j].powerUp = powerUp;
-                bricks[i][j].type = type;
-            }
-            if(isDestructible){
-                bricks[i][j].isDestructible = true;
-            }
-            else{
-                bricks[i][j].isDestructible = false;
-            }
+
+            bricks[i][j].rect.x = j * BRICK_WIDTH;
+            bricks[i][j].rect.y = i * BRICK_HEIGHT + MENU_HEIGHT;
+            bricks[i][j].rect.w = BRICK_WIDTH;
+            bricks[i][j].rect.h = BRICK_HEIGHT;
+            bricks[i][j].active = active;
+            bricks[i][j].color = color;
+            bricks[i][j].update = update;
+            bricks[i][j].life = life;
+            bricks[i][j].powerUp = powerUp;
+            bricks[i][j].type = type;
+            bricks[i][j].isDestructible = isDestructible;
             bricks[i][j].points = points;
+
+            // Logging for debugging
+            if (active) {
+                printf("Brick at (%d, %d): Active: %d, Color: (%d, %d, %d, %d), Points: %d\n",
+                       i, j, active, color.x, color.y, color.w, color.h, points);
+            }
         }
     }
 }
 
-void readTextFile(const char* filename, char array[MAX_ROWS][MAX_COLS + 1]) {
+
+
+
+void readTextFile(const char* filename, char array[MAX_ROWS][MAX_COLS + 1], char endChar) {
+    // Clear the level array
+    memset(array, '\0', sizeof(char) * MAX_ROWS * (MAX_COLS + 1));
+
     FILE* file = fopen(filename, "r");
     if (file == NULL) {
         printf("Erreur: Impossible d'ouvrir le fichier %s\n", filename);
@@ -200,16 +206,20 @@ void readTextFile(const char* filename, char array[MAX_ROWS][MAX_COLS + 1]) {
     }
 
     int row = 0;
-    char line[MAX_COLS + 2];
+    char line[MAX_COLS + 2]; // +2 to handle '\n' and '\0'
 
     while (fgets(line, sizeof(line), file) != NULL) {
+        if (line[0] == endChar) {
+            break;
+        }
+
         if (row >= MAX_ROWS) {
             printf("Avertissement: Nombre de lignes dépasse la limite, seules les %d premières lignes seront lues.\n", MAX_ROWS);
             break;
         }
 
         int col = 0;
-        for (int i = 0; line[i] != '\0'; i++) {
+        for (int i = 0; line[i] != '\0' && line[i] != '\n'; i++) {
             if (col >= MAX_COLS) {
                 printf("Avertissement: Nombre de colonnes dépasse la limite, seules les %d premières colonnes seront lues pour la ligne %d.\n", MAX_COLS, row + 1);
                 break;
@@ -218,6 +228,7 @@ void readTextFile(const char* filename, char array[MAX_ROWS][MAX_COLS + 1]) {
             col++;
         }
         array[row][col] = '\0';
+        printf("Loaded line %d: %s\n", row, array[row]);
         row++;
     }
 

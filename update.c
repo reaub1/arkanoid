@@ -17,8 +17,8 @@ void updateGame() {
         firstTurn = false;
     }
 
-    ball.x += ball.vx *delta_t;
-    ball.y += ball.vy *delta_t;
+    ball.x += ball.vx * delta_t;
+    ball.y += ball.vy * delta_t;
 
     if ((ball.x < 1) || (ball.x > (win_surf->w - 25)))
         ball.vx *= -1;
@@ -45,17 +45,17 @@ void updateGame() {
     const Uint8* keys = SDL_GetKeyboardState(NULL);
     if (keys[SDL_SCANCODE_LEFT])
         if(x_vault > 0){
-            x_vault -= 0.1;
+            x_vault -= 10;
         }
     if (keys[SDL_SCANCODE_RIGHT])
         if(x_vault < win_surf->w - 100){
-            x_vault += 1;
+            x_vault += 10;
         }
     now = SDL_GetPerformanceCounter();
-    delta_t = 1.0 / FPS - ((double)(now - prev) / SDL_GetPerformanceFrequency()*1000);
+    //delta_t = 1.0 / FPS - ((double)(now - prev) / SDL_GetPerformanceFrequency()*1000);
+    delta_t = (double)(now - prev) / SDL_GetPerformanceFrequency();
     prev = now;
-    if (delta_t > 0)
-        SDL_Delay((Uint32)(delta_t * 1000));
+    printf("delta time value : %f\n", delta_t);
 }
 
 bool processInput() {

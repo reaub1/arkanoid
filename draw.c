@@ -119,6 +119,10 @@ void drawPowerUps(SDL_Surface* win_surf) {
         if (!powerUps[i].surface.w) {
             continue;
         }
-        SDL_BlitSurface(plancheSpritesBricks, &powerUps[i].surface, win_surf, &powerUps[i].surface);
+        printf("i:%dx:%d; y:%d\n",i, powerUps[i].x, powerUps[i].y);
+
+        SDL_Rect dstPowerUp = { powerUps[i].x, powerUps[i].y + MENU_HEIGHT, 16, 32 };
+
+        SDL_BlitSurface(plancheSpritesBricks, &powerUps[i].surface, win_surf, &dstPowerUp);
     }
 }

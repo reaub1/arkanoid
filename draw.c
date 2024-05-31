@@ -119,7 +119,6 @@ void drawPowerUps(SDL_Surface* win_surf) {
         if (!powerUps[i].surface.w) {
             continue;
         }
-        printf("i:%dx:%d; y:%d\n",i, powerUps[i].x, powerUps[i].y);
 
         SDL_Rect dstPowerUp = { powerUps[i].x, powerUps[i].y + MENU_HEIGHT, 16, 32 };
 

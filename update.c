@@ -189,15 +189,18 @@ void generatePowerUp(int powerUp, int x, int y){
         }
     }
 }
-
 void updatePowerUps(){
+    const float TIME_RESET = 0.1;
+
     for (int i = 0; i < POWERUPS_MAX; i++){
         if(powerUps[i].surface.w != 0){
             powerUps[i].y += powerUps[i].vy * delta_t;
-            printf("powerUp y : %d\n", powerUps[i].y);
+
             if(powerUps[i].y > win_surf->h){
                 powerUps[i].surface.w = 0;
+                continue; // Skip to the next power-up since this one is now inactive
             }
+
             powerUps[i].time -= delta_t;
             if(powerUps[i].time < 0){
                 switch (powerUps[i].state)
@@ -205,36 +208,31 @@ void updatePowerUps(){
                 case 1:
                     powerUps[i].surface = slow2;
                     powerUps[i].state = 2;
-                    powerUps[i].time = 0.1;
                     break;
                 case 2:
                     powerUps[i].surface = slow3;
                     powerUps[i].state = 3;
-                    powerUps[i].time = 0.1;
                     break;
                 case 3:
                     powerUps[i].surface = slow4;
                     powerUps[i].state = 4;
-                    powerUps[i].time = 0.1;
                     break;
                 case 4:
                     powerUps[i].surface = slow5;
                     powerUps[i].state = 5;
-                    powerUps[i].time = 0.1;
                     break;
                 case 5:
                     powerUps[i].surface = slow6;
                     powerUps[i].state = 6;
-                    powerUps[i].time = 0.1;
                     break;
                 case 6:
                     powerUps[i].surface = slow1;
                     powerUps[i].state = 1;
-                    powerUps[i].time = 0.1;
                     break;
                 default:
                     break;
                 }
+                powerUps[i].time = TIME_RESET;
             }
         }
     }

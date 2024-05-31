@@ -155,6 +155,9 @@ void generatePowerUp(int powerUp, int x, int y){
     powerUpEntity.vx = 0;
     powerUpEntity.vy = 100;
 
+    powerUpEntity.state = 1;
+    powerUpEntity.time = 0.1;
+
 
     switch (powerUp){
         case 1:
@@ -194,6 +197,44 @@ void updatePowerUps(){
             printf("powerUp y : %d\n", powerUps[i].y);
             if(powerUps[i].y > win_surf->h){
                 powerUps[i].surface.w = 0;
+            }
+            powerUps[i].time -= delta_t;
+            if(powerUps[i].time < 0){
+                switch (powerUps[i].state)
+                {
+                case 1:
+                    powerUps[i].surface = slow2;
+                    powerUps[i].state = 2;
+                    powerUps[i].time = 0.1;
+                    break;
+                case 2:
+                    powerUps[i].surface = slow3;
+                    powerUps[i].state = 3;
+                    powerUps[i].time = 0.1;
+                    break;
+                case 3:
+                    powerUps[i].surface = slow4;
+                    powerUps[i].state = 4;
+                    powerUps[i].time = 0.1;
+                    break;
+                case 4:
+                    powerUps[i].surface = slow5;
+                    powerUps[i].state = 5;
+                    powerUps[i].time = 0.1;
+                    break;
+                case 5:
+                    powerUps[i].surface = slow6;
+                    powerUps[i].state = 6;
+                    powerUps[i].time = 0.1;
+                    break;
+                case 6:
+                    powerUps[i].surface = slow1;
+                    powerUps[i].state = 1;
+                    powerUps[i].time = 0.1;
+                    break;
+                default:
+                    break;
+                }
             }
         }
     }

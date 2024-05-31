@@ -78,6 +78,7 @@ bool processInput() {
 }
 
 void checkBallBrickCollision() {
+    updatePowerUps();
     for (int i = 0; i < BRICK_ROWS; i++) {
         for (int j = 0; j < BRICK_COLUMNS; j++) {
             SDL_Rect brick;
@@ -135,6 +136,7 @@ void checkBallBrickCollision() {
                     drawMenuBar();
                 }    
                 }
+                
                 return; 
             }
         }
@@ -159,19 +161,19 @@ void generatePowerUp(int powerUp, int x, int y){
             powerUpEntity.surface = slow1;
             break;
         case 2: 
-            powerUpEntity.surface = slow2;
+            powerUpEntity.surface = catch1;
             break;
         case 3: 
-            powerUpEntity.surface = slow3;
+            powerUpEntity.surface = expand1;
             break;
         case 4: 
-            powerUpEntity.surface = slow1;
+            powerUpEntity.surface = divide1;
             break;
         case 5:
-            powerUpEntity.surface = slow2;
+            powerUpEntity.surface = laser1;
             break;
         case 6:
-            powerUpEntity.surface = slow3;
+            powerUpEntity.surface = break1;
             break;
         default :
             printf("error in powerUp generation : the powerUp integer is not in acceptable value\n");
@@ -181,6 +183,18 @@ void generatePowerUp(int powerUp, int x, int y){
         if(powerUps[i].surface.w == 0){
             powerUps[i] = powerUpEntity;
             break;
+        }
+    }
+}
+
+void updatePowerUps(){
+    for (int i = 0; i < POWERUPS_MAX; i++){
+        if(powerUps[i].surface.w != 0){
+            powerUps[i].y += powerUps[i].vy * delta_t;
+            printf("powerUp y : %d\n", powerUps[i].y);
+            if(powerUps[i].y > win_surf->h){
+                powerUps[i].surface.w = 0;
+            }
         }
     }
 }

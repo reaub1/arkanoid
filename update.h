@@ -12,5 +12,6 @@ void updateGame();
 bool processInput();
 void checkBallBrickCollision();
 void generatePowerUp(int powerUp, int x, int y);
+void updatePowerUps();
 
 #endif

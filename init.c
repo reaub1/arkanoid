@@ -13,6 +13,7 @@ SDL_Rect scrVaiss = { 128, 0, 128, 32 };
 
 SDL_Renderer* renderer = NULL;
 Brick bricks[BRICK_ROWS][BRICK_COLUMNS] = {0};
+entities powerUps[POWERUPS_MAX] = {0};
 
 SDL_Rect block;
 
@@ -82,6 +83,11 @@ void initGame() {
     x_vault = win_surf->w / 2;
 
     initBricks();
+    initPowerUps();
+}
+
+void initPowerUps(){
+    memset(powerUps, 0, sizeof(powerUps));
 }
 
 void initBricks() {
@@ -187,6 +193,7 @@ void initBricks() {
             bricks[i][j].type = type;
             bricks[i][j].isDestructible = isDestructible;
             bricks[i][j].points = points;
+            bricks[i][j].transform = 0;
 
             // Logging for debugging
             if (active) {

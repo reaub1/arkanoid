@@ -10,6 +10,7 @@ void drawGame();
 void initBricks();
 void drawMenuBar();
 void drawBricks(SDL_Surface* win_surf);
+void drawPowerUps(SDL_Surface* win_surf);
 
 
 #endif

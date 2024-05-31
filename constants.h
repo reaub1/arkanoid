@@ -36,4 +36,6 @@
 
 #define MENU_HEIGHT 90
 
+#define POWERUPS_MAX 64
+
 #endif

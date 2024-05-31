@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include "constants.h"
 #include "game_state.h"
+#include "block.h"
 
 Uint64 prev, now;
 double delta_t = 0.0;  
@@ -123,6 +124,11 @@ void checkBallBrickCollision() {
                     }
 
                 if(bricks[i][j].isDestructible){
+                    printf("block destoyed with this powerup : %d\n", bricks[i][j].powerUp);
+                    if(bricks[i][j].powerUp != 0){
+                        printf("enter in the if statement: %d\n", bricks[i][j].powerUp);
+                        generatePowerUp(bricks[i][j].powerUp, brick.x, brick.y);
+                    }
                     bricks[i][j].active = false;
                     score += bricks[i][j].points;
                     //updateMenu
@@ -134,4 +140,49 @@ void checkBallBrickCollision() {
         }
     }
 }
+
+void generatePowerUp(int powerUp, int x, int y){
+
+    entities powerUpEntity;
+    powerUpEntity.x = x;
+    powerUpEntity.y = y;
+
+    powerUpEntity.h = 16;
+    powerUpEntity.w = 32;     
+
+    powerUpEntity.vx = 0;
+    powerUpEntity.vy = 100;
+
+
+    switch (powerUp){
+        case 1:
+            powerUpEntity.surface = slow1;
+            break;
+        case 2: 
+            powerUpEntity.surface = slow2;
+            break;
+        case 3: 
+            powerUpEntity.surface = slow3;
+            break;
+        case 4: 
+            powerUpEntity.surface = slow1;
+            break;
+        case 5:
+            powerUpEntity.surface = slow2;
+            break;
+        case 6:
+            powerUpEntity.surface = slow3;
+            break;
+        default :
+            printf("error in powerUp generation : the powerUp integer is not in acceptable value\n");
+            break;
+    }
+    for (int i = 0; i < POWERUPS_MAX; i++){
+        if(powerUps[i].surface.w == 0){
+            powerUps[i] = powerUpEntity;
+            break;
+        }
+    }
+}
+        
 

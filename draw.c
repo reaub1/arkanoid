@@ -54,6 +54,21 @@ void drawMenuBar() {
             case '9':
                 srcRect = neuf;
                 break;
+            case 'S':
+                srcRect = s;
+                break;
+            case 'c':
+                srcRect = c;
+                break;
+            case 'o':
+                srcRect = o;
+                break;
+            case 'r':
+                srcRect = r;
+                break;
+            case 'e':
+                srcRect = e;
+                break;
             default:
                 continue;
         }

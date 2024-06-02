@@ -13,6 +13,7 @@ SDL_Rect scrVaiss = { 128, 0, 128, 32 };
 
 SDL_Renderer* renderer = NULL;
 Brick bricks[BRICK_ROWS][BRICK_COLUMNS] = {0};
+entities powerUps[POWERUPS_MAX] = {0};
 
 SDL_Rect block;
 
@@ -29,7 +30,7 @@ void initGame() {
 
     currentState = MENU;
 
-    pWindow = SDL_CreateWindow("Arkanoid", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 600, 600, SDL_WINDOW_SHOWN);
+    pWindow = SDL_CreateWindow("Arkanoid", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 416, 600, SDL_WINDOW_SHOWN);
     if (pWindow == NULL) {
         SDL_Log("Erreur lors de la création de la fenêtre : %s", SDL_GetError());
         SDL_Quit();
@@ -66,7 +67,7 @@ void initGame() {
     SDL_SetColorKey(plancheSpritesBricks, SDL_TRUE, 0);
 
     plancheSpritesAscii = SDL_LoadBMP("./Arkanoid_ascii.bmp");
-    if(plancheSpritesBricks == NULL) {
+    if(plancheSpritesAscii == NULL) {
         SDL_Log("Erreur lors du chargement de Arkanoid_ascii.bmp : %s", SDL_GetError());
         SDL_DestroyWindow(pWindow);
         SDL_Quit();
@@ -82,14 +83,19 @@ void initGame() {
     x_vault = win_surf->w / 2;
 
     initBricks();
+    initPowerUps();
+}
+
+void initPowerUps(){
+    memset(powerUps, 0, sizeof(powerUps));
 }
 
 void initBricks() {
     // Clear the bricks array
     memset(bricks, 0, sizeof(bricks));
 
-    char level[MAX_ROWS][MAX_COLS + 1];
-    readTextFile("./level/lvl3.txt", level, '#');
+    char level[MAX_ROWS][MAX_COLS * 2 + 1];  // Adjusted to read two characters per column
+    readTextFile("./level/lvl4.txt", level, '#');
 
     for (int i = 0; i < MAX_ROWS; i++) {
         for (int j = 0; j < MAX_COLS; j++) {
@@ -102,10 +108,13 @@ void initBricks() {
             int life = 1;
             int type = 0; // Assuming NORMAL_BRICK is 0
 
-            if (level[i][j] == '\0' || level[i][j] == '#') {
+            char brickType = level[i][j * 2];      // First character for brick type
+            char brickPower = level[i][j * 2 + 1]; // Second character for brick power
+
+            if (brickType == '\0' || brickType == '#') {
                 active = false;
             } else {
-                switch (level[i][j]) {
+                switch (brickType) {
                     case 'r':
                         color = redbrick;
                         points = 90;
@@ -168,6 +177,8 @@ void initBricks() {
                         active = false;
                         break;
                 }
+
+                powerUp = brickPower - '0'; // Convert the power character to an integer (assuming '0' to '9')
             }
 
             bricks[i][j].rect.x = j * BRICK_WIDTH;
@@ -182,22 +193,20 @@ void initBricks() {
             bricks[i][j].type = type;
             bricks[i][j].isDestructible = isDestructible;
             bricks[i][j].points = points;
+            bricks[i][j].transform = 0;
 
             // Logging for debugging
             if (active) {
-                printf("Brick at (%d, %d): Active: %d, Color: (%d, %d, %d, %d), Points: %d\n",
-                       i, j, active, color.x, color.y, color.w, color.h, points);
+                printf("Brick at (%d, %d): Type: %c, Power: %d, Active: %d, Color: (%d, %d, %d, %d), Points: %d\n",
+                       i, j, brickType, powerUp, active, color.x, color.y, color.w, color.h, points);
             }
         }
     }
 }
 
-
-
-
-void readTextFile(const char* filename, char array[MAX_ROWS][MAX_COLS + 1], char endChar) {
+void readTextFile(const char* filename, char array[MAX_ROWS][MAX_COLS * 2 + 1], char endChar) {
     // Clear the level array
-    memset(array, '\0', sizeof(char) * MAX_ROWS * (MAX_COLS + 1));
+    memset(array, '\0', sizeof(char) * MAX_ROWS * (MAX_COLS * 2 + 1));
 
     FILE* file = fopen(filename, "r");
     if (file == NULL) {
@@ -206,7 +215,7 @@ void readTextFile(const char* filename, char array[MAX_ROWS][MAX_COLS + 1], char
     }
 
     int row = 0;
-    char line[MAX_COLS + 2]; // +2 to handle '\n' and '\0'
+    char line[MAX_COLS * 2 + 2]; // +2 to handle '\n' and '\0'
 
     while (fgets(line, sizeof(line), file) != NULL) {
         if (line[0] == endChar) {
@@ -219,13 +228,14 @@ void readTextFile(const char* filename, char array[MAX_ROWS][MAX_COLS + 1], char
         }
 
         int col = 0;
-        for (int i = 0; line[i] != '\0' && line[i] != '\n'; i++) {
-            if (col >= MAX_COLS) {
+        for (int i = 0; line[i] != '\0' && line[i] != '\n'; i += 2) { // Increment by 2 to read pairs of characters
+            if (col >= MAX_COLS * 2) {
                 printf("Avertissement: Nombre de colonnes dépasse la limite, seules les %d premières colonnes seront lues pour la ligne %d.\n", MAX_COLS, row + 1);
                 break;
             }
             array[row][col] = line[i];
-            col++;
+            array[row][col + 1] = line[i + 1];
+            col += 2;
         }
         array[row][col] = '\0';
         printf("Loaded line %d: %s\n", row, array[row]);

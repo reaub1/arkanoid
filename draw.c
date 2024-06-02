@@ -54,6 +54,21 @@ void drawMenuBar() {
             case '9':
                 srcRect = neuf;
                 break;
+            case 'S':
+                srcRect = s;
+                break;
+            case 'c':
+                srcRect = c;
+                break;
+            case 'o':
+                srcRect = o;
+                break;
+            case 'r':
+                srcRect = r;
+                break;
+            case 'e':
+                srcRect = e;
+                break;
             default:
                 continue;
         }
@@ -96,6 +111,7 @@ void drawGame() {
     SDL_RenderFillRect(renderer, &block);
 
     drawBricks(win_surf);
+    drawPowerUps(win_surf);
 
     SDL_UpdateWindowSurface(pWindow);
 }
@@ -110,5 +126,17 @@ void drawBricks(SDL_Surface* win_surf) {
             SDL_Surface* brickSurface = plancheSpritesBricks;
             SDL_BlitSurface(brickSurface, currentColor, win_surf, &bricks[i][j].rect);            
         }
+    }
+}
+
+void drawPowerUps(SDL_Surface* win_surf) {
+    for (int i = 0; i < POWERUPS_MAX; i++) {
+        if (!powerUps[i].surface.w) {
+            continue;
+        }
+
+        SDL_Rect dstPowerUp = { powerUps[i].x, powerUps[i].y + MENU_HEIGHT, 16, 32 };
+
+        SDL_BlitSurface(plancheSpritesBricks, &powerUps[i].surface, win_surf, &dstPowerUp);
     }
 }

@@ -31,9 +31,11 @@
 #define INDIVIDUAL_BRICK_HEIGHT 15
 #define BRICK_PADDING 0
 
-#define MAX_ROWS 20
-#define MAX_COLS 40
+#define MAX_ROWS 13
+#define MAX_COLS 16
 
 #define MENU_HEIGHT 90
+
+#define POWERUPS_MAX 64
 
 #endif

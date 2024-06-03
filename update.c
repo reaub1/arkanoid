@@ -10,9 +10,8 @@ double delta_t = 0.0;
 bool firstTurn = true;
 
 void updateGame() {
-
-    if(firstTurn){
-        prev = SDL_GetPerformanceCounter();;
+    if (firstTurn) {
+        prev = SDL_GetPerformanceCounter();
         firstTurn = false;
         now = prev;
     }
@@ -20,8 +19,6 @@ void updateGame() {
     prev = now;
     now = SDL_GetPerformanceCounter();
     delta_t = (double)(now - prev) / SDL_GetPerformanceFrequency();
-
-    //printf("fps : %f\n", 1/delta_t);
 
     ball.x += ball.vx * delta_t;
     ball.y += ball.vy * delta_t;
@@ -31,34 +28,29 @@ void updateGame() {
     if ((ball.y < 1) || (ball.y > (win_surf->h - 25)))
         ball.vy *= -1;
 
-    //si la balle touche le block
-    // Supposons que ballRect représente le rectangle de la balle    
     checkBallBrickCollision();
-    
-    // Si la balle touche la raquette, on la renvoie
-    if ((ball.y > (win_surf->h - 50 - MENU_HEIGHT)) && (ball.x > x_vault) && (ball.x < x_vault + 100))
-        ball.vy *= -1;
+    checkCollisionPaddle();
 
-    if (ball.y > (win_surf->h - 25 - MENU_HEIGHT)){
+    if (ball.y > (win_surf->h - 25 - MENU_HEIGHT)) {
         srcBall.y = 64;
         ball.vy = 0;
         ball.vx = 0;
     }
-        
+
     if (ball.y < 1)
         srcBall.y = 96;
 
     const Uint8* keys = SDL_GetKeyboardState(NULL);
     if (keys[SDL_SCANCODE_LEFT])
-        if(x_vault > 0){
+        if (x_vault > 0) {
             x_vault -= 1000 * delta_t;
         }
     if (keys[SDL_SCANCODE_RIGHT])
-        if(x_vault < win_surf->w - 140){
+        if (x_vault < win_surf->w - 140) {
             x_vault += 1000 * delta_t;
         }
 
-    SDL_Delay((Uint32)1000/60);
+    SDL_Delay((Uint32)1000 / 60);
 }
 
 bool processInput() {
@@ -234,6 +226,42 @@ void updatePowerUps(){
                 }
                 powerUps[i].time = TIME_RESET;
             }
+        }
+    }
+}
+void checkCollisionPaddle() {
+    SDL_Rect paddle;
+    paddle.x = x_vault;
+    paddle.y = win_surf->h - 50 - MENU_HEIGHT;
+    paddle.w = 100;
+    paddle.h = 20;
+
+    int ballCenterX = ball.x + 12;
+    int ballCenterY = ball.y + 12;
+
+    int paddleCenterX = paddle.x + paddle.w / 2;
+    int paddleCenterY = paddle.y + paddle.h / 2;
+
+    if (ball.x < paddle.x + paddle.w &&
+        ball.x > paddle.x &&
+        ball.y < paddle.y + paddle.h &&
+        ball.y > paddle.y) {
+
+        int distX = abs(ballCenterX - paddleCenterX);
+        int distY = abs(ballCenterY - paddleCenterY);
+
+        int combinedHalfWidths = 12 + paddle.w / 2;
+        int combinedHalfHeights = 12 + paddle.h / 2;
+
+        int overlapX = combinedHalfWidths - distX;
+        int overlapY = combinedHalfHeights - distY;
+
+        if (overlapX > 0 && overlapY > 0) {
+            float relativeImpact = (float)(ballCenterX - paddle.x) / (float)paddle.w;
+            float angle = (relativeImpact - 0.5f) * 2.0f * MAX_BOUNCE_ANGLE;
+
+            ball.vx = BALL_SPEED * cos(angle);
+            ball.vy = -BALL_SPEED * sin(angle);
         }
     }
 }

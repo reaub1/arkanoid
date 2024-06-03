@@ -13,5 +13,6 @@ bool processInput();
 void checkBallBrickCollision();
 void generatePowerUp(int powerUp, int x, int y);
 void updatePowerUps();
+void checkCollisionPaddle();
 
 #endif

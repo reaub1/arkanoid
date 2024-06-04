@@ -10,7 +10,7 @@ double delta_t = 0.0;
 bool firstTurn = true;
 
 void updateGame() {
-    if (firstTurn) {
+    if (firstTurn) 
         prev = SDL_GetPerformanceCounter();
     if (firstTurn) {
         prev = SDL_GetPerformanceCounter();;
@@ -278,5 +278,4 @@ void checkCollisionPaddle() {
         }
     }
 }
-        
 

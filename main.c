@@ -21,16 +21,17 @@ int main(int argc, char** argv) {
                 showMenu(pWindow);
                 break;
             case GAME:
+                quit = processInput();
+                updateGame();
+                drawGame();
+                turn++;
+                if (turn == 1000)
+                    turn = 0;
                 break;
             case GAME_OVER:
+                showGameOver();
                 break;
-    }
-        quit = processInput();
-        updateGame();
-        drawGame();
-        turn++;
-        if (turn == 1000)
-            turn = 0;
+        }
     }
 
     SDL_Quit();

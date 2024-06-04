@@ -1,16 +1,1 @@
-oooooooooooooooooooo
-bbbbbbbbbbbbbbbbbbbb
-rrrrrrrrrrrrrrrrrrrr
-bobobobobobobobobobo
-rorororororororororo
-rrrrrrrrrrrrrrrrrrrr
-rrrrrrrrrrrrrrrrrrrr
-bbbbbbbbbbbbbbbbbbbb
-oooooooooooooooooooo
-bbbbbbbbbbbbbbbbbbbb
-rrrrrrrrrrrrrrrrrrrr
-bobobobobobobobobobo
-rorororororororororo
-rrrrrrrrrrrrrrrrrrrr
-rrrrrrrrrrrrrrrrrrrr
-bbbbbbbbbbbbbbbbbbbb
+        r

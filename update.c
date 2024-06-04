@@ -9,7 +9,8 @@ double delta_t = 0.0;
 bool firstTurn = true;
 
 void updateGame() {
-    if (firstTurn) {
+
+    if(firstTurn){
         prev = SDL_GetPerformanceCounter();;
         firstTurn = false;
         now = prev;
@@ -48,19 +49,22 @@ void updateGame() {
         }
     }
 
+    if (checkAllBricksDestroyed()) {
+        loadNextLevel();
+    }
+
     const Uint8* keys = SDL_GetKeyboardState(NULL);
     if (keys[SDL_SCANCODE_LEFT])
-        if (x_vault > 0) {
+        if(x_vault > 0){
             x_vault -= 1000 * delta_t;
         }
     if (keys[SDL_SCANCODE_RIGHT])
-        if (x_vault < win_surf->w - 140) {
+        if(x_vault < win_surf->w - 140){
             x_vault += 1000 * delta_t;
         }
 
-    SDL_Delay((Uint32)1000 / 60);
+    SDL_Delay((Uint32)1000/60);
 }
-
 
 bool processInput() {
     SDL_Event event;
@@ -137,3 +141,13 @@ void checkBallBrickCollision() {
     }
 }
 
+bool checkAllBricksDestroyed() {
+    for (int i = 0; i < BRICK_ROWS; i++) {
+        for (int j = 0; j < BRICK_COLUMNS; j++) {
+            if (bricks[i][j].active) {
+                return false;
+            }
+        }
+    }
+    return true;
+}

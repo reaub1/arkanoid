@@ -11,5 +11,6 @@
 void updateGame();
 bool processInput();
 void checkBallBrickCollision();
+bool checkAllBricksDestroyed();
 
 #endif

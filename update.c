@@ -36,6 +36,10 @@ void updateGame() {
         lives--;
         if (lives <= 0) {
             currentState = GAME_OVER;
+            if (score > highScore) {
+                highScore = score;
+                saveHighScore();
+            }
         } else {
             ball.x = win_surf->w / 2;
             ball.y = win_surf->h / 2;
@@ -56,6 +60,7 @@ void updateGame() {
 
     SDL_Delay((Uint32)1000 / 60);
 }
+
 
 bool processInput() {
     SDL_Event event;

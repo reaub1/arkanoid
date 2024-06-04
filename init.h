@@ -52,5 +52,7 @@ extern int x_vault;
 void initGame();
 void initBricks();
 void readTextFile(const char* filename, char array[MAX_ROWS][MAX_COLS + 1], char endChar);
+void loadHighScore();
+void saveHighScore();
 
 #endif

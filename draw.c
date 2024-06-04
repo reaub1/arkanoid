@@ -13,7 +13,7 @@ void drawMenuBar() {
     SDL_FillRect(menu_surf, &menuRect, SDL_MapRGB(menu_surf->format, 0, 0, 0));
 
     char scoreText[20];
-    snprintf(scoreText, sizeof(scoreText), "Score: %d", score);
+    snprintf(scoreText, sizeof(scoreText), "%d", score);
 
     int scoreX = 20;
     int scoreY = 20; 
@@ -23,111 +23,66 @@ void drawMenuBar() {
 
         SDL_Rect srcRect;
         switch (currentDigit) {
-            case '0':
-                srcRect = zero;
-                break;
-            case '1':
-                srcRect = un;
-                break;
-            case '2':
-                srcRect = deux;
-                break;
-            case '3':
-                srcRect = trois;
-                break;
-            case '4':
-                srcRect = quatre;
-                break;
-            case '5':
-                srcRect = cinq;
-                break;
-            case '6':
-                srcRect = six;
-                break;
-            case '7':
-                srcRect = sept;
-                break;
-            case '8':
-                srcRect = huit;
-                break;
-            case '9':
-                srcRect = neuf;
-                break;
-            case 'S':
-                srcRect = s;
-                break;
-            case 'c':
-                srcRect = c;
-                break;
-            case 'o':
-                srcRect = o;
-                break;
-            case 'r':
-                srcRect = r;
-                break;
-            case 'e':
-                srcRect = e;
-                break;
-            default:
-                continue;
+            case '0': srcRect = zero; break;
+            case '1': srcRect = un; break;
+            case '2': srcRect = deux; break;
+            case '3': srcRect = trois; break;
+            case '4': srcRect = quatre; break;
+            case '5': srcRect = cinq; break;
+            case '6': srcRect = six; break;
+            case '7': srcRect = sept; break;
+            case '8': srcRect = huit; break;
+            case '9': srcRect = neuf; break;
+            case ':': srcRect = zero; break; // Placeholder for colon
+            case 'S': srcRect = s; break;
+            case 'c': srcRect = c; break;
+            case 'o': srcRect = o; break;
+            case 'r': srcRect = r; break;
+            case 'e': srcRect = e; break;
+            case ' ': srcRect = zero; break; // Placeholder for space
+            default: continue;
         }
         
-        SDL_Rect dstRect = {scoreX, scoreY, 100, 100};
+        SDL_Rect dstRect = {scoreX, scoreY, srcRect.w, srcRect.h};
 
         SDL_BlitSurface(plancheSpritesAscii, &srcRect, win_surf, &dstRect);
-
-        SDL_UpdateWindowSurface(pWindow);
 
         scoreX += srcRect.w;        
     }
 
     // Display lives
     char livesText[20];
-    snprintf(livesText, sizeof(livesText), "Lives: %d", lives);
+    snprintf(livesText, sizeof(livesText), "%d", lives);
 
-    int livesX = win_surf->w - 100;
+    int livesX = win_surf->w - 150; // Adjusted to make room for high score
     int livesY = 20;
 
-    for (int i = 0; livesText[i] != '\0'; i++) {
-        char currentDigit = livesText[i];
+    for (int ii = 0; livesText[ii] != '\0'; ii++) {
+        char currentDigit = livesText[ii];
 
         SDL_Rect srcRect;
         switch (currentDigit) {
-            case '0':
-                srcRect = zero;
-                break;
-            case '1':
-                srcRect = un;
-                break;
-            case '2':
-                srcRect = deux;
-                break;
-            case '3':
-                srcRect = trois;
-                break;
-            case '4':
-                srcRect = quatre;
-                break;
-            case '5':
-                srcRect = cinq;
-                break;
-            case '6':
-                srcRect = six;
-                break;
-            case '7':
-                srcRect = sept;
-                break;
-            case '8':
-                srcRect = huit;
-                break;
-            case '9':
-                srcRect = neuf;
-                break;
-            default:
-                continue;
+            case '0': srcRect = zero; break;
+            case '1': srcRect = un; break;
+            case '2': srcRect = deux; break;
+            case '3': srcRect = trois; break;
+            case '4': srcRect = quatre; break;
+            case '5': srcRect = cinq; break;
+            case '6': srcRect = six; break;
+            case '7': srcRect = sept; break;
+            case '8': srcRect = huit; break;
+            case '9': srcRect = neuf; break;
+            case ':': srcRect = zero; break; // Placeholder for colon
+            case 'L': srcRect = l; break;
+            case 'i': srcRect = i; break;
+            case 'v': srcRect = v; break;
+            case 'e': srcRect = e; break;
+            case 's': srcRect = s; break;
+            case ' ': srcRect = zero; break; // Placeholder for space
+            default: continue;
         }
         
-        SDL_Rect dstRect = {livesX, livesY, 100, 100};
+        SDL_Rect dstRect = {livesX, livesY, srcRect.w, srcRect.h};
 
         SDL_BlitSurface(plancheSpritesAscii, &srcRect, win_surf, &dstRect);
 
@@ -135,7 +90,54 @@ void drawMenuBar() {
 
         livesX += srcRect.w;        
     }
+
+    // Display high score
+    char highScoreText[30];
+    snprintf(highScoreText, sizeof(highScoreText), "%d", highScore);
+
+    int highScoreX = (win_surf->w - 150) / 2; // Adjusted to center the high score
+    int highScoreY = 20;
+
+    for (int ii = 0; highScoreText[ii] != '\0'; ii++) {
+        char currentDigit = highScoreText[ii];
+
+        SDL_Rect srcRect;
+        switch (currentDigit) {
+            case '0': srcRect = zero; break;
+            case '1': srcRect = un; break;
+            case '2': srcRect = deux; break;
+            case '3': srcRect = trois; break;
+            case '4': srcRect = quatre; break;
+            case '5': srcRect = cinq; break;
+            case '6': srcRect = six; break;
+            case '7': srcRect = sept; break;
+            case '8': srcRect = huit; break;
+            case '9': srcRect = neuf; break;
+            case ':': srcRect = zero; break; // Placeholder for colon
+            case 'H': srcRect = h; break;
+            case 'i': srcRect = i; break;
+            case 'g': srcRect = g; break;
+            case 'h': srcRect = h; break;
+            case 'S': srcRect = s; break;
+            case 'c': srcRect = c; break;
+            case 'o': srcRect = o; break;
+            case 'r': srcRect = r; break;
+            case 'e': srcRect = e; break;
+            case ' ': srcRect = zero; break; // Placeholder for space
+            default: continue;
+        }
+        
+        SDL_Rect dstRect = {highScoreX, highScoreY, srcRect.w, srcRect.h};
+
+        SDL_BlitSurface(plancheSpritesAscii, &srcRect, win_surf, &dstRect);
+
+        SDL_UpdateWindowSurface(pWindow);
+
+        highScoreX += srcRect.w;        
+    }
 }
+
+
 
 void drawGame() {
 
@@ -228,9 +230,12 @@ void drawBricks(SDL_Surface* win_surf) {
 }
 
 
-// Existing functions like drawMenuBar, drawGame, drawBricks...
-
 void showGameOver() {
+    if (score > highScore) {
+        highScore = score;
+        saveHighScore();
+    }
+
     SDL_Surface* surface = SDL_GetWindowSurface(pWindow);
     SDL_Color backgroundColor = {0, 0, 0};
     Uint32 background_color = SDL_MapRGB(surface->format, backgroundColor.r, backgroundColor.g, backgroundColor.b);
@@ -272,10 +277,10 @@ void showGameOver() {
             case 'x': src = x; break;
             case 'y': src = y; break;
             case 'z': src = z; break;
-            case ' ': 
+            case ' ':
                 wordX += LETTER_SPRITE_WIDTH; // Add space between words
                 continue;
-            default: 
+            default:
                 continue; // Skip any unrecognized characters
         }
 
@@ -307,7 +312,6 @@ void showGameOver() {
         }
     }
 }
-
 
 void drawPowerUps(SDL_Surface* win_surf) {
     for (int i = 0; i < POWERUPS_MAX; i++) {

@@ -21,6 +21,25 @@ Ball ball;
 
 int x_vault = 0;
 
+extern int highScore;
+extern const char* highScoreFile;
+
+void loadHighScore() {
+    FILE* file = fopen(highScoreFile, "r");
+    if (file) {
+        fscanf(file, "%d", &highScore);
+        fclose(file);
+    }
+}
+
+void saveHighScore() {
+    FILE* file = fopen(highScoreFile, "w");
+    if (file) {
+        fprintf(file, "%d", highScore);
+        fclose(file);
+    }
+}
+
 void initGame() {
 
     block.x = 0;
@@ -83,6 +102,7 @@ void initGame() {
     x_vault = win_surf->w / 2;
 
     initBricks();
+    loadHighScore();
     initPowerUps();
 }
 

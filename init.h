@@ -40,19 +40,30 @@ typedef struct {
     int points;
     int life;
     int powerUp;
+    int transform;
     BrickType type;
 } Brick;
 
-
+typedef struct {
+    int x, y;
+    int w, h;
+    int vx, vy;
+    SDL_Rect surface;
+    int state; 
+    float time;
+} entities;
 
 extern Brick bricks[BRICK_ROWS][BRICK_COLUMNS];
+
+extern entities powerUps[POWERUPS_MAX];
 
 extern int x_vault;
 
 void initGame();
 void initBricks();
-void readTextFile(const char* filename, char array[MAX_ROWS][MAX_COLS + 1], char endChar);
+void readTextFile(const char* filename, char array[MAX_ROWS][MAX_COLS * 2 + 1], char endChar);
 void loadHighScore();
 void saveHighScore();
+void initPowerUps();
 
 #endif

@@ -10,8 +10,10 @@ double delta_t = 0.0;
 bool firstTurn = true;
 
 void updateGame() {
-    if (firstTurn) {
+    if (firstTurn) 
         prev = SDL_GetPerformanceCounter();
+    if (firstTurn) {
+        prev = SDL_GetPerformanceCounter();;
         firstTurn = false;
         now = prev;
     }
@@ -39,14 +41,25 @@ void updateGame() {
 
     if (ball.y < 1)
         srcBall.y = 96;
+    if (ball.y > (win_surf->h - 25 - MENU_HEIGHT)) {
+        lives--;
+        if (lives <= 0) {
+            currentState = GAME_OVER;
+        } else {
+            ball.x = win_surf->w / 2;
+            ball.y = win_surf->h / 2;
+            ball.vx = 100.0;
+            ball.vy = 140.0;
+        }
+    }
 
     const Uint8* keys = SDL_GetKeyboardState(NULL);
     if (keys[SDL_SCANCODE_LEFT])
-        if (x_vault > 0) {
+        if  (x_vault > 0)  {
             x_vault -= 1000 * delta_t;
         }
     if (keys[SDL_SCANCODE_RIGHT])
-        if (x_vault < win_surf->w - 140) {
+        if  (x_vault < win_surf->w - 140)  {
             x_vault += 1000 * delta_t;
         }
 
@@ -265,5 +278,4 @@ void checkCollisionPaddle() {
         }
     }
 }
-        
 

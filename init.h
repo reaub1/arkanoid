@@ -51,6 +51,7 @@ typedef struct {
     SDL_Rect surface;
     int state; 
     float time;
+    char type;
 } entities;
 
 extern Brick bricks[BRICK_ROWS][BRICK_COLUMNS];

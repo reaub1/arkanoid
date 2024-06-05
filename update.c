@@ -182,21 +182,27 @@ void generatePowerUp(int powerUp, int x, int y){
     switch (powerUp){
         case 1:
             powerUpEntity.surface = slow1;
+            powerUpEntity.type = 's';
             break;
         case 2: 
             powerUpEntity.surface = catch1;
+            powerUpEntity.type = 'c';
             break;
         case 3: 
             powerUpEntity.surface = expand1;
+            powerUpEntity.type = 'e';
             break;
         case 4: 
             powerUpEntity.surface = divide1;
+            powerUpEntity.type = 'd';
             break;
         case 5:
             powerUpEntity.surface = laser1;
+            powerUpEntity.type = 'l';
             break;
         case 6:
             powerUpEntity.surface = break1;
+            powerUpEntity.type = 'b';
             break;
         default :
             printf("error in powerUp generation : the powerUp integer is not in acceptable value\n");
@@ -223,34 +229,30 @@ void updatePowerUps(){
 
             powerUps[i].time -= delta_t;
             if(powerUps[i].time < 0){
-                switch (powerUps[i].state)
+
+                switch (powerUps[i].type)
                 {
-                case 1:
-                    powerUps[i].surface = slow2;
-                    powerUps[i].state = 2;
-                    break;
-                case 2:
-                    powerUps[i].surface = slow3;
-                    powerUps[i].state = 3;
-                    break;
-                case 3:
-                    powerUps[i].surface = slow4;
-                    powerUps[i].state = 4;
-                    break;
-                case 4:
-                    powerUps[i].surface = slow5;
-                    powerUps[i].state = 5;
-                    break;
-                case 5:
-                    powerUps[i].surface = slow6;
-                    powerUps[i].state = 6;
-                    break;
-                case 6:
-                    powerUps[i].surface = slow1;
-                    powerUps[i].state = 1;
-                    break;
-                default:
-                    break;
+                    case 's':
+                        nextAnimation(&powerUps[i], SlowSurfaces);
+                        break;
+                    case 'c':
+                        nextAnimation(&powerUps[i], CatchSurfaces);
+                        break;
+                    case 'e':
+                        nextAnimation(&powerUps[i], ExpandSurfaces);
+                        break;
+                    case 'd':
+                        nextAnimation(&powerUps[i], DivideSurfaces);
+                        break;
+                    case 'l':
+                        nextAnimation(&powerUps[i], LaserSurfaces);
+                        break;
+                    case 'b':
+                        nextAnimation(&powerUps[i], BreakSurfaces);
+                        break;
+                    default:
+                        break;
+                        
                 }
                 powerUps[i].time = TIME_RESET;
             }
@@ -356,4 +358,13 @@ void initPowerUpsArray(){
     PlayerSurfaces[5] = player6;
     PlayerSurfaces[6] = player7;
     PlayerSurfaces[7] = player8;
+}
+
+void nextAnimation(entities *powerups, SDL_Rect slowSurfaces[]) {
+    
+    powerups->surface = slowSurfaces[powerups->state];
+    if(powerups->state == 7)
+        powerups->state = 0;
+    else
+        powerups->state++;
 }

@@ -14,5 +14,6 @@ void checkBallBrickCollision();
 void generatePowerUp(int powerUp, int x, int y);
 void updatePowerUps();
 void checkCollisionPaddle();
+void initPowerUpsArray();
 
 #endif

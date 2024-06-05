@@ -38,7 +38,7 @@
 
 #define POWERUPS_MAX 64
 
-#define MAX_BOUNCE_ANGLE (60 * M_PI / 180)
+#define MAX_BOUNCE_ANGLE (120 * M_PI / 180)
 #define BALL_SPEED 250.0f
 
 #endif

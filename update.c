@@ -294,6 +294,22 @@ void checkCollisionPaddle() {
             ball.vy = -BALL_SPEED * sin(angle);
         }
     }
+    for (int i = 0; i < POWERUPS_MAX; i++) {
+        if (powerUps[i].surface.w == 0) {
+            continue;
+        }
+
+        SDL_Rect powerUpRect;
+        powerUpRect.x = powerUps[i].x;
+        powerUpRect.y = powerUps[i].y-20;
+        powerUpRect.w = powerUps[i].w;
+        powerUpRect.h = powerUps[i].h;
+
+        if (SDL_HasIntersection(&paddle, &powerUpRect)) {
+            handlePowerUpCollision(&powerUps[i]);
+            powerUps[i].surface.w = 0;
+        }
+    }
 }
 void initPowerUpsArray(){
     SlowSurfaces[0] = slow1;
@@ -367,4 +383,35 @@ void nextAnimation(entities *powerups, SDL_Rect slowSurfaces[]) {
         powerups->state = 0;
     else
         powerups->state++;
+}
+
+void handlePowerUpCollision(entities *powerUp) {
+    switch (powerUp->type) {
+        case 's':
+            // Slow ball
+            ball.vx *= 0.5;
+            ball.vy *= 0.5;
+            break;
+        case 'c':
+            // Catch ball (example effect)
+            ball.vx = 0;
+            ball.vy = 0;
+            break;
+        case 'e':
+            // Expand paddle
+            //paddle.w += 50;
+            break;
+        case 'd':
+            // Divide
+            break;
+        case 'l':
+            //laser
+            break;
+        case 'b':
+            // Break 
+            break;
+        default:
+            printf("Unknown power-up type: %c\n", powerUp->type);
+            break;
+    }
 }

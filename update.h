@@ -16,5 +16,6 @@ void updatePowerUps();
 void checkCollisionPaddle();
 void initPowerUpsArray();
 void nextAnimation(entities *powerups, SDL_Rect slowSurfaces[]);
+void handlePowerUpCollision(entities *powerUp);
 
 #endif

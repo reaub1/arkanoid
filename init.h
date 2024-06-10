@@ -52,6 +52,7 @@ typedef struct {
     int state; 
     float time;
     char type;
+    int max_state;
 } entities;
 
 extern Brick bricks[BRICK_ROWS][BRICK_COLUMNS];

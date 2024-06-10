@@ -42,4 +42,6 @@
 #define MAX_BOUNCE_ANGLE (120 * M_PI / 180)
 #define BALL_SPEED 250.0f
 
+#define MOVE_PROBABILITY 0.5
+
 #endif

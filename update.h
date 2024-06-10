@@ -19,5 +19,6 @@ void nextAnimation(entities *powerups, SDL_Rect slowSurfaces[]);
 void handlePowerUpCollision(entities *powerUp);
 void initMonsterArray();
 void createMonster();
+void updateMonsters();
 
 #endif

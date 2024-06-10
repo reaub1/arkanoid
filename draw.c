@@ -287,7 +287,6 @@ void drawMonsters(SDL_Surface* win_surf) {
         if (!monsters[i].surface.w) {
             continue;
         }
-
         SDL_Rect dstMonster = { monsters[i].x, monsters[i].y + MENU_HEIGHT, 32, 32 };
 
         SDL_BlitSurface(plancheSpritesBricks, &monsters[i].surface, win_surf, &dstMonster);

@@ -47,8 +47,9 @@ void updateGame() {
 
     checkBallBrickCollision();
     checkCollisionPaddle();
+    updateMonsters();
 
-    if (rand() % 10 == 0) {
+    if (rand() % 100 == 0) {
         createMonster();
     }
 
@@ -187,6 +188,8 @@ void generatePowerUp(int powerUp, int x, int y){
     powerUpEntity.state = 1;
     powerUpEntity.time = 0.1;
 
+    powerUpEntity.max_state = 7;
+
 
     switch (powerUp){
         case 1:
@@ -233,7 +236,7 @@ void updatePowerUps(){
 
             if(powerUps[i].y > win_surf->h){
                 powerUps[i].surface.w = 0;
-                continue; // Skip to the next power-up since this one is now inactive
+                continue;
             }
 
             powerUps[i].time -= delta_t;
@@ -385,10 +388,10 @@ void initPowerUpsArray(){
     PlayerSurfaces[7] = player8;
 }
 
-void nextAnimation(entities *powerups, SDL_Rect slowSurfaces[]) {
+void nextAnimation(entities *powerups, SDL_Rect Surfaces[]) {
     
-    powerups->surface = slowSurfaces[powerups->state];
-    if(powerups->state == 7)
+    powerups->surface = Surfaces[powerups->state];
+    if(powerups->state == powerUps->max_state)
         powerups->state = 0;
     else
         powerups->state++;
@@ -477,27 +480,33 @@ void initMonsterArray(){
 void createMonster(){
         int monsterType = rand() % 3;
         int xPos = rand() % (win_surf->w - 64);
-        int yPos = rand() % (win_surf->h - 64);
+        int yPos = 0;
 
         entities monster;
         monster.x = xPos;
         monster.y = yPos;
         monster.h = 64;
         monster.w = 64;
-        monster.vx = 0;
-        monster.vy = 0;
+        monster.vx = 100;
+        monster.vy = 100;
         monster.state = 0;
         monster.time = 0;
         
         switch (monsterType) {
             case 0:
                 monster.surface = nasser[0];
+                monster.type = 'n';
+                monster.max_state = 7;
                 break;
             case 1:
                 monster.surface = farah[0];
+                monster.type = 'f';
+                monster.max_state = 11;
                 break;
             case 2:
                 monster.surface = leyna[0];
+                monster.type = 'l';
+                monster.max_state = 24;
                 break;
             default:
                 printf("Unknown monster type: %d\n", monsterType);
@@ -511,4 +520,43 @@ void createMonster(){
             }
         }
     
+}
+
+void updateMonsters(){
+    const float TIME_RESET = 0.1;
+
+    for (int i = 0; i < MONSTERS_MAX; i++){
+       
+        if ((rand() / (float)RAND_MAX) < MOVE_PROBABILITY) {
+            monsters[i].vx = -monsters[i].vx;
+        }
+        monsters[i].x += monsters[i].vx * delta_t;
+        monsters[i].y += monsters[i].vy * delta_t;
+
+            if(monsters[i].y > win_surf->h){
+                monsters[i].surface.w = 0;
+                continue;
+            }
+
+            monsters[i].time -= delta_t;
+            if(monsters[i].time < 0.0){
+                switch (monsters[i].type)
+                {  
+                    case 'n':
+                        nextAnimation(&monsters[i], nasser);
+                        break;
+                    case 'f':
+                        nextAnimation(&monsters[i], farah);
+                        break;
+                    case 'l':
+                        nextAnimation(&monsters[i], leyna);
+                        break;
+                    default:
+                        break;
+                        
+                }
+                monsters[i].time = TIME_RESET;
+            }
+        
+    }
 }

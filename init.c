@@ -14,6 +14,7 @@ SDL_Rect scrVaiss = { 128, 0, 128, 32 };
 SDL_Renderer* renderer = NULL;
 Brick bricks[BRICK_ROWS][BRICK_COLUMNS] = {0};
 entities powerUps[POWERUPS_MAX] = {0};
+entities monsters[MONSTERS_MAX] = {0};
 
 SDL_Rect block;
 

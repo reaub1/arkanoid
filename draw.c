@@ -168,6 +168,7 @@ void drawGame() {
 
     drawBricks(win_surf);
     drawPowerUps(win_surf);
+    drawMonsters(win_surf);
 
     SDL_UpdateWindowSurface(pWindow);
 }
@@ -278,5 +279,17 @@ void drawPowerUps(SDL_Surface* win_surf) {
         SDL_Rect dstPowerUp = { powerUps[i].x, powerUps[i].y + MENU_HEIGHT, 16, 32 };
 
         SDL_BlitSurface(plancheSpritesBricks, &powerUps[i].surface, win_surf, &dstPowerUp);
+    }
+}
+
+void drawMonsters(SDL_Surface* win_surf) {
+    for (int i = 0; i < MONSTERS_MAX; i++) {
+        if (!monsters[i].surface.w) {
+            continue;
+        }
+
+        SDL_Rect dstMonster = { monsters[i].x, monsters[i].y + MENU_HEIGHT, 32, 32 };
+
+        SDL_BlitSurface(plancheSpritesBricks, &monsters[i].surface, win_surf, &dstMonster);
     }
 }

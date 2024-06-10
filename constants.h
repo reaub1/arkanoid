@@ -37,6 +37,7 @@
 #define MENU_HEIGHT 90
 
 #define POWERUPS_MAX 64
+#define MONSTERS_MAX 32
 
 #define MAX_BOUNCE_ANGLE (120 * M_PI / 180)
 #define BALL_SPEED 250.0f

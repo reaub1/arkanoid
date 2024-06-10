@@ -17,11 +17,16 @@ SDL_Rect LaserSurfaces[8];
 SDL_Rect BreakSurfaces[8];
 SDL_Rect PlayerSurfaces[8];
 
+SDL_Rect nasser[8];
+SDL_Rect farah[11];
+SDL_Rect leyna[24];
+
 
 void updateGame() {
     if (firstTurn) 
         prev = SDL_GetPerformanceCounter();
         initPowerUpsArray();
+        initMonsterArray();
     if (firstTurn) {
         prev = SDL_GetPerformanceCounter();;
         firstTurn = false;
@@ -42,6 +47,10 @@ void updateGame() {
 
     checkBallBrickCollision();
     checkCollisionPaddle();
+
+    if (rand() % 10 == 0) {
+        createMonster();
+    }
 
     if (ball.y > (win_surf->h - 25 - MENU_HEIGHT)) {
         srcBall.y = 64;
@@ -414,4 +423,92 @@ void handlePowerUpCollision(entities *powerUp) {
             printf("Unknown power-up type: %c\n", powerUp->type);
             break;
     }
+}
+
+void initMonsterArray(){
+    
+    nasser[0] = nasser1;
+    nasser[1] = nasser2;
+    nasser[2] = nasser3;
+    nasser[3] = nasser4;
+    nasser[4] = nasser5;
+    nasser[5] = nasser6;
+    nasser[6] = nasser7;
+    nasser[7] = nasser8;
+
+    farah[0] = farah1;
+    farah[1] = farah2;
+    farah[2] = farah3;
+    farah[3] = farah4;
+    farah[4] = farah5;
+    farah[5] = farah6;
+    farah[6] = farah7;
+    farah[7] = farah8;
+    farah[8] = farah9;
+    farah[9] = farah10;
+    farah[10] = farah11;
+
+    leyna[0] = leyna1;
+    leyna[1] = leyna2;
+    leyna[2] = leyna3;
+    leyna[3] = leyna4;
+    leyna[4] = leyna5;
+    leyna[5] = leyna6;
+    leyna[6] = leyna7;
+    leyna[7] = leyna8;
+    leyna[8] = leyna9;
+    leyna[9] = leyna10;
+    leyna[10] = leyna11;
+    leyna[11] = leyna12;
+    leyna[12] = leyna13;
+    leyna[13] = leyna14;
+    leyna[14] = leyna15;
+    leyna[15] = leyna16;
+    leyna[16] = leyna17;
+    leyna[17] = leyna18;
+    leyna[18] = leyna19;
+    leyna[19] = leyna20;
+    leyna[20] = leyna21;
+    leyna[21] = leyna22;
+    leyna[22] = leyna23;
+    leyna[23] = leyna24;
+}
+
+void createMonster(){
+        int monsterType = rand() % 3;
+        int xPos = rand() % (win_surf->w - 64);
+        int yPos = rand() % (win_surf->h - 64);
+
+        entities monster;
+        monster.x = xPos;
+        monster.y = yPos;
+        monster.h = 64;
+        monster.w = 64;
+        monster.vx = 0;
+        monster.vy = 0;
+        monster.state = 0;
+        monster.time = 0;
+        
+        switch (monsterType) {
+            case 0:
+                monster.surface = nasser[0];
+                break;
+            case 1:
+                monster.surface = farah[0];
+                break;
+            case 2:
+                monster.surface = leyna[0];
+                break;
+            default:
+                printf("Unknown monster type: %d\n", monsterType);
+                return;
+        }
+
+        for (int i = 0; i < MONSTERS_MAX; i++) {
+            if (monsters[i].surface.w == 0) {
+                monsters[i] = monster;
+                break;
+            }
+        }
+    
 }

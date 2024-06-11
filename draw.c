@@ -157,8 +157,14 @@ void drawGame() {
             SDL_BlitSurface(plancheSpritesBricks, &darkbackground6, win_surf, &dest);
         }
 
+    
+    for(int i=0; i<64; i++){
+        SDL_Rect dstBall = { (int)balls[i].x, (int)balls[i].y + MENU_HEIGHT, 24, 24 };
+        SDL_BlitSurface(plancheSprites, &srcBall, win_surf, &dstBall);
+    }
+
     SDL_Rect dstBall = { (int)ball.x, (int)ball.y + MENU_HEIGHT, 24, 24 };
-    SDL_BlitSurface(plancheSprites, &srcBall, win_surf, &dstBall);
+        SDL_BlitSurface(plancheSprites, &srcBall, win_surf, &dstBall);
 
     SDL_Rect dstVaiss = { x_vault, win_surf->h - 32, 128, 32 };
     SDL_BlitSurface(plancheSprites, &scrVaiss, win_surf, &dstVaiss);
@@ -168,6 +174,8 @@ void drawGame() {
 
     drawBricks(win_surf);
     drawPowerUps(win_surf);
+    drawMonsters(win_surf);
+    drawExplosions(win_surf);
 
     SDL_UpdateWindowSurface(pWindow);
 }
@@ -278,5 +286,28 @@ void drawPowerUps(SDL_Surface* win_surf) {
         SDL_Rect dstPowerUp = { powerUps[i].x, powerUps[i].y + MENU_HEIGHT, 16, 32 };
 
         SDL_BlitSurface(plancheSpritesBricks, &powerUps[i].surface, win_surf, &dstPowerUp);
+    }
+}
+
+void drawMonsters(SDL_Surface* win_surf) {
+    for (int i = 0; i < MONSTERS_MAX; i++) {
+        if (!monsters[i].surface.w) {
+            continue;
+        }
+        SDL_Rect dstMonster = { monsters[i].x, monsters[i].y + MENU_HEIGHT, 32, 32 };
+
+        SDL_BlitSurface(plancheSpritesBricks, &monsters[i].surface, win_surf, &dstMonster);
+    }
+}
+
+void drawExplosions(SDL_Surface* win_surf) {
+    for (int i = 0; i < EXPLOSIONS_MAX; i++) {
+        if (!explosions[i].surface.w) {
+            continue;
+        }
+        //printf("Explosion at %d, %d\n", explosions[i].x, explosions[i].y);
+        SDL_Rect dstExplosion = { explosions[i].x, explosions[i].y + MENU_HEIGHT, 32, 32 };
+
+        SDL_BlitSurface(plancheSpritesBricks, &explosions[i].surface, win_surf, &dstExplosion);
     }
 }

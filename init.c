@@ -14,6 +14,24 @@ SDL_Rect scrVaiss = { 128, 0, 128, 32 };
 SDL_Renderer* renderer = NULL;
 Brick bricks[BRICK_ROWS][BRICK_COLUMNS] = {0};
 entities powerUps[POWERUPS_MAX] = {0};
+entities monsters[MONSTERS_MAX] = {0};
+entities explosions[EXPLOSIONS_MAX] = {0};
+entities balls[MAX_BALLS] = {0};
+
+SDL_Rect SlowSurfaces[8];
+SDL_Rect CatchSurfaces[8];
+SDL_Rect ExpandSurfaces[8];
+SDL_Rect DivideSurfaces[8];
+SDL_Rect LaserSurfaces[8];
+SDL_Rect BreakSurfaces[8];
+SDL_Rect PlayerSurfaces[8];
+
+SDL_Rect nasser[8];
+SDL_Rect farah[11];
+SDL_Rect leyna[24];
+
+SDL_Rect explosionsSurface[6];
+
 
 SDL_Rect block;
 
@@ -94,16 +112,21 @@ void initGame() {
     }
     //SDL_SetColorKey(plancheSpritesAscii, SDL_TRUE, 0);
     
-    ball.x = win_surf->w / 2;
-    ball.y = win_surf->h / 2;
-    ball.vx = 100.0;
-    ball.vy = 140.0;
+
+    ball.x = 0;
+    ball.y = 600;
+    ball.vx = 0.0;
+    ball.vy = 0.0;
 
     x_vault = win_surf->w / 2;
 
     initBricks();
     loadHighScore();
     initPowerUps();
+
+    initPowerUpsArray();
+    initMonsterArray();
+    initExplosionsArray();
 }
 
 void initPowerUps(){
@@ -217,8 +240,8 @@ void initBricks() {
 
             // Logging for debugging
             if (active) {
-                printf("Brick at (%d, %d): Type: %c, Power: %d, Active: %d, Color: (%d, %d, %d, %d), Points: %d\n",
-                       i, j, brickType, powerUp, active, color.x, color.y, color.w, color.h, points);
+                //printf("Brick at (%d, %d): Type: %c, Power: %d, Active: %d, Color: (%d, %d, %d, %d), Points: %d\n",
+                //       i, j, brickType, powerUp, active, color.x, color.y, color.w, color.h, points);
             }
         }
     }
@@ -230,7 +253,7 @@ void readTextFile(const char* filename, char array[MAX_ROWS][MAX_COLS * 2 + 1], 
 
     FILE* file = fopen(filename, "r");
     if (file == NULL) {
-        printf("Erreur: Impossible d'ouvrir le fichier %s\n", filename);
+        //printf("Erreur: Impossible d'ouvrir le fichier %s\n", filename);
         exit(EXIT_FAILURE);
     }
 
@@ -243,14 +266,14 @@ void readTextFile(const char* filename, char array[MAX_ROWS][MAX_COLS * 2 + 1], 
         }
 
         if (row >= MAX_ROWS) {
-            printf("Avertissement: Nombre de lignes dépasse la limite, seules les %d premières lignes seront lues.\n", MAX_ROWS);
+            //printf("Avertissement: Nombre de lignes dépasse la limite, seules les %d premières lignes seront lues.\n", MAX_ROWS);
             break;
         }
 
         int col = 0;
         for (int i = 0; line[i] != '\0' && line[i] != '\n'; i += 2) { // Increment by 2 to read pairs of characters
             if (col >= MAX_COLS * 2) {
-                printf("Avertissement: Nombre de colonnes dépasse la limite, seules les %d premières colonnes seront lues pour la ligne %d.\n", MAX_COLS, row + 1);
+                //printf("Avertissement: Nombre de colonnes dépasse la limite, seules les %d premières colonnes seront lues pour la ligne %d.\n", MAX_COLS, row + 1);
                 break;
             }
             array[row][col] = line[i];
@@ -258,9 +281,132 @@ void readTextFile(const char* filename, char array[MAX_ROWS][MAX_COLS * 2 + 1], 
             col += 2;
         }
         array[row][col] = '\0';
-        printf("Loaded line %d: %s\n", row, array[row]);
+        //printf("Loaded line %d: %s\n", row, array[row]);
         row++;
     }
 
     fclose(file);
+}
+
+void initPowerUpsArray(){
+
+    SlowSurfaces[0] = slow1;
+    SlowSurfaces[1] = slow2;
+    SlowSurfaces[2] = slow3;
+    SlowSurfaces[3] = slow4;
+    SlowSurfaces[4] = slow5;
+    SlowSurfaces[5] = slow6;
+    SlowSurfaces[6] = slow7;
+    SlowSurfaces[7] = slow8;
+
+    CatchSurfaces[0] = catch1;
+    CatchSurfaces[1] = catch2;
+    CatchSurfaces[2] = catch3;
+    CatchSurfaces[3] = catch4;
+    CatchSurfaces[4] = catch5;
+    CatchSurfaces[5] = catch6;
+    CatchSurfaces[6] = catch7;
+    CatchSurfaces[7] = catch8;
+
+    ExpandSurfaces[0] = expand1;
+    ExpandSurfaces[1] = expand2;
+    ExpandSurfaces[2] = expand3;
+    ExpandSurfaces[3] = expand4;
+    ExpandSurfaces[4] = expand5;
+    ExpandSurfaces[5] = expand6;
+    ExpandSurfaces[6] = expand7;
+    ExpandSurfaces[7] = expand8;
+
+    DivideSurfaces[0] = divide1;
+    DivideSurfaces[1] = divide2;
+    DivideSurfaces[2] = divide3;
+    DivideSurfaces[3] = divide4;
+    DivideSurfaces[4] = divide5;
+    DivideSurfaces[5] = divide6;
+    DivideSurfaces[6] = divide7;
+    DivideSurfaces[7] = divide8;
+
+    LaserSurfaces[0] = laser1;
+    LaserSurfaces[1] = laser2;
+    LaserSurfaces[2] = laser3;
+    LaserSurfaces[3] = laser4;
+    LaserSurfaces[4] = laser5;
+    LaserSurfaces[5] = laser6;
+    LaserSurfaces[6] = laser7;
+    LaserSurfaces[7] = laser8;
+
+    BreakSurfaces[0] = break1;
+    BreakSurfaces[1] = break2;
+    BreakSurfaces[2] = break3;
+    BreakSurfaces[3] = break4;
+    BreakSurfaces[4] = break5;
+    BreakSurfaces[5] = break6;
+    BreakSurfaces[6] = break7;
+    BreakSurfaces[7] = break8;
+
+    PlayerSurfaces[0] = player1;
+    PlayerSurfaces[1] = player2;
+    PlayerSurfaces[2] = player3;
+    PlayerSurfaces[3] = player4;
+    PlayerSurfaces[4] = player5;
+    PlayerSurfaces[5] = player6;
+    PlayerSurfaces[6] = player7;
+    PlayerSurfaces[7] = player8;
+}
+
+void initMonsterArray(){
+    nasser[0] = nasser1;
+    nasser[1] = nasser2;
+    nasser[2] = nasser3;
+    nasser[3] = nasser4;
+    nasser[4] = nasser5;
+    nasser[5] = nasser6;
+    nasser[6] = nasser7;
+    nasser[7] = nasser8;
+
+    farah[0] = farah1;
+    farah[1] = farah2;
+    farah[2] = farah3;
+    farah[3] = farah4;
+    farah[4] = farah5;
+    farah[5] = farah6;
+    farah[6] = farah7;
+    farah[7] = farah8;
+    farah[8] = farah9;
+    farah[9] = farah10;
+    farah[10] = farah11;
+
+    leyna[0] = leyna1;
+    leyna[1] = leyna2;
+    leyna[2] = leyna3;
+    leyna[3] = leyna4;
+    leyna[4] = leyna5;
+    leyna[5] = leyna6;
+    leyna[6] = leyna7;
+    leyna[7] = leyna8;
+    leyna[8] = leyna9;
+    leyna[9] = leyna10;
+    leyna[10] = leyna11;
+    leyna[11] = leyna12;
+    leyna[12] = leyna13;
+    leyna[13] = leyna14;
+    leyna[14] = leyna15;
+    leyna[15] = leyna16;
+    leyna[16] = leyna17;
+    leyna[17] = leyna18;
+    leyna[18] = leyna19;
+    leyna[19] = leyna20;
+    leyna[20] = leyna21;
+    leyna[21] = leyna22;
+    leyna[22] = leyna23;
+    leyna[23] = leyna24;
+}
+
+void initExplosionsArray(){
+    explosionsSurface[0] = explosion1;
+    explosionsSurface[1] = explosion2;
+    explosionsSurface[2] = explosion3;
+    explosionsSurface[3] = explosion4;
+    explosionsSurface[4] = explosion5;
+    explosionsSurface[5] = explosion6;
 }

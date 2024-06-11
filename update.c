@@ -9,19 +9,16 @@ Uint64 prev, now;
 double delta_t = 0.0;  
 bool firstTurn = true;
 
-SDL_Rect SlowSurfaces[8];
-SDL_Rect CatchSurfaces[8];
-SDL_Rect ExpandSurfaces[8];
-SDL_Rect DivideSurfaces[8];
-SDL_Rect LaserSurfaces[8];
-SDL_Rect BreakSurfaces[8];
-SDL_Rect PlayerSurfaces[8];
-
+char activePowerUp = 'n';
+int catchBall = 0;
+int catched = 0;
 
 void updateGame() {
     if (firstTurn) 
         prev = SDL_GetPerformanceCounter();
         initPowerUpsArray();
+        initMonsterArray();
+        initExplosionsArray();
     if (firstTurn) {
         prev = SDL_GetPerformanceCounter();;
         firstTurn = false;
@@ -42,6 +39,14 @@ void updateGame() {
 
     checkBallBrickCollision();
     checkCollisionPaddle();
+    checkBallMonsterCollision();
+    updateMonsters();
+    updateExplosions();
+    updateBalls();
+
+    if (rand() % 100 == 0) {
+        createMonster();
+    }
 
     if (ball.y > (win_surf->h - 25 - MENU_HEIGHT)) {
         srcBall.y = 64;
@@ -70,12 +75,28 @@ void updateGame() {
     const Uint8* keys = SDL_GetKeyboardState(NULL);
     if (keys[SDL_SCANCODE_LEFT])
         if  (x_vault > 0)  {
+            if(catched){
+                ball.x -= 1000 * delta_t;
+            }
             x_vault -= 1000 * delta_t;
         }
     if (keys[SDL_SCANCODE_RIGHT])
         if  (x_vault < win_surf->w - 140)  {
+            if(catched){
+                ball.x += 1000 * delta_t;
+            }
             x_vault += 1000 * delta_t;
         }
+    if( keys[SDL_SCANCODE_SPACE] && catched){
+        catched = 0;
+        catchBall = 0;
+        ball.vx = 100.0;
+        ball.vy = 140.0;
+    }
+
+    if(keys[SDL_SCANCODE_B]){
+        generateBallExplosion(ball.x, ball.y);
+    }
 
     SDL_Delay((Uint32)1000 / 60);
 }
@@ -97,6 +118,33 @@ bool processInput() {
     return false;
 }
 
+void checkBallMonsterCollision(){
+    for (int i = 0; i < MONSTERS_MAX; i++) {
+        if (monsters[i].surface.w == 0) {
+            continue;
+        }
+
+        SDL_Rect monsterRect;
+        monsterRect.x = monsters[i].x;
+        monsterRect.y = monsters[i].y-50;
+        monsterRect.w = monsters[i].w;
+        monsterRect.h = monsters[i].h;
+
+        SDL_Rect ballRect;
+        ballRect.x = ball.x;
+        ballRect.y = ball.y;
+        ballRect.w = 24;
+        ballRect.h = 24;
+
+        if (SDL_HasIntersection(&ballRect, &monsterRect)) {
+            generateExplosion(monsterRect.x, monsterRect.y+32);
+            score += 150;
+            monsters[i] = (entities){0};
+            drawMenuBar();
+        }
+    }
+}
+
 void checkBallBrickCollision() {
     updatePowerUps();
     for (int i = 0; i < BRICK_ROWS; i++) {
@@ -110,25 +158,26 @@ void checkBallBrickCollision() {
             brick.w = INDIVIDUAL_BRICK_WIDTH;
             brick.h = INDIVIDUAL_BRICK_HEIGHT;
 
-            if (ball.x < brick.x + brick.w &&
-                ball.x + 24 > brick.x &&
-                ball.y < brick.y + brick.h &&
-                ball.y + 24 > brick.y) {
 
-                int ballCenterX = ball.x + 12;
-                int ballCenterY = ball.y + 12; 
+                    if (ball.x < brick.x + brick.w &&
+                    ball.x + 24 > brick.x &&
+                    ball.y < brick.y + brick.h &&
+                    ball.y + 24 > brick.y) {
 
-                int brickCenterX = brick.x + brick.w / 2;
-                int brickCenterY = brick.y + brick.h / 2;
+                    int ballCenterX = ball.x + 12;
+                    int ballCenterY = ball.y + 12; 
 
-                int distX = abs(ballCenterX - brickCenterX);
-                int distY = abs(ballCenterY - brickCenterY);
+                    int brickCenterX = brick.x + brick.w / 2;
+                    int brickCenterY = brick.y + brick.h / 2;
 
-                int combinedHalfWidths = 12 + brick.w / 2;
-                int combinedHalfHeights = 12 + brick.h / 2;
+                    int distX = abs(ballCenterX - brickCenterX);
+                    int distY = abs(ballCenterY - brickCenterY);
 
-                int overlapX = combinedHalfWidths - distX;
-                int overlapY = combinedHalfHeights - distY;
+                    int combinedHalfWidths = 12 + brick.w / 2;
+                    int combinedHalfHeights = 12 + brick.h / 2;
+
+                    int overlapX = combinedHalfWidths - distX;  
+                    int overlapY = combinedHalfHeights - distY;
 
                 if (overlapX > 0 && overlapY > 0) {
                     if (overlapX > overlapY) {
@@ -145,9 +194,9 @@ void checkBallBrickCollision() {
                     }
 
                 if(bricks[i][j].isDestructible){
-                    printf("block destoyed with this powerup : %d\n", bricks[i][j].powerUp);
+                    //printf("block destoyed with this powerup : %d\n", bricks[i][j].powerUp);
                     if(bricks[i][j].powerUp != 0){
-                        printf("enter in the if statement: %d\n", bricks[i][j].powerUp);
+                        //printf("enter in the if statement: %d\n", bricks[i][j].powerUp);
                         generatePowerUp(bricks[i][j].powerUp, brick.x, brick.y);
                     }
                     bricks[i][j].active = false;
@@ -159,6 +208,7 @@ void checkBallBrickCollision() {
                 
                 return; 
             }
+            
         }
     }
 }
@@ -177,6 +227,8 @@ void generatePowerUp(int powerUp, int x, int y){
 
     powerUpEntity.state = 1;
     powerUpEntity.time = 0.1;
+
+    powerUpEntity.max_state = 7;
 
 
     switch (powerUp){
@@ -205,7 +257,7 @@ void generatePowerUp(int powerUp, int x, int y){
             powerUpEntity.type = 'b';
             break;
         default :
-            printf("error in powerUp generation : the powerUp integer is not in acceptable value\n");
+            //printf("error in powerUp generation : the powerUp integer is not in acceptable value\n");
             break;
     }
     for (int i = 0; i < POWERUPS_MAX; i++){
@@ -224,7 +276,7 @@ void updatePowerUps(){
 
             if(powerUps[i].y > win_surf->h){
                 powerUps[i].surface.w = 0;
-                continue; // Skip to the next power-up since this one is now inactive
+                continue;
             }
 
             powerUps[i].time -= delta_t;
@@ -292,6 +344,12 @@ void checkCollisionPaddle() {
 
             ball.vx = BALL_SPEED * cos(angle);
             ball.vy = -BALL_SPEED * sin(angle);
+
+            if(catchBall){
+                catched = 1;
+                ball.vx = 0;
+                ball.vy = 0;
+            }
         }
     }
     for (int i = 0; i < POWERUPS_MAX; i++) {
@@ -310,92 +368,55 @@ void checkCollisionPaddle() {
             powerUps[i].surface.w = 0;
         }
     }
-}
-void initPowerUpsArray(){
-    SlowSurfaces[0] = slow1;
-    SlowSurfaces[1] = slow2;
-    SlowSurfaces[2] = slow3;
-    SlowSurfaces[3] = slow4;
-    SlowSurfaces[4] = slow5;
-    SlowSurfaces[5] = slow6;
-    SlowSurfaces[6] = slow7;
-    SlowSurfaces[7] = slow8;
 
-    CatchSurfaces[0] = catch1;
-    CatchSurfaces[1] = catch2;
-    CatchSurfaces[2] = catch3;
-    CatchSurfaces[3] = catch4;
-    CatchSurfaces[4] = catch5;
-    CatchSurfaces[5] = catch6;
-    CatchSurfaces[6] = catch7;
-    CatchSurfaces[7] = catch8;
+    for (int i = 0; i < MONSTERS_MAX; i++) {
+        if (monsters[i].surface.w == 0) {
+            continue;
+        }
 
-    ExpandSurfaces[0] = expand1;
-    ExpandSurfaces[1] = expand2;
-    ExpandSurfaces[2] = expand3;
-    ExpandSurfaces[3] = expand4;
-    ExpandSurfaces[4] = expand5;
-    ExpandSurfaces[5] = expand6;
-    ExpandSurfaces[6] = expand7;
-    ExpandSurfaces[7] = expand8;
+        SDL_Rect monsterRect;
+        monsterRect.x = monsters[i].x;
+        monsterRect.y = monsters[i].y-50;
+        monsterRect.w = monsters[i].w;
+        monsterRect.h = monsters[i].h;
 
-    DivideSurfaces[0] = divide1;
-    DivideSurfaces[1] = divide2;
-    DivideSurfaces[2] = divide3;
-    DivideSurfaces[3] = divide4;
-    DivideSurfaces[4] = divide5;
-    DivideSurfaces[5] = divide6;
-    DivideSurfaces[6] = divide7;
-    DivideSurfaces[7] = divide8;
+        if (SDL_HasIntersection(&paddle, &monsterRect)) {
+            generateExplosion(monsterRect.x, monsterRect.y+32);
+            drawMenuBar();
+            score += 150;
+            monsters[i] = (entities){0};
+        }
+    }
 
-    LaserSurfaces[0] = laser1;
-    LaserSurfaces[1] = laser2;
-    LaserSurfaces[2] = laser3;
-    LaserSurfaces[3] = laser4;
-    LaserSurfaces[4] = laser5;
-    LaserSurfaces[5] = laser6;
-    LaserSurfaces[6] = laser7;
-    LaserSurfaces[7] = laser8;
-
-    BreakSurfaces[0] = break1;
-    BreakSurfaces[1] = break2;
-    BreakSurfaces[2] = break3;
-    BreakSurfaces[3] = break4;
-    BreakSurfaces[4] = break5;
-    BreakSurfaces[5] = break6;
-    BreakSurfaces[6] = break7;
-    BreakSurfaces[7] = break8;
-
-    PlayerSurfaces[0] = player1;
-    PlayerSurfaces[1] = player2;
-    PlayerSurfaces[2] = player3;
-    PlayerSurfaces[3] = player4;
-    PlayerSurfaces[4] = player5;
-    PlayerSurfaces[5] = player6;
-    PlayerSurfaces[6] = player7;
-    PlayerSurfaces[7] = player8;
 }
 
-void nextAnimation(entities *powerups, SDL_Rect slowSurfaces[]) {
+
+void nextAnimation(entities *powerups, SDL_Rect Surfaces[]) {
     
-    powerups->surface = slowSurfaces[powerups->state];
-    if(powerups->state == 7)
+    powerups->surface = Surfaces[powerups->state];
+    if(powerups->state == powerUps->max_state)
         powerups->state = 0;
     else
         powerups->state++;
 }
 
 void handlePowerUpCollision(entities *powerUp) {
+
+    if(activePowerUp != 'n'){
+        deactivatePowerUp(powerUp->type);
+        return;
+    }
     switch (powerUp->type) {
         case 's':
             // Slow ball
-            ball.vx *= 0.5;
-            ball.vy *= 0.5;
+            ball.vx = 125.0;
+            ball.vy = 125.0;
+            activePowerUp = 's';
             break;
         case 'c':
             // Catch ball (example effect)
-            ball.vx = 0;
-            ball.vy = 0;
+            catchBall = 1;
+            activePowerUp = 'c';
             break;
         case 'e':
             // Expand paddle
@@ -403,6 +424,8 @@ void handlePowerUpCollision(entities *powerUp) {
             break;
         case 'd':
             // Divide
+            //generateBallExplosion(ball.x, ball.y);
+
             break;
         case 'l':
             //laser
@@ -411,7 +434,184 @@ void handlePowerUpCollision(entities *powerUp) {
             // Break 
             break;
         default:
-            printf("Unknown power-up type: %c\n", powerUp->type);
+            //printf("Unknown power-up type: %c\n", powerUp->type);
             break;
+    }
+}
+
+
+
+void createMonster(){
+        int monsterType = rand() % 3;
+        int xPos = rand() % (win_surf->w - 64);
+        int yPos = 0;
+
+        entities monster;
+        monster.x = xPos;
+        monster.y = yPos;
+        monster.h = 32;
+        monster.w = 32;
+        monster.vx = 100;
+        monster.vy = 100;
+        monster.state = 0;
+        monster.time = 0;
+        
+        switch (monsterType) {
+            case 0:
+                monster.surface = nasser[0];
+                monster.type = 'n';
+                monster.max_state = 7;
+                break;
+            case 1:
+                monster.surface = farah[0];
+                monster.type = 'f';
+                monster.max_state = 11;
+                break;
+            case 2:
+                monster.surface = leyna[0];
+                monster.type = 'l';
+                monster.max_state = 24;
+                break;
+            default:
+                printf("Unknown monster type: %d\n", monsterType);
+                return;
+        }
+
+        for (int i = 0; i < MONSTERS_MAX; i++) {
+            if (monsters[i].surface.w == 0) {
+                monsters[i] = monster;
+                break;
+            }
+        }
+    
+}
+
+void updateMonsters(){
+    const float TIME_RESET = 0.1;
+
+    for (int i = 0; i < MONSTERS_MAX; i++){
+       
+            if(monsters[i].y > win_surf->h){
+                monsters[i].surface.w = 0;
+                continue;
+            }
+
+            monsters[i].time -= delta_t;
+
+            if ((rand() / (float)RAND_MAX) < MOVE_PROBABILITY) {
+                monsters[i].vx = -monsters[i].vx;
+            }
+
+            monsters[i].x += monsters[i].vx * delta_t;
+            monsters[i].y += monsters[i].vy * delta_t;
+
+            if(monsters[i].time < 0.0){
+
+                switch (monsters[i].type)
+                {  
+                    case 'n':
+                        nextAnimation(&monsters[i], nasser);
+                        break;
+                    case 'f':
+                        nextAnimation(&monsters[i], farah);
+                        break;
+                    case 'l':
+                        nextAnimation(&monsters[i], leyna);
+                        break;
+                    default:
+                        break;
+                        
+                }
+                monsters[i].time = TIME_RESET;
+            }
+    }
+}
+
+
+
+void generateExplosion(int x, int y){
+
+    entities explosion;
+    explosion.x = x;
+    explosion.y = y;
+    explosion.h = 32;
+    explosion.w = 32;
+    explosion.vx = 0;
+    explosion.vy = 0;
+    explosion.state = 0;
+    explosion.time = 0.1;
+    explosion.max_state = 5;
+    explosion.surface = explosionsSurface[0];
+
+    for (int i = 0; i < EXPLOSIONS_MAX; i++){
+        if(explosions[i].surface.w == 0){
+            explosions[i] = explosion;
+            break;
+        }
+    }
+}
+
+void updateExplosions(){
+    const float TIME_RESET = 0.1;
+    for (int i = 0; i < EXPLOSIONS_MAX; i++){
+        if(explosions[i].surface.w != 0){
+            explosions[i].time -= delta_t;
+            if(explosions[i].time < 0){
+                nextAnimation(&explosions[i], explosionsSurface);
+                explosions[i].time = TIME_RESET;
+            }
+            if(explosions[i].state == explosions[i].max_state){
+                explosions[i] = (entities){0};
+            }
+        }
+    }
+}
+
+void deactivatePowerUp(char type){
+
+    printf("desactive powerups");
+    switch (type)
+    {
+        case 's':
+            ball.vx = 250.0;
+            ball.vy = 250.0;
+            break;
+        case 'e':
+            //paddle.w = 50;
+            break;
+        case 'c':
+            catchBall = 0;
+            break;
+        
+        default:
+            break;
+    }
+}
+
+void generateBallExplosion(int x, int y){
+    entities ball;
+    ball.x = x;
+    ball.y = y;
+    ball.h = 24;
+    ball.w = 24;
+    ball.vx = rand() % 200 - 100;
+    ball.vy = rand() % 200 - 100;
+
+    ball.surface = srcBall;
+
+    for(int i = 0; i<64; i++){
+        if(balls[i].surface.w == 0){
+            balls[i] = ball;
+            break;
+        }
+    }
+}
+
+void updateBalls(){
+    for (int i = 0; i < 64; i++){
+        if(balls[i].surface.w != 0){
+            balls[i].x += balls[i].vx * delta_t;
+            balls[i].y += balls[i].vy * delta_t;
+        }
     }
 }

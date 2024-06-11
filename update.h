@@ -14,8 +14,15 @@ void checkBallBrickCollision();
 void generatePowerUp(int powerUp, int x, int y);
 void updatePowerUps();
 void checkCollisionPaddle();
-void initPowerUpsArray();
 void nextAnimation(entities *powerups, SDL_Rect slowSurfaces[]);
 void handlePowerUpCollision(entities *powerUp);
+void createMonster();
+void updateMonsters();
+void generateExplosion(int x, int y);
+void updateExplosions();
+void checkBallMonsterCollision();
+void deactivatePowerUp(char type);
+void generateBallExplosion(int x, int y);
+void updateBalls();
 
 #endif

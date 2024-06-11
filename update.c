@@ -158,28 +158,26 @@ void checkBallBrickCollision() {
             brick.w = INDIVIDUAL_BRICK_WIDTH;
             brick.h = INDIVIDUAL_BRICK_HEIGHT;
 
-            for(int k=0; k<64;k++){
-                entities ball = balls[k];
 
-                if (ball.x < brick.x + brick.w &&
-                ball.x + 24 > brick.x &&
-                ball.y < brick.y + brick.h &&
-                ball.y + 24 > brick.y) {
+                    if (ball.x < brick.x + brick.w &&
+                    ball.x + 24 > brick.x &&
+                    ball.y < brick.y + brick.h &&
+                    ball.y + 24 > brick.y) {
 
-                int ballCenterX = ball.x + 12;
-                int ballCenterY = ball.y + 12; 
+                    int ballCenterX = ball.x + 12;
+                    int ballCenterY = ball.y + 12; 
 
-                int brickCenterX = brick.x + brick.w / 2;
-                int brickCenterY = brick.y + brick.h / 2;
+                    int brickCenterX = brick.x + brick.w / 2;
+                    int brickCenterY = brick.y + brick.h / 2;
 
-                int distX = abs(ballCenterX - brickCenterX);
-                int distY = abs(ballCenterY - brickCenterY);
+                    int distX = abs(ballCenterX - brickCenterX);
+                    int distY = abs(ballCenterY - brickCenterY);
 
-                int combinedHalfWidths = 12 + brick.w / 2;
-                int combinedHalfHeights = 12 + brick.h / 2;
+                    int combinedHalfWidths = 12 + brick.w / 2;
+                    int combinedHalfHeights = 12 + brick.h / 2;
 
-                int overlapX = combinedHalfWidths - distX;
-                int overlapY = combinedHalfHeights - distY;
+                    int overlapX = combinedHalfWidths - distX;  
+                    int overlapY = combinedHalfHeights - distY;
 
                 if (overlapX > 0 && overlapY > 0) {
                     if (overlapX > overlapY) {
@@ -210,8 +208,6 @@ void checkBallBrickCollision() {
                 
                 return; 
             }
-            }
-
             
         }
     }
@@ -328,10 +324,6 @@ void checkCollisionPaddle() {
     int paddleCenterX = paddle.x + paddle.w / 2;
     int paddleCenterY = paddle.y + paddle.h / 2;
 
-    for(int i=0; i<64; i++){
-        entities ball = balls[i];
-    }
-
     if (ball.x < paddle.x + paddle.w &&
         ball.x > paddle.x &&
         ball.y < paddle.y + paddle.h &&
@@ -432,7 +424,7 @@ void handlePowerUpCollision(entities *powerUp) {
             break;
         case 'd':
             // Divide
-            generateBallExplosion(ball.x, ball.y);
+            //generateBallExplosion(ball.x, ball.y);
 
             break;
         case 'l':

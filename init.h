@@ -59,6 +59,7 @@ extern Brick bricks[BRICK_ROWS][BRICK_COLUMNS];
 
 extern entities powerUps[POWERUPS_MAX];
 extern entities monsters[MONSTERS_MAX];
+extern entities explosions[EXPLOSIONS_MAX];
 
 extern int x_vault;
 

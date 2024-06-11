@@ -44,4 +44,6 @@
 
 #define MOVE_PROBABILITY 0.5
 
+#define EXPLOSIONS_MAX 16
+
 #endif

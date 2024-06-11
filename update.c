@@ -21,12 +21,15 @@ SDL_Rect nasser[8];
 SDL_Rect farah[11];
 SDL_Rect leyna[24];
 
+SDL_Rect explosionsSurface[6];
+
 
 void updateGame() {
     if (firstTurn) 
         prev = SDL_GetPerformanceCounter();
         initPowerUpsArray();
         initMonsterArray();
+        initExplosionsArray();
     if (firstTurn) {
         prev = SDL_GetPerformanceCounter();;
         firstTurn = false;
@@ -48,6 +51,7 @@ void updateGame() {
     checkBallBrickCollision();
     checkCollisionPaddle();
     updateMonsters();
+    updateExplosions();
 
     if (rand() % 100 == 0) {
         createMonster();
@@ -322,6 +326,24 @@ void checkCollisionPaddle() {
             powerUps[i].surface.w = 0;
         }
     }
+
+    for (int i = 0; i < MONSTERS_MAX; i++) {
+        if (monsters[i].surface.w == 0) {
+            continue;
+        }
+
+        SDL_Rect monsterRect;
+        monsterRect.x = monsters[i].x;
+        monsterRect.y = monsters[i].y-50;
+        monsterRect.w = monsters[i].w;
+        monsterRect.h = monsters[i].h;
+
+        if (SDL_HasIntersection(&paddle, &monsterRect)) {
+            generateExplosion(monsterRect.x, monsterRect.y+50);
+            monsters[i].surface.w = 0;
+        }
+    }
+
 }
 void initPowerUpsArray(){
     SlowSurfaces[0] = slow1;
@@ -527,19 +549,23 @@ void updateMonsters(){
 
     for (int i = 0; i < MONSTERS_MAX; i++){
        
-        if ((rand() / (float)RAND_MAX) < MOVE_PROBABILITY) {
-            monsters[i].vx = -monsters[i].vx;
-        }
-        monsters[i].x += monsters[i].vx * delta_t;
-        monsters[i].y += monsters[i].vy * delta_t;
-
             if(monsters[i].y > win_surf->h){
                 monsters[i].surface.w = 0;
                 continue;
             }
 
             monsters[i].time -= delta_t;
+
+            if ((rand() / (float)RAND_MAX) < MOVE_PROBABILITY) {
+                monsters[i].vx = -monsters[i].vx;
+            }
+
+            monsters[i].x += monsters[i].vx * delta_t;
+            monsters[i].y += monsters[i].vy * delta_t;
+
             if(monsters[i].time < 0.0){
+
+
                 switch (monsters[i].type)
                 {  
                     case 'n':
@@ -557,6 +583,57 @@ void updateMonsters(){
                 }
                 monsters[i].time = TIME_RESET;
             }
-        
+    }
+}
+
+void initExplosionsArray(){
+    explosionsSurface[0] = explosion1;
+    explosionsSurface[1] = explosion2;
+    explosionsSurface[2] = explosion3;
+    explosionsSurface[3] = explosion4;
+    explosionsSurface[4] = explosion5;
+    explosionsSurface[5] = explosion6;
+}
+
+void generateExplosion(int x, int y){
+
+    entities explosion;
+    explosion.x = x;
+    explosion.y = y;
+    explosion.h = 32;
+    explosion.w = 32;
+    explosion.vx = 0;
+    explosion.vy = 0;
+    explosion.state = 0;
+    explosion.time = 0.1;
+    explosion.max_state = 5;
+    explosion.surface = explosionsSurface[0];
+
+    printf("explosion generated\n");
+
+    for (int i = 0; i < EXPLOSIONS_MAX; i++){
+        if(explosions[i].surface.w == 0){
+            explosions[i] = explosion;
+            //printf("explosion generated\n");
+            break;
+        }
+    }
+}
+
+void updateExplosions(){
+    const float TIME_RESET = 0.1;
+    for (int i = 0; i < EXPLOSIONS_MAX; i++){
+        if(explosions[i].surface.w != 0){
+            explosions[i].time -= delta_t;
+            if(explosions[i].time < 0){
+                nextAnimation(&explosions[i], explosionsSurface);
+                //printf("explosion updated\n");
+                explosions[i].time = TIME_RESET;
+            }
+            if(explosions[i].state == explosions[i].max_state){
+                //free the explosion
+                explosions[i] = (entities){0};
+            }
+        }
     }
 }

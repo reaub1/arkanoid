@@ -169,6 +169,7 @@ void drawGame() {
     drawBricks(win_surf);
     drawPowerUps(win_surf);
     drawMonsters(win_surf);
+    drawExplosions(win_surf);
 
     SDL_UpdateWindowSurface(pWindow);
 }
@@ -290,5 +291,17 @@ void drawMonsters(SDL_Surface* win_surf) {
         SDL_Rect dstMonster = { monsters[i].x, monsters[i].y + MENU_HEIGHT, 32, 32 };
 
         SDL_BlitSurface(plancheSpritesBricks, &monsters[i].surface, win_surf, &dstMonster);
+    }
+}
+
+void drawExplosions(SDL_Surface* win_surf) {
+    for (int i = 0; i < EXPLOSIONS_MAX; i++) {
+        if (!explosions[i].surface.w) {
+            continue;
+        }
+        //printf("Explosion at %d, %d\n", explosions[i].x, explosions[i].y);
+        SDL_Rect dstExplosion = { explosions[i].x, explosions[i].y + MENU_HEIGHT, 32, 32 };
+
+        SDL_BlitSurface(plancheSpritesBricks, &explosions[i].surface, win_surf, &dstExplosion);
     }
 }

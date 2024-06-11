@@ -16,6 +16,7 @@ void drawText(SDL_Surface* surface, const char* message, int x, int y);
 void drawWaitingMessage();
 void drawGameOverMessage();
 void drawMonsters(SDL_Surface* win_surf);
+void drawExplosions(SDL_Surface* win_surf);
 
 
 #endif

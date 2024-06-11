@@ -20,5 +20,8 @@ void handlePowerUpCollision(entities *powerUp);
 void initMonsterArray();
 void createMonster();
 void updateMonsters();
+void initExplosionsArray();
+void generateExplosion(int x, int y);
+void updateExplosions();
 
 #endif

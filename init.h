@@ -64,11 +64,28 @@ extern entities balls[64];
 
 extern int x_vault;
 
+extern SDL_Rect SlowSurfaces[8];
+extern SDL_Rect CatchSurfaces[8];
+extern SDL_Rect ExpandSurfaces[8];
+extern SDL_Rect DivideSurfaces[8];
+extern SDL_Rect LaserSurfaces[8];
+extern SDL_Rect BreakSurfaces[8];
+extern SDL_Rect PlayerSurfaces[8];
+
+extern SDL_Rect nasser[8];
+extern SDL_Rect farah[11];
+extern SDL_Rect leyna[24];
+
+extern SDL_Rect explosionsSurface[6];
+
 void initGame();
 void initBricks();
 void readTextFile(const char* filename, char array[MAX_ROWS][MAX_COLS * 2 + 1], char endChar);
 void loadHighScore();
 void saveHighScore();
 void initPowerUps();
+void initPowerUpsArray();
+void initMonsterArray();
+void initExplosionsArray();
 
 #endif

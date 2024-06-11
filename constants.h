@@ -46,4 +46,6 @@
 
 #define EXPLOSIONS_MAX 16
 
+#define MAX_BALLS 64
+
 #endif

@@ -9,20 +9,6 @@ Uint64 prev, now;
 double delta_t = 0.0;  
 bool firstTurn = true;
 
-SDL_Rect SlowSurfaces[8];
-SDL_Rect CatchSurfaces[8];
-SDL_Rect ExpandSurfaces[8];
-SDL_Rect DivideSurfaces[8];
-SDL_Rect LaserSurfaces[8];
-SDL_Rect BreakSurfaces[8];
-SDL_Rect PlayerSurfaces[8];
-
-SDL_Rect nasser[8];
-SDL_Rect farah[11];
-SDL_Rect leyna[24];
-
-SDL_Rect explosionsSurface[6];
-
 char activePowerUp = 'n';
 int catchBall = 0;
 int catched = 0;
@@ -172,7 +158,10 @@ void checkBallBrickCollision() {
             brick.w = INDIVIDUAL_BRICK_WIDTH;
             brick.h = INDIVIDUAL_BRICK_HEIGHT;
 
-            if (ball.x < brick.x + brick.w &&
+            for(int k=0; k<64;k++){
+                entities ball = balls[k];
+
+                if (ball.x < brick.x + brick.w &&
                 ball.x + 24 > brick.x &&
                 ball.y < brick.y + brick.h &&
                 ball.y + 24 > brick.y) {
@@ -221,6 +210,9 @@ void checkBallBrickCollision() {
                 
                 return; 
             }
+            }
+
+            
         }
     }
 }
@@ -336,7 +328,9 @@ void checkCollisionPaddle() {
     int paddleCenterX = paddle.x + paddle.w / 2;
     int paddleCenterY = paddle.y + paddle.h / 2;
 
-    
+    for(int i=0; i<64; i++){
+        entities ball = balls[i];
+    }
 
     if (ball.x < paddle.x + paddle.w &&
         ball.x > paddle.x &&
@@ -403,71 +397,7 @@ void checkCollisionPaddle() {
     }
 
 }
-void initPowerUpsArray(){
 
-    SlowSurfaces[0] = slow1;
-    SlowSurfaces[1] = slow2;
-    SlowSurfaces[2] = slow3;
-    SlowSurfaces[3] = slow4;
-    SlowSurfaces[4] = slow5;
-    SlowSurfaces[5] = slow6;
-    SlowSurfaces[6] = slow7;
-    SlowSurfaces[7] = slow8;
-
-    CatchSurfaces[0] = catch1;
-    CatchSurfaces[1] = catch2;
-    CatchSurfaces[2] = catch3;
-    CatchSurfaces[3] = catch4;
-    CatchSurfaces[4] = catch5;
-    CatchSurfaces[5] = catch6;
-    CatchSurfaces[6] = catch7;
-    CatchSurfaces[7] = catch8;
-
-    ExpandSurfaces[0] = expand1;
-    ExpandSurfaces[1] = expand2;
-    ExpandSurfaces[2] = expand3;
-    ExpandSurfaces[3] = expand4;
-    ExpandSurfaces[4] = expand5;
-    ExpandSurfaces[5] = expand6;
-    ExpandSurfaces[6] = expand7;
-    ExpandSurfaces[7] = expand8;
-
-    DivideSurfaces[0] = divide1;
-    DivideSurfaces[1] = divide2;
-    DivideSurfaces[2] = divide3;
-    DivideSurfaces[3] = divide4;
-    DivideSurfaces[4] = divide5;
-    DivideSurfaces[5] = divide6;
-    DivideSurfaces[6] = divide7;
-    DivideSurfaces[7] = divide8;
-
-    LaserSurfaces[0] = laser1;
-    LaserSurfaces[1] = laser2;
-    LaserSurfaces[2] = laser3;
-    LaserSurfaces[3] = laser4;
-    LaserSurfaces[4] = laser5;
-    LaserSurfaces[5] = laser6;
-    LaserSurfaces[6] = laser7;
-    LaserSurfaces[7] = laser8;
-
-    BreakSurfaces[0] = break1;
-    BreakSurfaces[1] = break2;
-    BreakSurfaces[2] = break3;
-    BreakSurfaces[3] = break4;
-    BreakSurfaces[4] = break5;
-    BreakSurfaces[5] = break6;
-    BreakSurfaces[6] = break7;
-    BreakSurfaces[7] = break8;
-
-    PlayerSurfaces[0] = player1;
-    PlayerSurfaces[1] = player2;
-    PlayerSurfaces[2] = player3;
-    PlayerSurfaces[3] = player4;
-    PlayerSurfaces[4] = player5;
-    PlayerSurfaces[5] = player6;
-    PlayerSurfaces[6] = player7;
-    PlayerSurfaces[7] = player8;
-}
 
 void nextAnimation(entities *powerups, SDL_Rect Surfaces[]) {
     
@@ -517,54 +447,7 @@ void handlePowerUpCollision(entities *powerUp) {
     }
 }
 
-void initMonsterArray(){
-    
-    nasser[0] = nasser1;
-    nasser[1] = nasser2;
-    nasser[2] = nasser3;
-    nasser[3] = nasser4;
-    nasser[4] = nasser5;
-    nasser[5] = nasser6;
-    nasser[6] = nasser7;
-    nasser[7] = nasser8;
 
-    farah[0] = farah1;
-    farah[1] = farah2;
-    farah[2] = farah3;
-    farah[3] = farah4;
-    farah[4] = farah5;
-    farah[5] = farah6;
-    farah[6] = farah7;
-    farah[7] = farah8;
-    farah[8] = farah9;
-    farah[9] = farah10;
-    farah[10] = farah11;
-
-    leyna[0] = leyna1;
-    leyna[1] = leyna2;
-    leyna[2] = leyna3;
-    leyna[3] = leyna4;
-    leyna[4] = leyna5;
-    leyna[5] = leyna6;
-    leyna[6] = leyna7;
-    leyna[7] = leyna8;
-    leyna[8] = leyna9;
-    leyna[9] = leyna10;
-    leyna[10] = leyna11;
-    leyna[11] = leyna12;
-    leyna[12] = leyna13;
-    leyna[13] = leyna14;
-    leyna[14] = leyna15;
-    leyna[15] = leyna16;
-    leyna[16] = leyna17;
-    leyna[17] = leyna18;
-    leyna[18] = leyna19;
-    leyna[19] = leyna20;
-    leyna[20] = leyna21;
-    leyna[21] = leyna22;
-    leyna[22] = leyna23;
-    leyna[23] = leyna24;
-}
 
 void createMonster(){
         int monsterType = rand() % 3;
@@ -652,14 +535,7 @@ void updateMonsters(){
     }
 }
 
-void initExplosionsArray(){
-    explosionsSurface[0] = explosion1;
-    explosionsSurface[1] = explosion2;
-    explosionsSurface[2] = explosion3;
-    explosionsSurface[3] = explosion4;
-    explosionsSurface[4] = explosion5;
-    explosionsSurface[5] = explosion6;
-}
+
 
 void generateExplosion(int x, int y){
 

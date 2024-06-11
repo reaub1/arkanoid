@@ -31,9 +31,21 @@
 #define INDIVIDUAL_BRICK_HEIGHT 15
 #define BRICK_PADDING 0
 
-#define MAX_ROWS 20
-#define MAX_COLS 40
+#define MAX_ROWS 13
+#define MAX_COLS 16
 
 #define MENU_HEIGHT 90
+
+#define POWERUPS_MAX 64
+#define MONSTERS_MAX 32
+
+#define MAX_BOUNCE_ANGLE (120 * M_PI / 180)
+#define BALL_SPEED 250.0f
+
+#define MOVE_PROBABILITY 0.5
+
+#define EXPLOSIONS_MAX 16
+
+#define MAX_BALLS 64
 
 #endif

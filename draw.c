@@ -157,8 +157,14 @@ void drawGame() {
             SDL_BlitSurface(plancheSpritesBricks, &darkbackground6, win_surf, &dest);
         }
 
+    
+    for(int i=0; i<64; i++){
+        SDL_Rect dstBall = { (int)balls[i].x, (int)balls[i].y + MENU_HEIGHT, 24, 24 };
+        SDL_BlitSurface(plancheSprites, &srcBall, win_surf, &dstBall);
+    }
+
     SDL_Rect dstBall = { (int)ball.x, (int)ball.y + MENU_HEIGHT, 24, 24 };
-    SDL_BlitSurface(plancheSprites, &srcBall, win_surf, &dstBall);
+        SDL_BlitSurface(plancheSprites, &srcBall, win_surf, &dstBall);
 
     SDL_Rect dstVaiss = { x_vault, win_surf->h - 32, 128, 32 };
     SDL_BlitSurface(plancheSprites, &scrVaiss, win_surf, &dstVaiss);
@@ -167,6 +173,9 @@ void drawGame() {
     SDL_RenderFillRect(renderer, &block);
 
     drawBricks(win_surf);
+    drawPowerUps(win_surf);
+    drawMonsters(win_surf);
+    drawExplosions(win_surf);
 
     SDL_UpdateWindowSurface(pWindow);
 }
@@ -174,56 +183,12 @@ void drawGame() {
 void drawBricks(SDL_Surface* win_surf) {
     for (int i = 0; i < BRICK_ROWS; i++) {
         for (int j = 0; j < BRICK_COLUMNS; j++) {
-            if (!bricks[i][j].active) {
-                continue;
-            }
-
-            if (turn % 20 == 0) {
+            if (bricks[i][j].active) {
                 SDL_Rect* currentColor = &bricks[i][j].color;
                 SDL_Surface* brickSurface = plancheSpritesBricks;
-
-                if (SDL_RectEquals(currentColor, &goldbrick1)) {
-                    *currentColor = goldbrick2;
-                } else if (SDL_RectEquals(currentColor, &goldbrick2)) {
-                    *currentColor = goldbrick3;
-                } else if (SDL_RectEquals(currentColor, &goldbrick3)) {
-                    *currentColor = goldbrick4;
-                } else if (SDL_RectEquals(currentColor, &goldbrick4)) {
-                    *currentColor = goldbrick5;
-                } else if (SDL_RectEquals(currentColor, &goldbrick5)) {
-                    *currentColor = goldbrick6;
-                } else if (SDL_RectEquals(currentColor, &goldbrick6)) {
-                    *currentColor = goldbrick1;
-                } else if (SDL_RectEquals(currentColor, &silverbrick1)) {
-                    *currentColor = silverbrick2;
-                } else if (SDL_RectEquals(currentColor, &silverbrick2)) {
-                    *currentColor = silverbrick3;
-                } else if (SDL_RectEquals(currentColor, &silverbrick3)) {
-                    *currentColor = silverbrick4;
-                } else if (SDL_RectEquals(currentColor, &silverbrick4)) {
-                    *currentColor = silverbrick5;
-                } else if (SDL_RectEquals(currentColor, &silverbrick5)) {
-                    *currentColor = silverbrick6;
-                } else if (SDL_RectEquals(currentColor, &silverbrick6)) {
-                    *currentColor = silverbrick1;
-                } else if (SDL_RectEquals(currentColor, &ball1)) {
-                    *currentColor = ball2;
-                } else if (SDL_RectEquals(currentColor, &ball2)) {
-                    *currentColor = ball3;
-                } else if (SDL_RectEquals(currentColor, &ball3)) {
-                    *currentColor = ball4;
-                } else if (SDL_RectEquals(currentColor, &ball4)) {
-                    *currentColor = ball5;
-                } else if (SDL_RectEquals(currentColor, &ball5)) {
-                    *currentColor = ball6;
-                } else if (SDL_RectEquals(currentColor, &ball6)) {
-                    *currentColor = ball1;
-                }
-
-                SDL_BlitSurface(brickSurface, currentColor, win_surf, &bricks[i][j].rect);
-            } else {
                 SDL_BlitSurface(plancheSpritesBricks, &bricks[i][j].color, win_surf, &bricks[i][j].rect);
             }
+   
         }
     }
 }
@@ -309,5 +274,40 @@ void showGameOver() {
                 return;
             }
         }
+    }
+}
+
+void drawPowerUps(SDL_Surface* win_surf) {
+    for (int i = 0; i < POWERUPS_MAX; i++) {
+        if (!powerUps[i].surface.w) {
+            continue;
+        }
+
+        SDL_Rect dstPowerUp = { powerUps[i].x, powerUps[i].y + MENU_HEIGHT, 16, 32 };
+
+        SDL_BlitSurface(plancheSpritesBricks, &powerUps[i].surface, win_surf, &dstPowerUp);
+    }
+}
+
+void drawMonsters(SDL_Surface* win_surf) {
+    for (int i = 0; i < MONSTERS_MAX; i++) {
+        if (!monsters[i].surface.w) {
+            continue;
+        }
+        SDL_Rect dstMonster = { monsters[i].x, monsters[i].y + MENU_HEIGHT, 32, 32 };
+
+        SDL_BlitSurface(plancheSpritesBricks, &monsters[i].surface, win_surf, &dstMonster);
+    }
+}
+
+void drawExplosions(SDL_Surface* win_surf) {
+    for (int i = 0; i < EXPLOSIONS_MAX; i++) {
+        if (!explosions[i].surface.w) {
+            continue;
+        }
+        //printf("Explosion at %d, %d\n", explosions[i].x, explosions[i].y);
+        SDL_Rect dstExplosion = { explosions[i].x, explosions[i].y + MENU_HEIGHT, 32, 32 };
+
+        SDL_BlitSurface(plancheSpritesBricks, &explosions[i].surface, win_surf, &dstExplosion);
     }
 }

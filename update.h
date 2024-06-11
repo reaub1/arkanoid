@@ -11,6 +11,7 @@
 void updateGame();
 bool processInput();
 void checkBallBrickCollision();
+bool checkAllBricksDestroyed();
 void generatePowerUp(int powerUp, int x, int y);
 void updatePowerUps();
 void checkCollisionPaddle();

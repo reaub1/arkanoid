@@ -1,6 +1,9 @@
 #include "init.h"
 #include "game_state.h"
 #include "block.h"
+#include <SDL.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 SDL_Window* pWindow = NULL;
 SDL_Surface* win_surf = NULL;
@@ -59,7 +62,6 @@ void saveHighScore() {
 }
 
 void initGame() {
-
     block.x = 0;
     block.y = 0;
     block.w = 50; 
@@ -84,7 +86,6 @@ void initGame() {
         exit(1);
     }
 
-
     plancheSprites = SDL_LoadBMP("./sprites.bmp");
     if (plancheSprites == NULL) {
         SDL_Log("Erreur lors du chargement de sprites.bmp : %s", SDL_GetError());
@@ -95,7 +96,7 @@ void initGame() {
     SDL_SetColorKey(plancheSprites, SDL_TRUE, 0);
 
     plancheSpritesBricks = SDL_LoadBMP("./Arkanoid_sprites.bmp");
-    if(plancheSpritesBricks == NULL) {
+    if (plancheSpritesBricks == NULL) {
         SDL_Log("Erreur lors du chargement de Arkanoid_sprites.bmp : %s", SDL_GetError());
         SDL_DestroyWindow(pWindow);
         SDL_Quit();
@@ -104,41 +105,45 @@ void initGame() {
     SDL_SetColorKey(plancheSpritesBricks, SDL_TRUE, 0);
 
     plancheSpritesAscii = SDL_LoadBMP("./Arkanoid_ascii.bmp");
-    if(plancheSpritesAscii == NULL) {
+    if (plancheSpritesAscii == NULL) {
         SDL_Log("Erreur lors du chargement de Arkanoid_ascii.bmp : %s", SDL_GetError());
         SDL_DestroyWindow(pWindow);
         SDL_Quit();
         exit(1);
     }
-    //SDL_SetColorKey(plancheSpritesAscii, SDL_TRUE, 0);
-    
 
-    ball.x = 0;
-    ball.y = 600;
-    ball.vx = 0.0;
-    ball.vy = 0.0;
+    ball.x = win_surf->w / 2;
+    ball.y = win_surf->h / 2;
+    ball.vx = 100.0;
+    ball.vy = 140.0;
 
     x_vault = win_surf->w / 2;
 
     initBricks();
     loadHighScore();
-    initPowerUps();
-
-    initPowerUpsArray();
-    initMonsterArray();
-    initExplosionsArray();
 }
 
-void initPowerUps(){
-    memset(powerUps, 0, sizeof(powerUps));
+void loadNextLevel() {
+    currentLevelIndex++;
+    if (currentLevelIndex >= totalLevels) {
+        currentLevelIndex = 0; 
+    }
+    initBricks();
+
+    ball.x = win_surf->w / 2;
+    ball.y = win_surf->h / 2;
+    ball.vx = 100.0;
+    ball.vy = 140.0;
+
+    x_vault = win_surf->w / 2;
 }
+
 
 void initBricks() {
-    // Clear the bricks array
     memset(bricks, 0, sizeof(bricks));
 
-    char level[MAX_ROWS][MAX_COLS * 2 + 1];  // Adjusted to read two characters per column
-    readTextFile("./level/lvl4.txt", level, '#');
+    char level[MAX_ROWS][MAX_COLS * 2 + 1];
+    readTextFile(levelFiles[currentLevelIndex], level, '#');
 
     for (int i = 0; i < MAX_ROWS; i++) {
         for (int j = 0; j < MAX_COLS; j++) {

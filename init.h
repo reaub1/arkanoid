@@ -83,6 +83,7 @@ void initBricks();
 void readTextFile(const char* filename, char array[MAX_ROWS][MAX_COLS * 2 + 1], char endChar);
 void loadHighScore();
 void saveHighScore();
+void loadNextLevel();
 void initPowerUps();
 void initPowerUpsArray();
 void initMonsterArray();

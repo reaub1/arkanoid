@@ -54,7 +54,7 @@ void drawMenuBar() {
     char livesText[20];
     snprintf(livesText, sizeof(livesText), "%d", lives);
 
-    int livesX = win_surf->w - 150; // Adjusted to make room for high score
+    int livesX = win_surf->w - 50; // Adjusted to make room for high score
     int livesY = 20;
 
     for (int ii = 0; livesText[ii] != '\0'; ii++) {
@@ -95,7 +95,7 @@ void drawMenuBar() {
     char highScoreText[30];
     snprintf(highScoreText, sizeof(highScoreText), "%d", highScore);
 
-    int highScoreX = (win_surf->w - 150) / 2; // Adjusted to center the high score
+    int highScoreX = (win_surf->w - 0) / 2; // Adjusted to center the high score
     int highScoreY = 20;
 
     for (int ii = 0; highScoreText[ii] != '\0'; ii++) {

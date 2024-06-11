@@ -482,12 +482,14 @@ void handlePowerUpCollision(entities *powerUp) {
     switch (powerUp->type) {
         case 's':
             // Slow ball
-            ball.vx *= 0.5;
-            ball.vy *= 0.5;
+            ball.vx = 125.0;
+            ball.vy = 125.0;
+            activePowerUp = 's';
             break;
         case 'c':
             // Catch ball (example effect)
             catchBall = 1;
+            activePowerUp = 'c';
             break;
         case 'e':
             // Expand paddle
@@ -666,12 +668,9 @@ void generateExplosion(int x, int y){
     explosion.max_state = 5;
     explosion.surface = explosionsSurface[0];
 
-    //printf("explosion generated\n");
-
     for (int i = 0; i < EXPLOSIONS_MAX; i++){
         if(explosions[i].surface.w == 0){
             explosions[i] = explosion;
-            //printf("explosion generated\n");
             break;
         }
     }
@@ -684,11 +683,9 @@ void updateExplosions(){
             explosions[i].time -= delta_t;
             if(explosions[i].time < 0){
                 nextAnimation(&explosions[i], explosionsSurface);
-                //printf("explosion updated\n");
                 explosions[i].time = TIME_RESET;
             }
             if(explosions[i].state == explosions[i].max_state){
-                //free the explosion
                 explosions[i] = (entities){0};
             }
         }
@@ -696,20 +693,22 @@ void updateExplosions(){
 }
 
 void deactivatePowerUp(char type){
+
+    printf("desactive powerups");
     switch (type)
     {
-    case 's':
-        ball.vx = 1.0;
-        ball.vy = 1.0;
-        break;
-    case 'e':
-        //paddle.w = 50;
-        break;
-    case 'c':
-        catchBall = 0;
-        break;
-    
-    default:
-        break;
+        case 's':
+            ball.vx = 250.0;
+            ball.vy = 250.0;
+            break;
+        case 'e':
+            //paddle.w = 50;
+            break;
+        case 'c':
+            catchBall = 0;
+            break;
+        
+        default:
+            break;
     }
 }

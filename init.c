@@ -219,8 +219,8 @@ void initBricks() {
 
             // Logging for debugging
             if (active) {
-                printf("Brick at (%d, %d): Type: %c, Power: %d, Active: %d, Color: (%d, %d, %d, %d), Points: %d\n",
-                       i, j, brickType, powerUp, active, color.x, color.y, color.w, color.h, points);
+                //printf("Brick at (%d, %d): Type: %c, Power: %d, Active: %d, Color: (%d, %d, %d, %d), Points: %d\n",
+                //       i, j, brickType, powerUp, active, color.x, color.y, color.w, color.h, points);
             }
         }
     }
@@ -232,7 +232,7 @@ void readTextFile(const char* filename, char array[MAX_ROWS][MAX_COLS * 2 + 1], 
 
     FILE* file = fopen(filename, "r");
     if (file == NULL) {
-        printf("Erreur: Impossible d'ouvrir le fichier %s\n", filename);
+        //printf("Erreur: Impossible d'ouvrir le fichier %s\n", filename);
         exit(EXIT_FAILURE);
     }
 
@@ -245,14 +245,14 @@ void readTextFile(const char* filename, char array[MAX_ROWS][MAX_COLS * 2 + 1], 
         }
 
         if (row >= MAX_ROWS) {
-            printf("Avertissement: Nombre de lignes dépasse la limite, seules les %d premières lignes seront lues.\n", MAX_ROWS);
+            //printf("Avertissement: Nombre de lignes dépasse la limite, seules les %d premières lignes seront lues.\n", MAX_ROWS);
             break;
         }
 
         int col = 0;
         for (int i = 0; line[i] != '\0' && line[i] != '\n'; i += 2) { // Increment by 2 to read pairs of characters
             if (col >= MAX_COLS * 2) {
-                printf("Avertissement: Nombre de colonnes dépasse la limite, seules les %d premières colonnes seront lues pour la ligne %d.\n", MAX_COLS, row + 1);
+                //printf("Avertissement: Nombre de colonnes dépasse la limite, seules les %d premières colonnes seront lues pour la ligne %d.\n", MAX_COLS, row + 1);
                 break;
             }
             array[row][col] = line[i];
@@ -260,7 +260,7 @@ void readTextFile(const char* filename, char array[MAX_ROWS][MAX_COLS * 2 + 1], 
             col += 2;
         }
         array[row][col] = '\0';
-        printf("Loaded line %d: %s\n", row, array[row]);
+        //printf("Loaded line %d: %s\n", row, array[row]);
         row++;
     }
 

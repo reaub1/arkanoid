@@ -159,9 +159,9 @@ void checkBallBrickCollision() {
                     }
 
                 if(bricks[i][j].isDestructible){
-                    printf("block destoyed with this powerup : %d\n", bricks[i][j].powerUp);
+                    //printf("block destoyed with this powerup : %d\n", bricks[i][j].powerUp);
                     if(bricks[i][j].powerUp != 0){
-                        printf("enter in the if statement: %d\n", bricks[i][j].powerUp);
+                        //printf("enter in the if statement: %d\n", bricks[i][j].powerUp);
                         generatePowerUp(bricks[i][j].powerUp, brick.x, brick.y);
                     }
                     bricks[i][j].active = false;
@@ -221,7 +221,7 @@ void generatePowerUp(int powerUp, int x, int y){
             powerUpEntity.type = 'b';
             break;
         default :
-            printf("error in powerUp generation : the powerUp integer is not in acceptable value\n");
+            //printf("error in powerUp generation : the powerUp integer is not in acceptable value\n");
             break;
     }
     for (int i = 0; i < POWERUPS_MAX; i++){
@@ -339,13 +339,16 @@ void checkCollisionPaddle() {
         monsterRect.h = monsters[i].h;
 
         if (SDL_HasIntersection(&paddle, &monsterRect)) {
-            generateExplosion(monsterRect.x, monsterRect.y+50);
-            monsters[i].surface.w = 0;
+            generateExplosion(monsterRect.x, monsterRect.y+32);
+            drawMenuBar();
+            score += 150;
+            monsters[i] = (entities){0};
         }
     }
 
 }
 void initPowerUpsArray(){
+
     SlowSurfaces[0] = slow1;
     SlowSurfaces[1] = slow2;
     SlowSurfaces[2] = slow3;
@@ -445,7 +448,7 @@ void handlePowerUpCollision(entities *powerUp) {
             // Break 
             break;
         default:
-            printf("Unknown power-up type: %c\n", powerUp->type);
+            //printf("Unknown power-up type: %c\n", powerUp->type);
             break;
     }
 }
@@ -507,8 +510,8 @@ void createMonster(){
         entities monster;
         monster.x = xPos;
         monster.y = yPos;
-        monster.h = 64;
-        monster.w = 64;
+        monster.h = 32;
+        monster.w = 32;
         monster.vx = 100;
         monster.vy = 100;
         monster.state = 0;
@@ -565,7 +568,6 @@ void updateMonsters(){
 
             if(monsters[i].time < 0.0){
 
-
                 switch (monsters[i].type)
                 {  
                     case 'n':
@@ -609,7 +611,7 @@ void generateExplosion(int x, int y){
     explosion.max_state = 5;
     explosion.surface = explosionsSurface[0];
 
-    printf("explosion generated\n");
+    //printf("explosion generated\n");
 
     for (int i = 0; i < EXPLOSIONS_MAX; i++){
         if(explosions[i].surface.w == 0){

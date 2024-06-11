@@ -25,5 +25,7 @@ void generateExplosion(int x, int y);
 void updateExplosions();
 void checkBallMonsterCollision();
 void deactivatePowerUp(char type);
+void generateBallExplosion(int x, int y);
+void updateBalls();
 
 #endif

@@ -157,8 +157,14 @@ void drawGame() {
             SDL_BlitSurface(plancheSpritesBricks, &darkbackground6, win_surf, &dest);
         }
 
+    
+    for(int i=0; i<64; i++){
+        SDL_Rect dstBall = { (int)balls[i].x, (int)balls[i].y + MENU_HEIGHT, 24, 24 };
+        SDL_BlitSurface(plancheSprites, &srcBall, win_surf, &dstBall);
+    }
+
     SDL_Rect dstBall = { (int)ball.x, (int)ball.y + MENU_HEIGHT, 24, 24 };
-    SDL_BlitSurface(plancheSprites, &srcBall, win_surf, &dstBall);
+        SDL_BlitSurface(plancheSprites, &srcBall, win_surf, &dstBall);
 
     SDL_Rect dstVaiss = { x_vault, win_surf->h - 32, 128, 32 };
     SDL_BlitSurface(plancheSprites, &scrVaiss, win_surf, &dstVaiss);

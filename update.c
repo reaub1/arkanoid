@@ -56,6 +56,7 @@ void updateGame() {
     checkBallMonsterCollision();
     updateMonsters();
     updateExplosions();
+    updateBalls();
 
     if (rand() % 100 == 0) {
         createMonster();
@@ -105,6 +106,10 @@ void updateGame() {
         catchBall = 0;
         ball.vx = 100.0;
         ball.vy = 140.0;
+    }
+
+    if(keys[SDL_SCANCODE_B]){
+        generateBallExplosion(ball.x, ball.y);
     }
 
     SDL_Delay((Uint32)1000 / 60);
@@ -497,6 +502,8 @@ void handlePowerUpCollision(entities *powerUp) {
             break;
         case 'd':
             // Divide
+            generateBallExplosion(ball.x, ball.y);
+
             break;
         case 'l':
             //laser
@@ -710,5 +717,33 @@ void deactivatePowerUp(char type){
         
         default:
             break;
+    }
+}
+
+void generateBallExplosion(int x, int y){
+    entities ball;
+    ball.x = x;
+    ball.y = y;
+    ball.h = 24;
+    ball.w = 24;
+    ball.vx = rand() % 200 - 100;
+    ball.vy = rand() % 200 - 100;
+
+    ball.surface = srcBall;
+
+    for(int i = 0; i<64; i++){
+        if(balls[i].surface.w == 0){
+            balls[i] = ball;
+            break;
+        }
+    }
+}
+
+void updateBalls(){
+    for (int i = 0; i < 64; i++){
+        if(balls[i].surface.w != 0){
+            balls[i].x += balls[i].vx * delta_t;
+            balls[i].y += balls[i].vy * delta_t;
+        }
     }
 }

@@ -50,6 +50,7 @@ void updateGame() {
 
     checkBallBrickCollision();
     checkCollisionPaddle();
+    checkBallMonsterCollision();
     updateMonsters();
     updateExplosions();
 
@@ -110,6 +111,35 @@ bool processInput() {
     }
     return false;
 }
+
+void checkBallMonsterCollision(){
+    for (int i = 0; i < MONSTERS_MAX; i++) {
+        if (monsters[i].surface.w == 0) {
+            continue;
+        }
+
+        SDL_Rect monsterRect;
+        monsterRect.x = monsters[i].x;
+        monsterRect.y = monsters[i].y-50;
+        monsterRect.w = monsters[i].w;
+        monsterRect.h = monsters[i].h;
+
+        SDL_Rect ballRect;
+        ballRect.x = ball.x;
+        ballRect.y = ball.y;
+        ballRect.w = 24;
+        ballRect.h = 24;
+
+        if (SDL_HasIntersection(&ballRect, &monsterRect)) {
+            generateExplosion(monsterRect.x, monsterRect.y+32);
+            score += 150;
+            monsters[i] = (entities){0};
+            drawMenuBar();
+        }
+    }
+
+}
+
 
 void checkBallBrickCollision() {
     updatePowerUps();

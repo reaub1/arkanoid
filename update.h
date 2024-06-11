@@ -23,5 +23,6 @@ void updateMonsters();
 void initExplosionsArray();
 void generateExplosion(int x, int y);
 void updateExplosions();
+void checkBallMonsterCollision();
 
 #endif

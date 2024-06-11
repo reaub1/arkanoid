@@ -23,6 +23,9 @@ SDL_Rect leyna[24];
 
 SDL_Rect explosionsSurface[6];
 
+char activePowerUp = 'n';
+int catchBall = 0;
+int catched = 0;
 
 void updateGame() {
     if (firstTurn) 
@@ -85,12 +88,24 @@ void updateGame() {
     const Uint8* keys = SDL_GetKeyboardState(NULL);
     if (keys[SDL_SCANCODE_LEFT])
         if  (x_vault > 0)  {
+            if(catched){
+                ball.x -= 1000 * delta_t;
+            }
             x_vault -= 1000 * delta_t;
         }
     if (keys[SDL_SCANCODE_RIGHT])
         if  (x_vault < win_surf->w - 140)  {
+            if(catched){
+                ball.x += 1000 * delta_t;
+            }
             x_vault += 1000 * delta_t;
         }
+    if( keys[SDL_SCANCODE_SPACE] && catched){
+        catched = 0;
+        catchBall = 0;
+        ball.vx = 100.0;
+        ball.vy = 140.0;
+    }
 
     SDL_Delay((Uint32)1000 / 60);
 }
@@ -137,9 +152,7 @@ void checkBallMonsterCollision(){
             drawMenuBar();
         }
     }
-
 }
-
 
 void checkBallBrickCollision() {
     updatePowerUps();
@@ -318,6 +331,8 @@ void checkCollisionPaddle() {
     int paddleCenterX = paddle.x + paddle.w / 2;
     int paddleCenterY = paddle.y + paddle.h / 2;
 
+    
+
     if (ball.x < paddle.x + paddle.w &&
         ball.x > paddle.x &&
         ball.y < paddle.y + paddle.h &&
@@ -338,6 +353,12 @@ void checkCollisionPaddle() {
 
             ball.vx = BALL_SPEED * cos(angle);
             ball.vy = -BALL_SPEED * sin(angle);
+
+            if(catchBall){
+                catched = 1;
+                ball.vx = 0;
+                ball.vy = 0;
+            }
         }
     }
     for (int i = 0; i < POWERUPS_MAX; i++) {
@@ -453,6 +474,11 @@ void nextAnimation(entities *powerups, SDL_Rect Surfaces[]) {
 }
 
 void handlePowerUpCollision(entities *powerUp) {
+
+    if(activePowerUp != 'n'){
+        deactivatePowerUp(powerUp->type);
+        return;
+    }
     switch (powerUp->type) {
         case 's':
             // Slow ball
@@ -461,8 +487,7 @@ void handlePowerUpCollision(entities *powerUp) {
             break;
         case 'c':
             // Catch ball (example effect)
-            ball.vx = 0;
-            ball.vy = 0;
+            catchBall = 1;
             break;
         case 'e':
             // Expand paddle
@@ -667,5 +692,24 @@ void updateExplosions(){
                 explosions[i] = (entities){0};
             }
         }
+    }
+}
+
+void deactivatePowerUp(char type){
+    switch (type)
+    {
+    case 's':
+        ball.vx = 1.0;
+        ball.vy = 1.0;
+        break;
+    case 'e':
+        //paddle.w = 50;
+        break;
+    case 'c':
+        catchBall = 0;
+        break;
+    
+    default:
+        break;
     }
 }

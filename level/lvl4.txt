@@ -1,11 +1,10 @@
-r1o0w2b0m3l0g4n0d0p5y0f0s0
-o0w2b0m3l0g4n0d0p5y0f0s0z0
-w2b0m3l0g4n0d0p5y0f0s0z0q0
-b0m3l0g4n0d0p5y0f0s0z0q0r1
-m3l0g4n0d0p5y0f0s0z0q0r1o0
-l0g4n0d0p5y0f0s0z0q0r1o0w2
-g4n0d0p5y0f0s0z0q0r1o0w2b0
-n0d0p5y0f0s0z0q0r1o0w2b0m3
-d0p5y0f0s0z0q0r1o0w2b0m3l0
-p4y4f4s4z4q4r4o4w4b4m4l4m4
-#
+
+
+    o1b2g0s0b1  o1b2g0s0b1
+    b2g0s0b1p0  b2g0s0b1p0
+    g0s0b1p0y1  g0s0b1p0y1
+    s0b1p0y1w1  s0b1p0y1w1
+    b1p0y1w1o2  b1p0y1w1o2
+    p0y1w1o2b2  p0y1w1o2b2
+    y1w1o2b2w1  y1w1o2b2w1
+    w1o2b2w1p3  w1o2b2w1p3

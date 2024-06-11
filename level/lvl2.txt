@@ -1,8 +1,13 @@
- rrrrrr r  rr   
- rr   r r  rr   
- rr   r rrrr    
- rr   r rrr     
- rr   r rrr     
- rr   r r  rr   
- rrrrrr r  rr   
-#
+w0
+w0o0
+w0o0b0
+w0o0b0g0
+w0o0b0g0r0
+w1o0b0g0r0b0
+w0o0b0g0r0b0p0
+w0o0b0g0r0b0p0y0
+w0o0b0g0r0b0p0y0w0
+w0o0b0g0r0b0p0y0w0o0
+w0o0b0g0r0b0p0y0w0o0b0
+w0o0b0g0r0b0p0y0w0o0b0g0
+s0s0s0s0s0s0s0s0s0s0s0s0r0

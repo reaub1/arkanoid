@@ -422,8 +422,8 @@ void handlePowerUpCollision(entities *powerUp) {
     switch (powerUp->type) {
         case 's':
             // Slow ball
-            ball.vx = 125.0;
-            ball.vy = 125.0;
+            ball.vx = ball.vx/2;
+            ball.vy = ball.vy/2;
             activePowerUp = 's';
             break;
         case 'c':
@@ -445,14 +445,14 @@ void handlePowerUpCollision(entities *powerUp) {
             break;
         case 'b':
             // Break 
+            lives++;
+            drawMenuBar();
             break;
         default:
             //printf("Unknown power-up type: %c\n", powerUp->type);
             break;
     }
 }
-
-
 
 void createMonster(){
         int monsterType = rand() % 3;
@@ -496,7 +496,6 @@ void createMonster(){
                 break;
             }
         }
-    
 }
 
 void updateMonsters(){
@@ -533,14 +532,11 @@ void updateMonsters(){
                         break;
                     default:
                         break;
-                        
                 }
                 monsters[i].time = TIME_RESET;
             }
     }
 }
-
-
 
 void generateExplosion(int x, int y){
 
@@ -581,13 +577,12 @@ void updateExplosions(){
 }
 
 void deactivatePowerUp(char type){
-
     printf("desactive powerups");
     switch (type)
     {
         case 's':
-            ball.vx = 250.0;
-            ball.vy = 250.0;
+            ball.vx = ball.vx*2;
+            ball.vy = ball.vy*2;
             break;
         case 'e':
             //paddle.w = 50;

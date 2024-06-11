@@ -6,4 +6,4 @@ r0r0r0r0r0r0r0r0r0r0r0r0r0
 y0y0y0y0y0y0y0y0y0y0y0y0y0
 b0b0b0b0b0b0b0b0b0b0b0b0b0
 p0p0p0p0p0p0p0p0p0p0p0p0p0
-g1g1g1g1g1g1g1g1g1g1g1g1g1
+g6g6g6g6g6g6g6g6g6g6g6g6g6

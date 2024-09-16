@@ -10,6 +10,7 @@ SDL_Surface* plancheSpritesAscii = NULL;
 
 SDL_Rect srcBall = { 0, 96, 24, 24 };
 SDL_Rect scrVaiss = { 128, 0, 128, 32 };
+SDL_Rect vausRect = {400, 550, 80, 20};
 
 SDL_Renderer* renderer = NULL;
 Brick bricks[BRICK_ROWS][BRICK_COLUMNS] = {0};

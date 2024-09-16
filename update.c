@@ -1,14 +1,15 @@
 #include "update.h"
 #include "init.h"
-#include <stdbool.h>
 #include "constants.h"
 #include "game_state.h"
+#include "powerups.h"
+#include <stdbool.h>
+#include <stdio.h>
 
 Uint64 prev, now;
 double delta_t = 0.0;  
 
 void updateGame() {
-
     ball.x += ball.vx;
     ball.y += ball.vy;
 
@@ -17,11 +18,10 @@ void updateGame() {
     if ((ball.y < 1) || (ball.y > (win_surf->h - 25)))
         ball.vy *= -1;
 
-    //si la balle touche le block
-    // Supposons que ballRect représente le rectangle de la balle    
+    // Check for collisions between the ball and bricks
     checkBallBrickCollision();
-    
-    // Si la balle touche la raquette, on la renvoie
+
+    // Check for collisions between the ball and the paddle
     if ((ball.y > (win_surf->h - 50 - MENU_HEIGHT)) && (ball.x > x_vault) && (ball.x < x_vault + 100))
         ball.vy *= -1;
 
@@ -30,10 +30,11 @@ void updateGame() {
         ball.vy = 0;
         ball.vx = 0;
     }
-        
+
     if (ball.y < 1)
         srcBall.y = 96;
 
+    // Handle paddle movement
     const Uint8* keys = SDL_GetKeyboardState(NULL);
     if (keys[SDL_SCANCODE_LEFT])
         if(x_vault > 0){
@@ -43,6 +44,14 @@ void updateGame() {
         if(x_vault < win_surf->w - 100){
             x_vault += 10;
         }
+
+    // Update power-ups
+    updatePowerUps();
+
+    // Handle power-up collision
+    handlePowerUpCollision(&vausRect);
+
+    // Frame rate control
     now = SDL_GetPerformanceCounter();
     delta_t = 1.0 / FPS - ((double)(now - prev) / SDL_GetPerformanceFrequency());
     prev = now;
@@ -60,6 +69,8 @@ bool processInput() {
                 currentState = GAME;
             } else if (event.key.keysym.sym == SDLK_ESCAPE) {
                 return true;
+            } else if (event.key.keysym.sym == SDLK_p) {  // Drop a test power-up
+                dropTestPowerUp();
             }
         }
     }
@@ -112,14 +123,27 @@ void checkBallBrickCollision() {
                         ball.vx = -ball.vx;
                     }
 
-                if(bricks[i][j].isDestructible){
-                    bricks[i][j].active = false;
-                    score += bricks[i][j].points;
-                }    
+                    if (bricks[i][j].isDestructible) {
+                        bricks[i][j].active = false;
+                        score += bricks[i][j].points;
+                        
+                        // Add a random chance to spawn a power-up when a brick is destroyed
+                        if (rand() % 10 < 2) {  // 20% chance to spawn a power-up
+                            spawnPowerUp(brick.x, brick.y);
+                            printf("Power-up spawned at (%d, %d)\n", brick.x, brick.y); // Debug print
+                        }
+                    }
                 }
                 return; 
             }
         }
     }
+}
+
+void dropTestPowerUp() {
+    int ballX = ball.x + BALL_SPRITE_WIDTH / 2;
+    int ballY = ball.y + BALL_SPRITE_HEIGHT / 2;
+    spawnPowerUp(ballX, ballY);
+    printf("Test power-up spawned at (%d, %d)\n", ballX, ballY); // Debug print
 }
 

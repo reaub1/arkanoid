@@ -1,5 +1,8 @@
+// game_state.h
 #ifndef GAME_STATE_H
 #define GAME_STATE_H
+
+#include "SDL.h"
 
 typedef enum {
     MENU,
@@ -8,10 +11,11 @@ typedef enum {
 } GameState;
 
 extern GameState currentState;
-
 extern int score;
 extern int lives;
 extern int level;
 extern int turn;
 
-#endif
+extern SDL_Rect vausRect;
+
+#endif // GAME_STATE_H

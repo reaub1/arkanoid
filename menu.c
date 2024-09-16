@@ -42,112 +42,57 @@ void showMenu(SDL_Window* window) {
         SDL_FillRect(surface, &buttonRect, SDL_MapRGB(surface->format, blackColor.r, blackColor.g, blackColor.b));
     }
 
-    const char* words[numButtons] = {"easy", "medium", "hard"};
-    int wordLengths[numButtons] = {4, 6, 4};
+    // Use fixed-size arrays instead of variable-length arrays
+    const char* words[] = {"easy", "medium", "hard"};
+    int wordLengths[] = {4, 6, 4};
     int wordX[numButtons];
     for (int i = 0; i < numButtons; i++) {
         wordX[i] = (windowWidth - wordLengths[i] * LETTER_SPRITE_WIDTH) / 2;
     }
 
     for (int ii = 0; ii < numButtons; ii++) {
-    for (int jj = 0; jj < wordLengths[ii]; jj++) {
+        for (int jj = 0; jj < wordLengths[ii]; jj++) {
+            char currentLetter = words[ii][jj];
 
-        char currentLetter = words[ii][jj];
+            SDL_Rect src;
 
-        SDL_Rect src;
-
-        switch (currentLetter) { 
-            case 'a':
-                src = a;
-                break;
-            case 'b':
-                src = b;
-                break;
-            case 'c':
-                src = c;
-                break;
-            case 'd':
-                src = d;
-                break;
-            case 'e':
-                src = e;
-                break;
-            case 'f':
-                src = f;
-                break;
-            case 'g':
-                src = g;
-                break;
-            case 'h':
-                src = h;
-                break;
-            case 'i':
-                src = i;
-                break;
-            case 'j':
-                src = j;
-                break;
-            case 'k':   
-                src = k;
-                break;
-            case 'l':
-                src = l;
-                break;
-            case 'm':
-                src = m;
-                break;
-            case 'n':
-                src = n;
-                break;
-            case 'o':
-                src = o;
-                break;
-            case 'p':
-                src = p;
-                break;
-            case 'q':
-                src = q;
-                break;
-            case 'r':
-                src = r;
-                break;
-            case 's':
-                src = s;
-                break;
-            case 't':
-                src = t;
-                break;
-            case 'u':
-                src = u;
-                break;
-            case 'v':
-                src = v;
-                break;
-            case 'w':
-                src = w;
-                break;
-            case 'x':
-                src = x;
-                break;
-            case 'y':
-                src = y;
-                break;
-            case 'z':
-                src = z;
-                break;
-            default:
-                src = a;
-                break;
+            switch (currentLetter) { 
+                case 'a': src = a; break;
+                case 'b': src = b; break;
+                case 'c': src = c; break;
+                case 'd': src = d; break;
+                case 'e': src = e; break;
+                case 'f': src = f; break;
+                case 'g': src = g; break;
+                case 'h': src = h; break;
+                case 'i': src = i; break;
+                case 'j': src = j; break;
+                case 'k': src = k; break;
+                case 'l': src = l; break;
+                case 'm': src = m; break;
+                case 'n': src = n; break;
+                case 'o': src = o; break;
+                case 'p': src = p; break;
+                case 'q': src = q; break;
+                case 'r': src = r; break;
+                case 's': src = s; break;
+                case 't': src = t; break;
+                case 'u': src = u; break;
+                case 'v': src = v; break;
+                case 'w': src = w; break;
+                case 'x': src = x; break;
+                case 'y': src = y; break;
+                case 'z': src = z; break;
+                default: src = a; break;
             }
-        int letterX = wordX[ii] + jj * LETTER_SPRITE_WIDTH;
-        int letterY = buttonY[ii];
+            int letterX = wordX[ii] + jj * LETTER_SPRITE_WIDTH;
+            int letterY = buttonY[ii];
 
-        SDL_Rect letterDestRect = { letterX, letterY, LETTER_SPRITE_WIDTH, LETTER_SPRITE_HEIGHT };
+            SDL_Rect letterDestRect = { letterX, letterY, LETTER_SPRITE_WIDTH, LETTER_SPRITE_HEIGHT };
 
-        SDL_BlitSurface(plancheSpritesAscii, &src, surface, &letterDestRect);
+            SDL_BlitSurface(plancheSpritesAscii, &src, surface, &letterDestRect);
+        }
     }
-}
-
 
     SDL_UpdateWindowSurface(window);
 

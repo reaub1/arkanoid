@@ -62,7 +62,6 @@ void drawMenuBar(SDL_Surface* menu_surf) {
 }
 
 void drawGame() {
-
     SDL_Surface* menu_surf = SDL_CreateRGBSurface(0, win_surf->w, MENU_HEIGHT, 32, 0, 0, 0, 0);
     if (menu_surf == NULL) {
         SDL_Log("Erreur lors de la création de la surface temporaire pour la barre de menu : %s", SDL_GetError());
@@ -90,8 +89,12 @@ void drawGame() {
 
     drawBricks(win_surf);
 
+    // Render power-ups
+    renderPowerUps(renderer);
+
     SDL_UpdateWindowSurface(pWindow);
 }
+
 
 void drawBricks(SDL_Surface* win_surf) {
     for (int i = 0; i < BRICK_ROWS; i++) {

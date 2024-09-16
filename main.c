@@ -1,3 +1,4 @@
+// main.c
 #include "init.h"
 #include "draw.h"
 #include "update.h"
@@ -7,8 +8,13 @@
 #include "menu.h"
 #include "game_state.h"
 
+#define SCREEN_WIDTH 800
+#define SCREEN_HEIGHT 600
+
+//SDL_Rect vausRect = {400, 550, 80, 20};
+
 int main(int argc, char** argv) {
-    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO ) != 0 ) {
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) != 0) {
         return 1;
     }
 
@@ -24,10 +30,12 @@ int main(int argc, char** argv) {
                 break;
             case GAME_OVER:
                 break;
-    }
+        }
         quit = processInput();
         updateGame();
         drawGame();
+        
+        
         turn++;
         if (turn == 1000)
             turn = 0;
